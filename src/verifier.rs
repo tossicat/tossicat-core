@@ -38,10 +38,10 @@ fn is_hangeul_or_number(word: String) -> (bool, bool) {
     let char_vec: Vec<char> = word.chars().collect();
     let last_char = char_vec[char_vec.len() - 1];
     // println!("마지막 글자는: {:?}", last_char);
-    return (
+    (
         is_hangeul(last_char),
         ('0' <= last_char && last_char <= '9'),
-    );
+    )
 }
 
 /// 변환하기 전에 입력된 것들이 변환가능한 것인지 검사하는 함수
