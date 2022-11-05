@@ -60,24 +60,22 @@ impl Tossi {
 /// ## 한 글자로 된 토시를 분류하는 함수
 /// 한 글자로 된 토시가 들어오면 이를 종류 별로 분류하는 함수
 fn one_letter(element: char) -> TossiKind {
-    let result = match element {
+    match element {
         '은' | '는' => TossiKind::Neun,
         '이' | '가' => TossiKind::Ka,
         '을' | '를' => TossiKind::Eul,
         '로' => TossiKind::Ro,
         '다' => TossiKind::Ida,
         _ => TossiKind::None,
-    };
-    result
+    }
 }
 
 /// ## 두 글자로 된 토시를 분류하는 함수
 /// 두 글자로 된 토시가 들어오면 이를 종류 별로 분류하는 함수
 fn two_letters(elements: &Vec<char>) -> TossiKind {
-    let result = match (elements[0], elements[1]) {
+    match (elements[0], elements[1]) {
         ('으', '로') => TossiKind::Ro,
         ('이', '다') => TossiKind::Ida,
         (_, _) => TossiKind::None,
-    };
-    result
+    }
 }
