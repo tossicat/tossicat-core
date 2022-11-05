@@ -79,7 +79,7 @@ pub fn postfix(word: &str, tossi: &str) -> String {
 /// pick() 함수
 pub fn pick(word: &str, tossi: &str) -> String {
     let temp = postfix_raw(word, tossi);
-    return temp.1;
+    temp.1
 }
 
 /// 변환하기 전에 입력된 것들이 변환가능한 것인지 검사하는 함수
