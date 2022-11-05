@@ -58,11 +58,11 @@ fn postfix_raw(word: &str, tossi: &str) -> (String, String) {
     //파라미터에 올바른 규격의 값이 들어왔는지 확인하기
     let temp = Tossi::new(tossi);
     let result = match temp.kind {
-        TossiKind::Neun => neun::change(&word),
-        TossiKind::Ka => ka::change(&word),
-        TossiKind::Ro => ro::change(&word),
-        TossiKind::Ida => ida::change(&word),
-        TossiKind::Eul => eul::change(&word),
+        TossiKind::Neun => neun::change(word),
+        TossiKind::Ka => ka::change(word),
+        TossiKind::Ro => ro::change(word),
+        TossiKind::Ida => ida::change(word),
+        TossiKind::Eul => eul::change(word),
         TossiKind::None => tossi.to_string(),
     };
 
