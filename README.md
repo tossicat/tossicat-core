@@ -25,6 +25,12 @@ cargo build --release
 cargo fmt
 ```
 
+그런 다음 `cargo clippy`로 현재 코드의 문제점을 파악하고 이를 수정하신 다음 올려주세요.
+
+```cosole
+cargo clippy
+```
+
 ## 한글 관련 용어
 
 - '한글 음절(-音節, Hangul syllable)' 또는 '한글 글자마디': 한글 자모 첫소리와 가운뎃소리 글자, 또는 첫소리, 가운뎃소리, 끝소리 글자로 이루어진 한글의 단위, 참고:[한글 음절 - 위키백과, 우리 모두의 백과사전](https://ko.wikipedia.org/wiki/한글_음절)
