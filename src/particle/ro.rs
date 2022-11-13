@@ -7,10 +7,10 @@
 //! https://github.com/LOPES-HUFS/tossi_for_rust/wiki/'~-로---~-으로'에-대하여
 //!
 
-use crate::guess_final;
+use crate::guess_final_letter;
 
 pub fn change(word: &str) -> String {
-    let fin = guess_final(word);
+    let fin = guess_final_letter(word);
     if fin == 'N' {
         return "(으)로".to_string();
     }

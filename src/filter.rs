@@ -1,6 +1,6 @@
 //! # 기타 문자들을 처리해주는 모듈 -> 숫자는 number 모듈로 이동
 //!
-//! ## guess_final
+//! ## guess_final_letter
 //! 종성만 찾아서 도출해주는 함수
 //! ```text
 //! ex) 류 -> ' '
@@ -31,7 +31,7 @@ use crate::number::{change_num_to_hangeul, is_digits};
 /// ## 종성만 찾아서 도출해주는 함수
 /// 이 함수는 특정 글자의 종성만 도출합니다.
 /// #[allow(dead_code)]
-pub fn guess_final(word: &str) -> char {
+pub fn guess_final_letter(word: &str) -> char {
     let filtered = find_last_letter(word);
     // find_last_letter()은 한글이나 숫자가 없을 경우 ' '을 출력한다.
     if filtered == 'N' {
@@ -129,21 +129,21 @@ mod tests {
     }
 
     #[test]
-    fn _guess_final() {
+    fn _guess_final_letter() {
         let temp = "네이버";
         let result = ' ';
-        assert_eq!(result, guess_final(temp));
+        assert_eq!(result, guess_final_letter(temp));
         // 마지막 글자가 영어가 나오면 'N'를 반환합니다.
         let temp = "google";
         let result = 'N';
-        assert_eq!(result, guess_final(temp));
+        assert_eq!(result, guess_final_letter(temp));
         // 괄호 안에 들어 있는 글자는 무시하고 바로 앞 글자가 마지막 글자가 됩니다.
         let temp = "넥슨(코리아)";
         let result = 'ㄴ';
-        assert_eq!(result, guess_final(temp));
+        assert_eq!(result, guess_final_letter(temp));
         // 숫자는 그 숫자를 한글로 발음하는 것으로 변환합니다.
         let temp = "비타500";
         let result = 'ㄱ';
-        assert_eq!(result, guess_final(temp));
+        assert_eq!(result, guess_final_letter(temp));
     }
 }

@@ -4,10 +4,10 @@
 //! - '으로'는 ‘ㄹ’을 제외한 받침 있는 체언 뒤에 붙습니다.
 //!
 
-use crate::guess_final;
+use crate::guess_final_letter;
 
 pub fn change(word: &str) -> String {
-    let fin = guess_final(word);
+    let fin = guess_final_letter(word);
     if fin == 'N' {
         return "(이)다".to_string();
     }

@@ -26,8 +26,8 @@ pub fn find_last_letter(word: &str) -> char {
 }
 
 // tests/filter.rs 에 test 가 없다.
-pub fn guess_final(word: &str) -> char {
-    filter::guess_final(word)
+pub fn guess_final_letter(word: &str) -> char {
+    filter::guess_final_letter(word)
 }
 
 // number 모듈

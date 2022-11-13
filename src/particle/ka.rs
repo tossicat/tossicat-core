@@ -5,10 +5,10 @@
 //! - 외국어가 앞 단어로 오는 경우 병기 '(이)가'이 출력됩니다.
 //!
 
-use crate::guess_final;
+use crate::guess_final_letter;
 
 pub fn change(word: &str) -> String {
-    let fin = guess_final(word);
+    let fin = guess_final_letter(word);
     if fin == 'N' {
         return "(이)가".to_string();
     }
