@@ -108,4 +108,42 @@ mod tests {
         let result = vec!['비', '타', '오', '백'];
         assert_eq!(result, filter_only_significant(temp));
     }
+
+    #[test]
+    fn _find_last_letter() {
+        let temp = "네이버";
+        let result = '버';
+        assert_eq!(result, find_last_letter(temp));
+        // 마지막 글자가 영어가 나오면 'N'를 반환합니다.
+        let temp = "google";
+        let result = 'N';
+        assert_eq!(result, find_last_letter(temp));
+        // 괄호 안에 들어 있는 글자는 무시하고 바로 앞 글자가 마지막 글자가 됩니다.
+        let temp = "넥슨(코리아)";
+        let result = '슨';
+        assert_eq!(result, find_last_letter(temp));
+        // 숫자는 그 숫자를 한글로 발음하는 것으로 변환합니다.
+        let temp = "비타500";
+        let result = '백';
+        assert_eq!(result, find_last_letter(temp));
+    }
+
+    #[test]
+    fn _guess_final() {
+        let temp = "네이버";
+        let result = ' ';
+        assert_eq!(result, guess_final(temp));
+        // 마지막 글자가 영어가 나오면 'N'를 반환합니다.
+        let temp = "google";
+        let result = 'N';
+        assert_eq!(result, guess_final(temp));
+        // 괄호 안에 들어 있는 글자는 무시하고 바로 앞 글자가 마지막 글자가 됩니다.
+        let temp = "넥슨(코리아)";
+        let result = 'ㄴ';
+        assert_eq!(result, guess_final(temp));
+        // 숫자는 그 숫자를 한글로 발음하는 것으로 변환합니다.
+        let temp = "비타500";
+        let result = 'ㄱ';
+        assert_eq!(result, guess_final(temp));
+    }
 }
