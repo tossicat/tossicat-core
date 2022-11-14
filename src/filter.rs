@@ -29,8 +29,7 @@ use crate::hangeul::{is_hangeul, split_phonemes};
 use crate::number::{change_num_to_hangeul, is_digits};
 
 /// ## 종성만 찾아서 도출해주는 함수
-/// 이 함수는 특정 글자의 종성만 도출합니다.
-/// #[allow(dead_code)]
+/// 이 함수는 특정 문자열에서 마지막 글자의 종성만 도출합니다.
 pub fn guess_final_letter(word: &str) -> char {
     let filtered = find_last_letter(word);
     // find_last_letter()은 한글이나 숫자가 없을 경우 ' '을 출력한다.
