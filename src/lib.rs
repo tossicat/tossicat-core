@@ -25,7 +25,7 @@ pub fn find_last_letter(word: &str) -> char {
     filter::find_last_letter(word)
 }
 
-// tests/filter.rs 에 test 가 없다.
+// tests/filter.rs 에 test 가 한다.
 pub fn guess_final_letter(word: &str) -> char {
     filter::guess_final_letter(word)
 }
