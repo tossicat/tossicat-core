@@ -8,6 +8,11 @@ mod verifier;
 use crate::particle::*;
 use identifier::{Tossi, TossiKind};
 
+pub const EUL: (&str, &str, &str) = ("(을)를", "를", "을");
+pub const KA: (&str, &str, &str) = ("(이)가", "가", "이");
+pub const IDA: (&str, &str, &str) = ("(이)다", "다", "이다");
+pub const NEUN: (&str, &str, &str) = ("(은)는", "는", "은");
+
 // hangeul 모듈
 // tests/hangeul.rs 에서 test 한다.
 pub fn join_phonemes(word: [char; 3]) -> char {
@@ -41,6 +46,10 @@ pub fn change_int_char(num: char) -> char {
     number::change_int_char(num)
 }
 
+// tests/eul_ka_ida_neun.rs 에 test 가 한다.
+pub fn look_up_in_eul_ka_ida_neun<'a>(word: &'a str, list: (&'a str, &'a str, &'a str)) -> &'a str {
+    eul_ka_ida_neun::look_up(word, list)
+}
 /// ## 입력된 토시(tossi)가 어떤 것인지 알아내 입력된 값과 반환하는 함수
 ///
 /// 아래와 같은 형식으로 입력된 것 중 두 번째 입력된 토시가 어떤 종류인지 파악합니다.
@@ -58,11 +67,11 @@ fn postfix_raw(word: &str, tossi: &str) -> (String, String) {
     //파라미터에 올바른 규격의 값이 들어왔는지 확인하기
     let temp = Tossi::new(tossi);
     let result = match temp.kind {
-        TossiKind::Neun => neun::change(word),
-        TossiKind::Ka => ka::change(word),
+        TossiKind::Neun => look_up_in_eul_ka_ida_neun(word, NEUN).to_owned(),
+        TossiKind::Ka => look_up_in_eul_ka_ida_neun(word, KA).to_owned(),
         TossiKind::Ro => ro::change(word),
-        TossiKind::Ida => ida::change(word),
-        TossiKind::Eul => eul::change(word),
+        TossiKind::Ida => look_up_in_eul_ka_ida_neun(word, IDA).to_owned(),
+        TossiKind::Eul => look_up_in_eul_ka_ida_neun(word, EUL).to_owned(),
         TossiKind::None => tossi.to_string(),
     };
 
