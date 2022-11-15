@@ -11,10 +11,10 @@
 //! println!("입력된 토시: {:?}", temp.modified);
 //! println!("토시 종류: {:?}", temp.kind);
 //! ```
-//! 
-//! 아래 '토시 종류(TossiKind)'의 토시 영어명 표시법은 
+//!
+//! 아래 '토시 종류(TossiKind)'의 토시 영어명 표시법은
 //! 이 프로젝트 안에 있는 다음 파일을 참고한다.
-//! 
+//!
 //! - docs/terms.md
 
 use crate::filter::filter_only_significant;
