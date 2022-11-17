@@ -27,7 +27,7 @@ pub fn is_digits(num: char) -> bool {
 /// ## 숫자 한 글자를 한글 발음으로 변환해주는 함수
 pub fn change_int_char(num: char) -> char {
     let idx: usize = num as usize;
-    return DIGITS[idx - 48];
+    DIGITS[idx - 48]
 }
 
 /// ## 숫자를 한글 발음으로 바꿔주는 함수
@@ -38,7 +38,7 @@ pub fn change_num_to_hangeul(num: &str) -> String {
 
     //한 자리수인 경우 바로 읽어서 도출한다.
     if char_vec.len() == 1 {
-        return change_int_char(char_vec[0]).to_string();
+        change_int_char(char_vec[0]).to_string()
     //한 자리수 이상인 경우를 처리한다.
     } else {
         let mut temp_result: Vec<char> = Vec::new();
