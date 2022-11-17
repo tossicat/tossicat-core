@@ -94,7 +94,7 @@ pub fn join_phonemes(word: [char; 3]) -> char {
     return output;
 }
 
-/// ## 한글자를 초,중,종성으로 구분하는 함수
+/// ## 입력된 한 글자를 초, 중, 종성으로 구분해 반환하는 함수
 /// 이 함수는 기본적으로 입력된 것이 종성이 없는 경우에도 종성을 스페이스, 즉 `' '`으로 반환한다.
 /// 사용법은 tests 모듈, /tests/hangeul.rs 참고
 pub fn split_phonemes(word: char) -> [char; 3] {
