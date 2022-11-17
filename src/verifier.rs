@@ -45,7 +45,7 @@ pub fn verifiers<'a>(word: &'a str, tossi: &'a str) -> Result<(), &'a str> {
     } else if limit_word_len(word) != Ok(()) {
         limit_word_len(word)
     } else {
-        return Ok(())
+        Ok(())
     }
 }
 
@@ -59,9 +59,9 @@ fn verifier_tossi(tossi: &str) -> Result<(), &str> {
         }
     }
     if status == 1 {
-        return Ok(());
+        Ok(())
     } else {
-        return Err("This value is not correct tossi.");
+        Err("This value is not correct tossi.")
     }
 }
 
@@ -69,9 +69,9 @@ fn verifier_tossi(tossi: &str) -> Result<(), &str> {
 fn limit_word_len(word: &str) -> Result<(), &str> {
     let limitation = 50;
     if word.chars().count() <= limitation {
-        return Ok(());
+        Ok(())
     } else {
-        return Err("The length has been exceeded. Set the word length to less than 50.");
+        Err("The length has been exceeded. Set the word length to less than 50.")
     }
 }
 
