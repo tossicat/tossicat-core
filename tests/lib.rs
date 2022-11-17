@@ -72,7 +72,6 @@ fn _postfix() {
     let tossi = "으로";
     let result = "4로";
     assert_eq!(result, postfix(word, tossi));
-
 }
 
 #[test]
