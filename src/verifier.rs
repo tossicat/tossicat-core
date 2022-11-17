@@ -33,6 +33,8 @@ fn is_hangeul_or_number(word: String) -> (bool, bool) {
 /// 4. 단어의 길이가 50자를 넘으면 처리하지 않도록 처리한다.
 ///
 /// 이 4가지를 만족하면 본 작업인 글자에 맞게 토시를 변환하게 된다.
+/// 이 함수의 사용법은 `tests/lib.rs`에서 `verifiers()`를 테스트 하는
+/// `_verifiers()` 부분을 살펴보시면 됩니다.
 pub fn verifiers<'a>(word: &'a str, tossi: &'a str) -> Result<(), &'a str> {
     if is_hangeul_or_number(word.to_string()) == (false, false) {
         Err("입력하신 단어가 한글도 아니고 숫자도 아닙니다.")
