@@ -38,7 +38,7 @@ fn is_hangeul_or_number(word: String) -> (bool, bool) {
 pub fn verifiers<'a>(word: &'a str, tossi: &'a str) -> Result<(), &'a str> {
     if is_hangeul_or_number(word.to_string()) == (false, false) {
         Err("입력하신 단어가 한글도 아니고 숫자도 아닙니다.")
-    } else if is_hangeul_or_number(tossi.to_string()).0 == false {
+    } else if !is_hangeul_or_number(tossi.to_string()).0 {
         Err("입력하신 토시가 한글이 아닙니다.")
     } else if verifier_tossi(tossi) != Ok(()) {
         verifier_tossi(tossi)
