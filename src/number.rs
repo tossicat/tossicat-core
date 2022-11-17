@@ -71,9 +71,9 @@ pub fn change_num_to_hangeul(num: &str) -> String {
         temp_result = temp_result.replace("영천", "");
         temp_result = temp_result.replace("영백", "");
         temp_result = temp_result.replace("영십", "");
-        temp_result = temp_result.replace("영", "");
+        temp_result = temp_result.replace('영', "");
         temp_result = temp_result.replace("  ", " ");
-        temp_result = temp_result.replace(" ", "");
+        temp_result = temp_result.replace(' ', "");
         // println!("중간 집계: {:?}", temp_result);
 
         // 최종 결과물 만들기
@@ -100,16 +100,16 @@ pub fn change_num_to_hangeul(num: &str) -> String {
         let mut temp_result: String = last_temp.iter().collect();
 
         // 한글 구와 숫자 단위 수인 구가 충돌하여 한자로 바꾼 것을 되돌린다.
-        temp_result = temp_result.replace("溝", "구");
+        temp_result = temp_result.replace('溝', "구");
         // 관용적인 표현을 작용한다.
         temp_result = temp_result.replace("일만", "만");
         temp_result = temp_result.replace("일천", "천");
         temp_result = temp_result.replace("일백", "백");
         temp_result = temp_result.replace("일십", "십");
         temp_result = temp_result.replace("  ", " ");
-        temp_result = temp_result.replace(" ", "");
+        temp_result = temp_result.replace(' ', "");
         // temp_result.trim_start_matches('일').to_string()
-        temp_result.to_string()
+        temp_result
     }
 }
 
