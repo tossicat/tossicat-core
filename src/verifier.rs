@@ -35,15 +35,15 @@ fn is_hangeul_or_number(word: String) -> (bool, bool) {
 /// 이 4가지를 만족하면 본 작업인 글자에 맞게 토시를 변환하게 된다.
 pub fn verifiers<'a>(word: &'a str, tossi: &'a str) -> Result<(), &'a str> {
     if is_hangeul_or_number(word.to_string()) == (false, false) {
-        return Err("입력하신 단어가 한글도 아니고 숫자도 아닙니다.");
+        Err("입력하신 단어가 한글도 아니고 숫자도 아닙니다.")
     } else if is_hangeul_or_number(tossi.to_string()).0 == false {
-        return Err("입력하신 토시가 한글이 아닙니다.");
+        Err("입력하신 토시가 한글이 아닙니다.")
     } else if verifier_tossi(tossi) != Ok(()) {
-        return verifier_tossi(tossi);
+        verifier_tossi(tossi)
     } else if limit_word_len(word) != Ok(()) {
-        return limit_word_len(word);
+        limit_word_len(word)
     } else {
-        return Ok(());
+        return Ok(())
     }
 }
 
