@@ -38,7 +38,7 @@ pub enum TossiKind {
     Ro,
     Ida,
     Eul,
-    None,
+    Others,
 }
 
 pub struct Tossi {
@@ -53,7 +53,7 @@ impl Tossi {
         let temp_kind = match temp_modified.len() {
             1 => one_letter(temp_modified[0]),
             2 => two_letters(&temp_modified),
-            _ => TossiKind::None,
+            _ => TossiKind::Others,
         };
         Self {
             modified: temp_modified,
@@ -71,7 +71,7 @@ fn one_letter(element: char) -> TossiKind {
         '을' | '를' => TossiKind::Eul,
         '로' => TossiKind::Ro,
         '다' => TossiKind::Ida,
-        _ => TossiKind::None,
+        _ => TossiKind::Others,
     }
 }
 
@@ -81,6 +81,6 @@ fn two_letters(elements: &[char]) -> TossiKind {
     match (elements[0], elements[1]) {
         ('으', '로') => TossiKind::Ro,
         ('이', '다') => TossiKind::Ida,
-        (_, _) => TossiKind::None,
+        (_, _) => TossiKind::Others,
     }
 }

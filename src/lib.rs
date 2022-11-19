@@ -76,7 +76,7 @@ fn postfix_raw(word: &str, tossi: &str) -> (String, String) {
         TossiKind::Ro => ro::change(word),
         TossiKind::Ida => eul_ka_ida_neun::look_up(word, IDA).to_owned(),
         TossiKind::Eul => eul_ka_ida_neun::look_up(word, EUL).to_owned(),
-        TossiKind::None => tossi.to_string(),
+        TossiKind::Others => tossi.to_string(),
     };
 
     let front = word.to_string();
