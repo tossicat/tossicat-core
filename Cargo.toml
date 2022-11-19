@@ -2,7 +2,7 @@
 name = "tossicat"
 version = "0.1.0"
 edition = "2021"
-authors = ["Jae-Hwan Chung <dialektike@gmail.com>, "]
+authors = ["Jae-Hwan Chung <dialektike@gmail.com>","Jess <dev.bearabbit@gmail.com>"]
 description = "TossiCat core is ~."
 license = "LGPL-2.1"
 
