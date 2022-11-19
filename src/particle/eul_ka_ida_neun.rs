@@ -43,3 +43,30 @@ pub fn look_up<'a>(word: &'a str, list: (&'a str, &'a str, &'a str)) -> &'a str 
         list.2
     }
 }
+
+/// 비공개 함수 테스트
+/// 위 함수를 lib.rs 에 올려서 공개로 만들지 않고 사용하기 위하여
+/// 여기서 아래와 같이 비공개 함수 테스트 형식을 빌어서 테스트를 하겠습니다.
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::EUL;
+    #[test]
+    fn _look_up_in_eul_ka_ida_neun() {
+        let temp = "네이버";
+        let result = "를";
+        assert_eq!(result, look_up(temp, EUL));
+        // 마지막 글자가 영어가 나오는 경우
+        let temp = "google";
+        let result = "(을)를";
+        assert_eq!(result, look_up(temp, EUL));
+        // 괄호 안에 들어 있는 글자는 무시하고 바로 앞 글자가 마지막 글자가 됩니다.
+        let temp = "넥슨(코리아)";
+        let result = "을";
+        assert_eq!(result, look_up(temp, EUL));
+        // 숫자는 그 숫자를 한글로 발음하는 것으로 변환합니다.
+        let temp = "비타500";
+        let result = "을";
+        assert_eq!(result, look_up(temp, EUL));
+    }
+}
