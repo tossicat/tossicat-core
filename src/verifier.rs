@@ -3,26 +3,11 @@
 //! 이 모듈은 입력된 단어와 토시가 적절한 것들인지 검사하는 모듈이다.
 //! 최종 함수는 `verifiers()`이다.
 
-use crate::hangeul::is_hangeul;
-
 const TOSSI_LIST: [&str; 35] = [
     "은", "는", "이", "가", "이다", "다", "으로", "로", "의", "도", "께", "에", "만", "뿐", "보다",
     "같이", "밖에", "부터", "까지", "마냥", "처럼", "마저", "조차", "마냥", "커녕", "을", "를",
     "(으)로", "은(는)", "(는)은", "(이)다", "(을)를", "(를)을", "(이)가", "(가)이",
 ];
-
-/// ### 한글인지 또는 숫자인지 파악하는 함수
-/// 마지막 글자가 한글 또는 숫자인지 아닌지 파악한다.
-/// 반환은 `Tuple` 형으로 하는데
-/// - 첫 번째 값은 한글인지 아닌지를
-/// - 두 번째 깂은 숫자인지 아닌지를
-/// 반환한다.
-fn is_hangeul_or_number(word: String) -> (bool, bool) {
-    let char_vec: Vec<char> = word.chars().collect();
-    let last_char = char_vec[char_vec.len() - 1];
-    // println!("마지막 글자는: {:?}", last_char);
-    (is_hangeul(last_char), ('0'..='9').contains(&last_char))
-}
 
 /// 변환하기 전에 입력된 것들이 변환가능한 것인지 검사하는 함수
 /// 위에서부터 아래 조건 문을 순서대로 살펴 보겠다.
@@ -36,11 +21,7 @@ fn is_hangeul_or_number(word: String) -> (bool, bool) {
 /// 이 함수의 사용법은 `tests/lib.rs`에서 `verifiers()`를 테스트 하는
 /// `_verifiers()` 부분을 살펴보시면 됩니다.
 pub fn verifiers<'a>(word: &'a str, tossi: &'a str) -> Result<(), &'a str> {
-    if is_hangeul_or_number(word.to_string()) == (false, false) {
-        Err("입력하신 단어가 한글도 아니고 숫자도 아닙니다.")
-    } else if !is_hangeul_or_number(tossi.to_string()).0 {
-        Err("입력하신 토시가 한글이 아닙니다.")
-    } else if verifier_tossi(tossi) != Ok(()) {
+    if verifier_tossi(tossi) != Ok(()) {
         verifier_tossi(tossi)
     } else if limit_word_len(word) != Ok(()) {
         limit_word_len(word)
@@ -112,29 +93,4 @@ fn _verifier_tossi() {
         Err("This value is not correct tossi."),
         verifier_tossi(temp)
     );
-}
-
-#[test]
-// is_hangeul_or_number() 함수는 다음과 같이 반환한다.
-// 한글이고 숫자이다: 현재 이것은 불가능하다.
-// 한글이지만 숫자는 아니다: (true, false)
-// 한글은 아니고 숫자이다: (false, true)
-// 한글은 아니고 숫자도 아니다: (false, false)
-fn _is_hangeul_or_number_마지막_글자가_숫자인지_테스트() {
-    let temp = "테트리스1테트리스2테트리스3테트리스4테트리스5테트리스6테트리스7테트리스8테트리스9테트리스10";
-    assert_eq!((false, true), is_hangeul_or_number(temp.to_string()));
-    let temp = "테트리스9";
-    assert_eq!((false, true), is_hangeul_or_number(temp.to_string()));
-    let temp = "테트리스a";
-    assert_eq!((false, false), is_hangeul_or_number(temp.to_string()));
-    let temp = "테트리스!";
-    assert_eq!((false, false), is_hangeul_or_number(temp.to_string()));
-    let temp = "tetris";
-    assert_eq!((false, false), is_hangeul_or_number(temp.to_string()));
-}
-
-#[test]
-fn _is_hangeul_or_number_마지막_글자가_한글인가() {
-    let temp = "테트리스1테트리스2테트리스3테트리스4테트리스5테트리스6테트리스7테트리스8테트리스9테트리스10테트리스";
-    assert_eq!((true, false), is_hangeul_or_number(temp.to_string()));
 }

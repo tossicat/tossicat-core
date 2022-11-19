@@ -34,9 +34,9 @@ pub fn guess_final_letter(word: &str) -> char {
     let filtered = find_last_letter(word);
     // find_last_letter()은 한글이나 숫자가 없을 경우 ' '을 출력한다.
     if filtered == 'N' {
-        return 'N';
+        'N'
     } else {
-        return split_phonemes(filtered)[2];
+        split_phonemes(filtered)[2]
     }
 }
 
@@ -44,10 +44,10 @@ pub fn guess_final_letter(word: &str) -> char {
 /// 'N'을 도출한 경우 영어 포함 외국어이다. -> 병기로 연결
 pub fn find_last_letter(word: &str) -> char {
     let filtered = filter_only_significant(word);
-    if filtered.len() > 0 {
-        return filtered[filtered.len() - 1];
+    if !filtered.is_empty() {
+        filtered[filtered.len() - 1]
     } else {
-        return 'N';
+        'N'
     }
 }
 
@@ -89,7 +89,7 @@ pub fn filter_only_significant(word: &str) -> Vec<char> {
             output.append(&mut arr_num);
         }
     }
-    return output;
+    output
 }
 
 /// 비 공개 함수 테스트

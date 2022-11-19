@@ -38,17 +38,17 @@ const FINAL: [char; 28] = [
 /// ### 한글인지 체크하는 함수
 /// 사용법은 아래 `_is_hangeul()` 참고
 pub fn is_hangeul(word: char) -> bool {
-    return '가' <= word && word <= '힣';
+    ('가'..='힣').contains(&word)
 }
 
 /// 자음인지 체크하는 함수
 fn is_consonant(word: char) -> bool {
-    return 'ㄱ' <= word && word <= 'ㅎ';
+    ('ㄱ'..='ㅎ').contains(&word)
 }
 
 /// 모음인지 체크하는 함수
 fn is_medial(word: char) -> bool {
-    return 'ㅏ' <= word && word <= 'ㅣ';
+    ('ㅏ'..='ㅣ').contains(&word)
 }
 
 /// ## 한글 음절인지 아닌지 체크하는 함수
@@ -58,13 +58,9 @@ fn is_medial(word: char) -> bool {
 fn is_hangul_syllable(word: [char; 3]) -> bool {
     if is_consonant(word[0]) && is_medial(word[1]) {
         let res = FINAL.iter().position(|&s| s == word[2]);
-        if res == None {
-            return false;
-        } else {
-            return true;
-        }
+        res != None
     } else {
-        return false;
+        false
     }
 }
 
@@ -80,7 +76,7 @@ fn is_hangul_syllable(word: [char; 3]) -> bool {
 /// 사용법 tests 모듈, /tests/_is_hangul_syllable.rs 참고
 pub fn join_phonemes(word: [char; 3]) -> char {
     //한글이 아닌 경우에는 입력된 첫 번째 글자 반환합니다.
-    if is_hangul_syllable(word) == false {
+    if !is_hangul_syllable(word) {
         return word[0];
     }
     // 파라미터로 받은 초,중,종성 인덱스 추출
@@ -90,8 +86,7 @@ pub fn join_phonemes(word: [char; 3]) -> char {
     // 추가될 값 계산
     let initial = '가' as u32;
     let offset = ((idx_begin * MEDIAL.len() + idx_middle) * FINAL.len() + idx_end) as u32;
-    let output = char::from_u32(initial + offset).unwrap();
-    return output;
+    char::from_u32(initial + offset).unwrap()
 }
 
 /// ## 입력된 한 글자를 초, 중, 종성으로 구분해 반환하는 함수
@@ -122,7 +117,7 @@ pub fn split_phonemes(word: char) -> [char; 3] {
         phonemes[2] = FINAL[idx_end];
     }
     //초,중,종성이 배열로 묶여서 전달
-    return phonemes;
+    phonemes
 }
 
 /// 비 공개 함수를 테스트합니다.
