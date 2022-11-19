@@ -1,10 +1,15 @@
-//! # 입력된 토시(tossi)가 어떤 것인지 알아내 저장하는 토시 구조체를 구현한 모듈
+//! # TossiCat Core
 //!
-//! 사용자가 입력한 토시를 변환해서 저장하고,
-//! 변환한 값을 토대로 어떤 종류인지 분류한 다음 분류한 결과를 저장한다.
-//! 사용법은 아래와 같다.
+//! 토시를 같이 입력된 단어에 맞춰 변환해 주는 모듈
 //!
-//! ```rust, ignore
+//! 한글은 단어와 토시를 합칠 때 입력한 토시를 변환해서 저장하고,
+//! 변환한 값을 토대로 어떤 종류인지 분류한 다음 분류한 결과를 저장합니다.
+//!
+//! 이 프로젝트에서 구현하고 있는 함수는 다음과 같습니다.
+//! 
+//! - `postfix()`
+//! - `pick()`
+//!
 
 mod filter;
 mod hangeul;
@@ -54,19 +59,6 @@ pub fn change_int_char(num: char) -> char {
     number::change_int_char(num)
 }
 
-/// ## 입력된 토시(tossi)가 어떤 것인지 알아내 입력된 값과 반환하는 함수
-///
-/// 아래와 같은 형식으로 입력된 것 중 두 번째 입력된 토시가 어떤 종류인지 파악합니다.
-/// 이 프로젝트에서 구현하고자 하는
-/// `postfix()`와 `pick()`를 이 함수를 이용해서 구현하고 있습니다.
-///
-/// ```rust
-/// use tossicat::postfix;
-/// postfix("집", "(으)로");
-/// postfix("집", "로");
-/// postfix("집", "(으)로");
-/// ```
-
 fn postfix_raw(word: &str, tossi: &str) -> (String, String) {
     //파라미터에 올바른 규격의 값이 들어왔는지 확인하기
     let temp = Tossi::new(tossi);
@@ -82,14 +74,34 @@ fn postfix_raw(word: &str, tossi: &str) -> (String, String) {
     let front = word.to_string();
     (front, result)
 }
-
-/// postfix() 함수
+/// ## 입력된 토시를 같이 입력된 단어에 맞게 변환해 입력된 단어와 합쳐 반환하는 함수
+///
+/// 아래와 같은 형식으로 입력된 것 중 두 번째로 입력된 토시를
+/// 첫 번째로 입력된 단어에 맞쳐 적절하게 변형해 입력된 단어와 합쳐서
+/// 반환하는 함수
+///
+/// ```rust
+/// use library::postfix;
+/// postfix("집", "으로");
+/// postfix("집", "로");
+/// postfix("집", "(으)로");
+/// ```
 pub fn postfix(word: &str, tossi: &str) -> String {
     let temp = postfix_raw(word, tossi);
     temp.0 + &temp.1
 }
 
-/// pick() 함수
+/// ## 입력된 토시를 같이 입력된 단어에 맞게 변환해 변환된 토시만 반환하는 함수
+///
+/// `postfix()`와는 다르게 이 함수는 변환된 토시만 반환합니다.
+///
+/// ```rust
+/// use library::pick;
+/// pick("집", "으로");
+/// pick("집", "로");
+/// pick("집", "(으)로");
+/// ```
+
 pub fn pick(word: &str, tossi: &str) -> String {
     let temp = postfix_raw(word, tossi);
     temp.1
