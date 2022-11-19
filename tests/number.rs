@@ -1,4 +1,4 @@
-use library::{change_int_char, change_num_to_hangeul};
+use tossicat::{change_int_char, change_num_to_hangeul};
 
 #[test]
 

@@ -57,7 +57,7 @@ pub fn look_up_in_eul_ka_ida_neun<'a>(word: &'a str, list: (&'a str, &'a str, &'
 /// `postfix()`와 `pick()`를 이 함수를 이용해서 구현하고 있습니다.
 ///
 /// ```rust
-/// use library::postfix;
+/// use tossicat::postfix;
 /// postfix("집", "(으)로");
 /// postfix("집", "로");
 /// postfix("집", "(으)로");

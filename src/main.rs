@@ -1,6 +1,6 @@
-use library::pick;
-use library::postfix;
-use library::verifiers;
+use tossicat::pick;
+use tossicat::postfix;
+use tossicat::verifiers;
 
 fn main() {
     // 테스트

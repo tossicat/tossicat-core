@@ -7,7 +7,7 @@ description = "TossiCat core is ~."
 license = "LGPL-2.1"
 
 [lib]
-name = "library"
+name = "tossicat"
 path = "src/lib.rs"
 
 

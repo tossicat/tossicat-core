@@ -69,9 +69,9 @@ fn is_hangul_syllable(word: [char; 3]) -> bool {
 /// 사용하기 위해서는 종성이 없는 경우에도 다음과 같이 종성 자리에 ` `를 넣어야 한다.
 /// ```rust
 ///    let temp = ['ㄱ', 'ㅏ', 'ㄴ'];
-///    assert_eq!('간', library::join_phonemes(temp));
+///    assert_eq!('간', tossicat::join_phonemes(temp));
 ///    let temp = ['ㄱ', 'ㅏ', ' '];
-///    assert_eq!('가', library::join_phonemes(temp));
+///    assert_eq!('가', tossicat::join_phonemes(temp));
 /// ```
 /// 사용법 tests 모듈, /tests/_is_hangul_syllable.rs 참고
 pub fn join_phonemes(word: [char; 3]) -> char {

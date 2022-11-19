@@ -1,4 +1,4 @@
-use library::{join_phonemes, split_phonemes};
+use tossicat::{join_phonemes, split_phonemes};
 
 #[test]
 fn _join_phonemes() {

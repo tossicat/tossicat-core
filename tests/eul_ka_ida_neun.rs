@@ -1,4 +1,4 @@
-use library::{look_up_in_eul_ka_ida_neun, EUL};
+use tossicat::{look_up_in_eul_ka_ida_neun, EUL};
 
 #[test]
 fn _look_up_in_eul_ka_ida_neun() {

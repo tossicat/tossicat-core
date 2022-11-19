@@ -1,4 +1,4 @@
-use library::find_last_letter;
+use tossicat::find_last_letter;
 
 #[test]
 

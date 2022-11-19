@@ -1,4 +1,4 @@
-use library::{postfix, verifiers};
+use tossicat::{postfix, verifiers};
 
 #[test]
 fn _postfix() {
