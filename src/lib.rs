@@ -1,3 +1,11 @@
+//! # 입력된 토시(tossi)가 어떤 것인지 알아내 저장하는 토시 구조체를 구현한 모듈
+//!
+//! 사용자가 입력한 토시를 변환해서 저장하고,
+//! 변환한 값을 토대로 어떤 종류인지 분류한 다음 분류한 결과를 저장한다.
+//! 사용법은 아래와 같다.
+//!
+//! ```rust, ignore
+
 mod filter;
 mod hangeul;
 mod identifier;
@@ -46,10 +54,6 @@ pub fn change_int_char(num: char) -> char {
     number::change_int_char(num)
 }
 
-// tests/eul_ka_ida_neun.rs 에 test 가 한다.
-pub fn look_up_in_eul_ka_ida_neun<'a>(word: &'a str, list: (&'a str, &'a str, &'a str)) -> &'a str {
-    eul_ka_ida_neun::look_up(word, list)
-}
 /// ## 입력된 토시(tossi)가 어떤 것인지 알아내 입력된 값과 반환하는 함수
 ///
 /// 아래와 같은 형식으로 입력된 것 중 두 번째 입력된 토시가 어떤 종류인지 파악합니다.
@@ -67,11 +71,11 @@ fn postfix_raw(word: &str, tossi: &str) -> (String, String) {
     //파라미터에 올바른 규격의 값이 들어왔는지 확인하기
     let temp = Tossi::new(tossi);
     let result = match temp.kind {
-        TossiKind::Neun => look_up_in_eul_ka_ida_neun(word, NEUN).to_owned(),
-        TossiKind::Ka => look_up_in_eul_ka_ida_neun(word, KA).to_owned(),
+        TossiKind::Neun => eul_ka_ida_neun::look_up(word, NEUN).to_owned(),
+        TossiKind::Ka => eul_ka_ida_neun::look_up(word, KA).to_owned(),
         TossiKind::Ro => ro::change(word),
-        TossiKind::Ida => look_up_in_eul_ka_ida_neun(word, IDA).to_owned(),
-        TossiKind::Eul => look_up_in_eul_ka_ida_neun(word, EUL).to_owned(),
+        TossiKind::Ida => eul_ka_ida_neun::look_up(word, IDA).to_owned(),
+        TossiKind::Eul => eul_ka_ida_neun::look_up(word, EUL).to_owned(),
         TossiKind::None => tossi.to_string(),
     };
 
