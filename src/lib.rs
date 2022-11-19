@@ -87,8 +87,8 @@ fn postfix_raw(word: &str, tossi: &str) -> (String, String) {
 /// postfix("집", "(으)로");
 /// ```
 pub fn postfix(word: &str, tossi: &str) -> String {
-    let temp = postfix_raw(word, tossi);
-    temp.0 + &temp.1
+    let result = postfix_raw(word, tossi);
+    result.0 + &result.1
 }
 
 /// ## 입력된 토시를 같이 입력된 단어에 맞게 변환해 변환된 토시만 반환하는 함수
@@ -103,8 +103,8 @@ pub fn postfix(word: &str, tossi: &str) -> String {
 /// ```
 
 pub fn pick(word: &str, tossi: &str) -> String {
-    let temp = postfix_raw(word, tossi);
-    temp.1
+    let result = postfix_raw(word, tossi);
+    result.1
 }
 
 /// ## 변환하기 전에 입력된 것들이 변환가능한 것인지 검사하는 함수
