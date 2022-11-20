@@ -6,7 +6,7 @@
 //! 변환한 값을 토대로 어떤 종류인지 분류한 다음 분류한 결과를 저장합니다.
 //!
 //! 이 프로젝트에서 구현하고 있는 함수는 다음과 같습니다.
-//! 
+//!
 //! - `postfix()`
 //! - `pick()`
 //!
@@ -20,11 +20,6 @@ mod verifier;
 
 use crate::particle::*;
 use identifier::{Tossi, TossiKind};
-
-pub const EUL: (&str, &str, &str) = ("(을)를", "를", "을");
-pub const KA: (&str, &str, &str) = ("(이)가", "가", "이");
-pub const IDA: (&str, &str, &str) = ("(이)다", "다", "이다");
-pub const NEUN: (&str, &str, &str) = ("(은)는", "는", "은");
 
 // hangeul 모듈
 // tests/hangeul.rs 에서 test 한다.
@@ -63,11 +58,11 @@ fn postfix_raw(word: &str, tossi: &str) -> (String, String) {
     //파라미터에 올바른 규격의 값이 들어왔는지 확인하기
     let temp = Tossi::new(tossi);
     let result = match temp.kind {
-        TossiKind::Neun => eul_ka_ida_neun::look_up(word, NEUN).to_owned(),
-        TossiKind::Ka => eul_ka_ida_neun::look_up(word, KA).to_owned(),
+        TossiKind::Neun => eul_ka_ida_neun::look_up(word, TossiKind::Neun).to_owned(),
+        TossiKind::Ka => eul_ka_ida_neun::look_up(word, TossiKind::Ka).to_owned(),
         TossiKind::Ro => ro::change(word),
-        TossiKind::Ida => eul_ka_ida_neun::look_up(word, IDA).to_owned(),
-        TossiKind::Eul => eul_ka_ida_neun::look_up(word, EUL).to_owned(),
+        TossiKind::Ida => eul_ka_ida_neun::look_up(word, TossiKind::Ida).to_owned(),
+        TossiKind::Eul => eul_ka_ida_neun::look_up(word, TossiKind::Eul).to_owned(),
         TossiKind::Others => tossi.to_string(),
     };
 
@@ -81,14 +76,14 @@ fn postfix_raw(word: &str, tossi: &str) -> (String, String) {
 /// 반환하는 함수
 ///
 /// ```rust
-/// use library::postfix;
+/// use tossicat::postfix;
 /// postfix("집", "으로");
 /// postfix("집", "로");
 /// postfix("집", "(으)로");
 /// ```
 pub fn postfix(word: &str, tossi: &str) -> String {
-    let result = postfix_raw(word, tossi);
-    result.0 + &result.1
+    let temp = postfix_raw(word, tossi);
+    temp.0 + &temp.1
 }
 
 /// ## 입력된 토시를 같이 입력된 단어에 맞게 변환해 변환된 토시만 반환하는 함수
@@ -96,15 +91,15 @@ pub fn postfix(word: &str, tossi: &str) -> String {
 /// `postfix()`와는 다르게 이 함수는 변환된 토시만 반환합니다.
 ///
 /// ```rust
-/// use library::pick;
+/// use tossicat::pick;
 /// pick("집", "으로");
 /// pick("집", "로");
 /// pick("집", "(으)로");
 /// ```
 
 pub fn pick(word: &str, tossi: &str) -> String {
-    let result = postfix_raw(word, tossi);
-    result.1
+    let temp = postfix_raw(word, tossi);
+    temp.1
 }
 
 /// ## 변환하기 전에 입력된 것들이 변환가능한 것인지 검사하는 함수
