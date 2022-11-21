@@ -15,10 +15,8 @@ mod filter;
 mod hangeul;
 mod identifier;
 mod number;
-mod particle;
 mod verifier;
 
-use crate::particle::*;
 use identifier::{Tossi, TossiKind};
 
 // hangeul 모듈
@@ -65,11 +63,11 @@ fn postfix_raw(word: &str, tossi: &str) -> (String, String) {
     //파라미터에 올바른 규격의 값이 들어왔는지 확인하기
     let temp = Tossi::new(tossi);
     let result = match temp.kind {
-        TossiKind::Neun => eul_ka_ida_neun::look_up(word, TossiKind::Neun).to_owned(),
-        TossiKind::Ka => eul_ka_ida_neun::look_up(word, TossiKind::Ka).to_owned(),
-        TossiKind::Ro => ro::change(word),
-        TossiKind::Ida => eul_ka_ida_neun::look_up(word, TossiKind::Ida).to_owned(),
-        TossiKind::Eul => eul_ka_ida_neun::look_up(word, TossiKind::Eul).to_owned(),
+        TossiKind::Neun => identifier::look_up(word, TossiKind::Neun).to_owned(),
+        TossiKind::Ka => identifier::look_up(word, TossiKind::Ka).to_owned(),
+        TossiKind::Ro => identifier::look_up(word, TossiKind::Ro).to_owned(),
+        TossiKind::Ida => identifier::look_up(word, TossiKind::Ida).to_owned(),
+        TossiKind::Eul => identifier::look_up(word, TossiKind::Eul).to_owned(),
         TossiKind::Others => tossi.to_string(),
     };
 

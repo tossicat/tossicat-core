@@ -30,8 +30,9 @@
 //! - docs/terms.md
 
 use crate::filter::filter_only_significant;
+use crate::guess_final_letter;
 
-#[derive(Debug)]
+#[derive(PartialEq)]
 pub enum TossiKind {
     Neun,
     Ka,
@@ -82,5 +83,94 @@ fn two_letters(elements: &[char]) -> TossiKind {
         ('으', '로') => TossiKind::Ro,
         ('이', '다') => TossiKind::Ida,
         (_, _) => TossiKind::Others,
+    }
+}
+
+/// ## 종성만 찾아서 이것에 맞게 토시를 찾아 주는 함수
+/// 이 함수는 특정 문자열(단어)에서 마지막 글자의 종성만을 뽑아서
+/// 이를 토대로 입력된 토시 종류(`TossiKind`)에 리스트(아래 리스트 참고)에서 적합한 것을 선택한다.
+/// 그런 다음 위에서 설명한 것을 토대로 그 중 하나를 반환한다.
+/// 참고로 이 함수를 들어오는 것은 아래 4개 종류 밖에 없기 때문에 나머지는 공백 한 칸을 반환한다.
+///
+/// ```rust
+/// const EUL: (&str, &str, &str) = ("(을)를", "를", "을");
+/// const KA: (&str, &str, &str) = ("(이)가", "가", "이");
+/// const IDA: (&str, &str, &str) = ("(이)다", "다", "이다");
+/// const NEUN: (&str, &str, &str) = ("(은)는", "는", "은");
+/// const Ro: (&str, &str, &str) = ("(으)로", "로", "으로");
+/// ```
+
+pub fn look_up(word: &str, kind: TossiKind) -> &str {
+    let result = match kind {
+        TossiKind::Neun => ("(은)는", "는", "은"),
+        TossiKind::Ka => ("(이)가", "가", "이"),
+        TossiKind::Ida => ("(이)다", "다", "이다"),
+        TossiKind::Eul => ("(을)를", "를", "을"),
+        TossiKind::Ro => ("(으)로", "로", "으로"),
+        _ => (" ", " ", " "),
+    };
+
+    let final_letter = guess_final_letter(word);
+    // find_last_letter()은 한글이나 숫자가 없을 경우 ' '을 출력한다.
+    // println!("마지막 글자 받침: {}", filtered);
+
+    if final_letter == 'N' {
+        result.0
+    }
+    else if final_letter == ' ' {
+        result.1
+    }
+    else if final_letter == 'ㄹ' && kind == TossiKind::Ro {
+        result.1
+    }
+    else {
+        result.2
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    #[test]
+    fn _look_up() {
+        let temp = "네이버";
+        let result = "를";
+        assert_eq!(result, look_up(temp, TossiKind::Eul));
+        // 마지막 글자가 영어가 나오는 경우
+        let temp = "google";
+        let result = "(을)를";
+        assert_eq!(result, look_up(temp, TossiKind::Eul));
+        // 괄호 안에 들어 있는 글자는 무시하고 바로 앞 글자가 마지막 글자가 됩니다.
+        let temp = "넥슨(코리아)";
+        let result = "을";
+        assert_eq!(result, look_up(temp, TossiKind::Eul));
+        // 숫자는 그 숫자를 한글로 발음하는 것으로 변환합니다.
+        let temp = "비타500";
+        let result = "을";
+        assert_eq!(result, look_up(temp, TossiKind::Eul));
+
+        let temp = "네이버";
+        let result = "로";
+        assert_eq!(result, look_up(temp, TossiKind::Ro));
+        // 받침이 있는 경우
+        let temp = "법원";
+        let result = "으로";
+        assert_eq!(result, look_up(temp, TossiKind::Ro));
+        // 받침에 `ㄹ`이 있는 경우
+        let temp = "구글";
+        let result = "로";
+        assert_eq!(result, look_up(temp, TossiKind::Ro));
+        // 마지막 글자가 영어가 나오는 경우
+        let temp = "google";
+        let result = "(으)로";
+        assert_eq!(result, look_up(temp, TossiKind::Ro));
+        // 괄호 안에 들어 있는 글자는 무시하고 바로 앞 글자가 마지막 글자가 됩니다.
+        let temp = "넥슨(코리아)";
+        let result = "으로";
+        assert_eq!(result, look_up(temp, TossiKind::Ro));
+        // 숫자는 그 숫자를 한글로 발음하는 것으로 변환합니다.
+        let temp = "비타500";
+        let result = "으로";
+        assert_eq!(result, look_up(temp, TossiKind::Ro));
     }
 }
