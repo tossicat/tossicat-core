@@ -65,14 +65,11 @@ fn postfix_raw(word: &str, tossi: &str) -> (String, String) {
     //파라미터에 올바른 규격의 값이 들어왔는지 확인하기
     let temp = Tossi::new(tossi);
     let result = match temp.kind {
-        TossiKind::Eul => eul_ka_ida_neun::look_up(word, TossiKind::Eul).to_owned(),
-        TossiKind::Ka => eul_ka_ida_neun::look_up(word, TossiKind::Ka).to_owned(),
-        TossiKind::Ida => eul_ka_ida_neun::look_up(word, TossiKind::Ida).to_owned(),
         TossiKind::Neun => eul_ka_ida_neun::look_up(word, TossiKind::Neun).to_owned(),
-        TossiKind::Ro => ro_seo_sseo_buteo::look_up(word, TossiKind::Ro).to_owned(),
-        TossiKind::Roseo => ro_seo_sseo_buteo::look_up(word, TossiKind::Roseo).to_owned(),
-        TossiKind::Rosseo => ro_seo_sseo_buteo::look_up(word, TossiKind::Rosseo).to_owned(),
-        TossiKind::Robuteo => ro_seo_sseo_buteo::look_up(word, TossiKind::Robuteo).to_owned(),
+        TossiKind::Ka => eul_ka_ida_neun::look_up(word, TossiKind::Ka).to_owned(),
+        TossiKind::Ro => ro::change(word),
+        TossiKind::Ida => eul_ka_ida_neun::look_up(word, TossiKind::Ida).to_owned(),
+        TossiKind::Eul => eul_ka_ida_neun::look_up(word, TossiKind::Eul).to_owned(),
         TossiKind::Others => tossi.to_string(),
     };
 
