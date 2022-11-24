@@ -38,6 +38,9 @@ pub enum TossiKind {
     Ro,
     Ida,
     Eul,
+    Roseo,
+    Rosseo,
+    Robuteo,
     Others,
 }
 
@@ -53,6 +56,8 @@ impl Tossi {
         let temp_kind = match temp_modified.len() {
             1 => one_letter(temp_modified[0]),
             2 => two_letters(&temp_modified),
+            3 => three_letters(&temp_modified),
+            4 => four_letters(&temp_modified),
             _ => TossiKind::Others,
         };
         Self {
@@ -80,7 +85,29 @@ fn one_letter(element: char) -> TossiKind {
 fn two_letters(elements: &[char]) -> TossiKind {
     match (elements[0], elements[1]) {
         ('으', '로') => TossiKind::Ro,
+        ('로', '서') => TossiKind::Roseo,
+        ('로', '써') => TossiKind::Rosseo,
         ('이', '다') => TossiKind::Ida,
         (_, _) => TossiKind::Others,
+    }
+}
+
+/// ## 세 글자로 된 토시를 분류하는 함수
+/// 세 글자로 된 토시가 들어오면 이를 종류 별로 분류하는 함수
+fn three_letters(elements: &[char]) -> TossiKind {
+    match (elements[0], elements[1], elements[2]) {
+        ('으', '로', '서') => TossiKind::Roseo,
+        ('으', '로', '써') => TossiKind::Rosseo,
+        ('로', '부', '터') => TossiKind::Robuteo,
+        (_, _, _) => TossiKind::Others,
+    }
+}
+
+/// ## 네 글자로 된 토시를 분류하는 함수
+/// 네 글자로 된 토시가 들어오면 이를 종류 별로 분류하는 함수
+fn four_letters(elements: &[char]) -> TossiKind {
+    match (elements[0], elements[1], elements[2], elements[3]) {
+        ('으', '로', '부', '터') => TossiKind::Robuteo,
+        (_, _, _, _) => TossiKind::Others,
     }
 }
