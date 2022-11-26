@@ -48,6 +48,14 @@ fn _change_num_to_hangeul() {
     let result = "이";
     assert_eq!(result, change_num_to_hangeul(test));
 
+    let test = "10";
+    let result = "십";
+    assert_eq!(result, change_num_to_hangeul(test));
+
+    let test = "11";
+    let result = "십일";
+    assert_eq!(result, change_num_to_hangeul(test));
+
     let test = "10000";
     let result = "만";
     assert_eq!(result, change_num_to_hangeul(test));
@@ -82,5 +90,9 @@ fn _change_num_to_hangeul() {
 
     let test = "10000000000000000000000000000000000000000000000000";
     let result = "십극";
+    assert_eq!(result, change_num_to_hangeul(test));
+
+    let test = "90000000000000000000000000000000000000000000000000";
+    let result = "구십극";
     assert_eq!(result, change_num_to_hangeul(test));
 }
