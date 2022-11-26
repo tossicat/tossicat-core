@@ -84,9 +84,9 @@ pub fn change_num_to_hangeul(num: &str) -> String {
         let mut last_temp: Vec<char> = Vec::new();
 
         for i in temp_result.chars() {
-            if None != EXPS.iter().find(|&&x: &&char| x == i) {
+            if EXPS.iter().find(|&&x: &&char| x == i).is_some() {
                 let last_char = last_temp[last_temp.len() - 1];
-                if EXPS.iter().find(|&&x: &&char| x == last_char) == None {
+                if EXPS.iter().find(|&&x: &&char| x == last_char).is_none() {
                     last_temp.push(i);
                     // println!("만 단위 {:?} 글자가 바로 또 들어왔습니다!", i);
                 }
