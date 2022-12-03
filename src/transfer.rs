@@ -5,13 +5,13 @@
 //! 나머지 함수들을 현형 함수입니다.
 
 const EUL: (&str, &str, &str) = ("(을)를", "를", "을");
-const KA: (&str, &str, &str) = ("(이)가", "가", "이");
 const IDA: (&str, &str, &str) = ("(이)다", "다", "이다");
+const KA: (&str, &str, &str) = ("(이)가", "가", "이");
 const NEUN: (&str, &str, &str) = ("(은)는", "는", "은");
 const RO: (&str, &str, &str) = ("(으)로", "로", "으로");
+const ROBUTEO: (&str, &str, &str) = ("(으)로부터", "로부터", "으로부터");
 const ROSEO: (&str, &str, &str) = ("(으)로서", "로서", "으로서");
 const ROSSEO: (&str, &str, &str) = ("(으)로써", "로써", "으로써");
-const ROBUTEO: (&str, &str, &str) = ("(으)로부터", "로부터", "으로부터");
 
 use crate::guess_final_letter;
 

@@ -32,19 +32,19 @@
 use crate::filter::filter_only_significant;
 
 pub enum TossiKind {
-    Neun,
-    Ka,
-    Ro,
-    Ida,
     Eul,
+    Ida,
+    Ka,
+    Neun,
+    Ro,
+    Robuteo,
     Roseo,
     Rosseo,
-    Robuteo,
     Others,
 }
 pub enum TransTossiWhen {
-    RiEulAndBlank,
     Blank,
+    RiEulAndBlank,
     Nothing,
 }
 
@@ -67,13 +67,13 @@ impl Tossi {
         };
         let temp_trans_tossi_when = match temp_kind {
             TossiKind::Eul => TransTossiWhen::Blank,
-            TossiKind::Ka => TransTossiWhen::Blank,
             TossiKind::Ida => TransTossiWhen::Blank,
+            TossiKind::Ka => TransTossiWhen::Blank,
             TossiKind::Neun => TransTossiWhen::Blank,
             TossiKind::Ro => TransTossiWhen::RiEulAndBlank,
+            TossiKind::Robuteo => TransTossiWhen::RiEulAndBlank,
             TossiKind::Roseo => TransTossiWhen::RiEulAndBlank,
             TossiKind::Rosseo => TransTossiWhen::RiEulAndBlank,
-            TossiKind::Robuteo => TransTossiWhen::RiEulAndBlank,
             TossiKind::Others => TransTossiWhen::Nothing,
         };
         Self {
