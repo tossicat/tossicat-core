@@ -58,7 +58,7 @@ fn is_medial(word: char) -> bool {
 fn is_hangul_syllable(word: [char; 3]) -> bool {
     if is_consonant(word[0]) && is_medial(word[1]) {
         let res = FINAL.iter().position(|&s| s == word[2]);
-        res != None
+        res.is_some()
     } else {
         false
     }
