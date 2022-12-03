@@ -66,7 +66,11 @@
 
 - [https://ko.wiktionary.org/wiki/부록:로마자_표기법/국어](https://ko.wiktionary.org/wiki/부록:로마자_표기법/국어)
 
-현재 사용하고 있는 토시 영어식 포현은 다음과 같다.
+다음 링크를 사용하면 쉽게 변환할 수 있습니다.
+
+- [http://roman.cs.pusan.ac.kr](http://roman.cs.pusan.ac.kr)
+
+현재 사용하고 있는 토시 영어식 표현은 다음과 같습니다.
 
 - "은", "는": Neun
 - "이", "가": Ka
@@ -79,3 +83,4 @@
 - "로부터", "으로부터": Robuteo
 - "나", "이나": Na
 - "이랑","랑": Rang
+- "이란","란": Ran
