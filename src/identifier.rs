@@ -31,7 +31,6 @@
 
 use crate::filter::filter_only_significant;
 
-#[derive(Debug)]
 pub enum TossiKind {
     Neun,
     Ka,
@@ -43,10 +42,16 @@ pub enum TossiKind {
     Robuteo,
     Others,
 }
+pub enum TransTossiWhen {
+    RiEulAndBlank,
+    Blank,
+    Nothing,
+}
 
 pub struct Tossi {
     pub modified: Vec<char>,
     pub kind: TossiKind,
+    pub when: TransTossiWhen,
 }
 
 impl Tossi {
@@ -60,9 +65,21 @@ impl Tossi {
             4 => four_letters(&temp_modified),
             _ => TossiKind::Others,
         };
+        let temp_trans_tossi_when = match temp_kind {
+            TossiKind::Eul => TransTossiWhen::Blank,
+            TossiKind::Ka => TransTossiWhen::Blank,
+            TossiKind::Ida => TransTossiWhen::Blank,
+            TossiKind::Neun => TransTossiWhen::Blank,
+            TossiKind::Ro => TransTossiWhen::RiEulAndBlank,
+            TossiKind::Roseo => TransTossiWhen::RiEulAndBlank,
+            TossiKind::Rosseo => TransTossiWhen::RiEulAndBlank,
+            TossiKind::Robuteo => TransTossiWhen::RiEulAndBlank,
+            TossiKind::Others => TransTossiWhen::Nothing,
+        };
         Self {
             modified: temp_modified,
             kind: temp_kind,
+            when: temp_trans_tossi_when,
         }
     }
 }

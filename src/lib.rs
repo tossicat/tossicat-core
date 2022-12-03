@@ -16,6 +16,7 @@ mod hangeul;
 mod identifier;
 mod number;
 mod particle;
+mod transfer;
 mod verifier;
 
 use crate::particle::*;
@@ -75,6 +76,12 @@ fn postfix_raw(word: &str, tossi: &str) -> (String, String) {
         TossiKind::Robuteo => ro_seo_sseo_buteo::look_up(word, TossiKind::Robuteo).to_owned(),
         TossiKind::Others => tossi.to_string(),
     };
+
+    let temp_result = match temp.kind {
+        TossiKind::Others => tossi.to_string(),
+        _ => transfer::tossi(word, temp).to_string(),
+    };
+    println!("원 결과 vs, 새로운 결과 같음: {},", result == temp_result);
 
     let front = word.to_string();
     (front, result)
