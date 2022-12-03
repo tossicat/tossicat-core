@@ -37,6 +37,7 @@ pub enum TossiKind {
     Ka,
     Na,
     Neun,
+    Ran,
     Rang,
     Ro,
     Robuteo,
@@ -73,6 +74,7 @@ impl Tossi {
             TossiKind::Ka => TransTossiWhen::Blank,
             TossiKind::Na => TransTossiWhen::Blank,
             TossiKind::Neun => TransTossiWhen::Blank,
+            TossiKind::Ran => TransTossiWhen::Blank,
             TossiKind::Rang => TransTossiWhen::Blank,
             TossiKind::Ro => TransTossiWhen::RiEulAndBlank,
             TossiKind::Robuteo => TransTossiWhen::RiEulAndBlank,
@@ -99,6 +101,7 @@ fn one_letter(element: char) -> TossiKind {
         '다' => TossiKind::Ida,
         '나' => TossiKind::Na,
         '랑' => TossiKind::Rang,
+        '란' => TossiKind::Ran,
         _ => TossiKind::Others,
     }
 }
@@ -113,6 +116,7 @@ fn two_letters(elements: &[char]) -> TossiKind {
         ('이', '다') => TossiKind::Ida,
         ('이', '나') => TossiKind::Na,
         ('이', '랑') => TossiKind::Rang,
+        ('이', '란') => TossiKind::Ran,
         (_, _) => TossiKind::Others,
     }
 }
