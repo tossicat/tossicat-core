@@ -7,6 +7,7 @@
 const EUL: (&str, &str, &str) = ("(을)를", "를", "을");
 const IDA: (&str, &str, &str) = ("(이)다", "다", "이다");
 const KA: (&str, &str, &str) = ("(이)가", "가", "이");
+const NA: (&str, &str, &str) = ("(이)나", "나", "이나");
 const NEUN: (&str, &str, &str) = ("(은)는", "는", "은");
 const RO: (&str, &str, &str) = ("(으)로", "로", "으로");
 const ROBUTEO: (&str, &str, &str) = ("(으)로부터", "로부터", "으로부터");
@@ -24,8 +25,9 @@ use crate::identifier::{Tossi, TossiKind, TransTossiWhen};
 pub fn tossi(word: &str, tossi: Tossi) -> &str {
     let tossi_variants = match tossi.kind {
         TossiKind::Eul => EUL,
-        TossiKind::Ka => KA,
         TossiKind::Ida => IDA,
+        TossiKind::Ka => KA,
+        TossiKind::Na => NA,
         TossiKind::Neun => NEUN,
         TossiKind::Ro => RO,
         TossiKind::Roseo => ROSEO,
@@ -97,6 +99,7 @@ fn when_rieul_and_blank<'a>(word: &'a str, tossi_variants: (&'a str, &'a str, &'
 /// const EUL: (&str, &str, &str) = ("(을)를", "를", "을");
 /// const KA: (&str, &str, &str) = ("(이)가", "가", "이");
 /// const IDA: (&str, &str, &str) = ("(이)다", "다", "이다");
+/// const NA: (&str, &str, &str) = ("(이)나", "나", "이나");
 /// const NEUN: (&str, &str, &str) = ("(은)는", "는", "은");
 /// ```
 ///
@@ -123,6 +126,11 @@ fn when_rieul_and_blank<'a>(word: &'a str, tossi_variants: (&'a str, &'a str, &'
 /// - '는'는 받침 없는 체언 뒤에 붙습니다.
 /// - '은'는 받침 있는 체언 뒤에 붙습니다.
 /// - 외국어가 앞 단어로 오는 경우 병기 '(은)는'이 출력됩니다.
+///
+/// ### NA(나) 경우
+/// - '나'는 받침 없는 체언 뒤에 붙습니다.
+/// - '이나'는 받침 있는 체언 뒤에 붙습니다.
+/// - 외국어가 앞 단어로 오는 경우 병기 '(이)나'가 출력됩니다.
 
 fn when_blank<'a>(word: &'a str, tossi_variants: (&'a str, &'a str, &'a str)) -> &'a str {
     let filtered = guess_final_letter(word);
@@ -188,5 +196,31 @@ mod tests {
         let temp = "비타500";
         let result = "을";
         assert_eq!(result, when_blank(temp, EUL));
+    }
+    #[test]
+    fn _when_blank_na() {
+        // 마지막 받침이 있는 경우
+        let temp = "도서관";
+        let result = "이나";
+        assert_eq!(result, when_blank(temp, NA));
+        // 마지막 받침이 없는 경우
+        let temp = "학교";
+        let result = "나";
+        assert_eq!(result, when_blank(temp, NA));
+        let temp = "어제";
+        let result = "나";
+        assert_eq!(result, when_blank(temp, NA));
+        // 마지막 글자가 영어가 나오는 경우
+        let temp = "google";
+        let result = "(이)나";
+        assert_eq!(result, when_blank(temp, NA));
+        // 괄호 안에 들어 있는 글자는 무시하고 바로 앞 글자가 마지막 글자가 됩니다.
+        let temp = "넥슨(코리아)";
+        let result = "이나";
+        assert_eq!(result, when_blank(temp, NA));
+        // 숫자는 그 숫자를 한글로 발음하는 것으로 변환합니다.
+        let temp = "비타500";
+        let result = "이나";
+        assert_eq!(result, when_blank(temp, NA));
     }
 }
