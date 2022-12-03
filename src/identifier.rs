@@ -30,7 +30,6 @@
 //! - docs/terms.md
 
 use crate::filter::filter_only_significant;
-use crate::guess_final_letter;
 
 pub enum TossiKind {
     Neun,
