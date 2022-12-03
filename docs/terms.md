@@ -12,11 +12,59 @@
 - 종성: final letter
 - 자모: jamo 字母: '글자(字)를 이루는 모(母)체'
 
+## 한글 자모 영어 표현
+
+### 자음
+
+1. ㄱ, 기역, gi-yeok
+2. ㄲ, 쌍기역, ssang-giyeok
+3. ㄴ, 니은, ni-eun
+4. ㄷ, 디귿, digeut
+5. ㄸ, 쌍디귿, ssang-digeut
+6. ㄹ, 리을, ri-eul
+7. ㅁ, 미음, mi-eum
+8. ㅂ, 비읍, bi-eup
+9. ㅃ, 쌍비읍, ssang-bi-eup
+10. ㅅ, 시옷, si-ot (shi-ot)
+11. ㅆ, 쌍시옷, ssang-si-ot (ssang-shi-ot)
+12. ㅇ, 이응, i-eung
+13. ㅈ, 지읒, ji-eut
+14. ㅉ, 쌍지읒, ssang-ji-eut
+15. ㅊ, 치읓, chi-eut
+16. ㅋ, 키읔, ḳi-euk
+17. ㅌ, 티읕, ṭi-eut
+18. ㅍ, 피읖, p̣i-eup
+19. ㅎ, 히읗, hi-eut
+
+### 모음
+
+1. ㅏ: a
+2. ㅐ: ae
+3. ㅑ: ya
+4. ㅒ: yae
+5. ㅓ: eo
+6. ㅔ: e
+7. ㅕ: yeo
+8. ㅖ: ye
+9. ㅗ: o
+10. ㅘ: wa
+11. ㅙ: wae
+12. ㅚ: oe
+13. ㅛ: yo
+14. ㅜ: u
+15. ㅝ: wo
+16. ㅞ: we
+17. ㅟ: wi
+18. ㅠ: yu
+19. ㅡ: eu
+20. ㅢ: "ui: yi"
+21. ㅣ: i
+
 ## 조사 종류를 영어로 표기하기
 
 아래 로마자 표기법에 따라 변환했다.
 조사를 로마자로 변환했을 때 글자 수가 적은 것을 선택하여 이를 대표 이름으로 선택했다.
-  
+
 - [https://ko.wiktionary.org/wiki/부록:로마자_표기법/국어](https://ko.wiktionary.org/wiki/부록:로마자_표기법/국어)
 
 현재 사용하고 있는 토시 영어식 포현은 다음과 같다.
@@ -27,3 +75,6 @@
 - "이다", "다": Ida
 - "을", "를": Eul
 - "로", "으로": Ro
+- "로서", "으로서": Roseo
+- "로써", "으로써": Rosseo
+- "로부터", "으로부터": Robuteo

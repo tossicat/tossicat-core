@@ -106,6 +106,42 @@ mod tests {
         let temp = "비타500";
         let result = vec!['비', '타', '오', '백'];
         assert_eq!(result, filter_only_significant(temp));
+
+        let temp = "(으)로";
+        let result = vec!['로'];
+        assert_eq!(result, filter_only_significant(temp));
+
+        let temp = "(로)으";
+        let result = vec!['으'];
+        assert_eq!(result, filter_only_significant(temp));
+        // 아래 6 개는 토시에 관련된 것을 검사합니다.
+        // 우리가 다루고자 하는 토시 중 세 가지(을, 은, 이)가
+        // 아래와 같이 괄호를 통해 들어올 수 있기 때문에,
+        // 여기서 괄호를 제거해, 적절한 토시로 프로그램이 분류할 수 있게
+        // 만든다.
+        let temp = "(을)를";
+        let result = vec!['를'];
+        assert_eq!(result, filter_only_significant(temp));
+
+        let temp = "(를)을";
+        let result = vec!['을'];
+        assert_eq!(result, filter_only_significant(temp));
+
+        let temp = "(은)는";
+        let result = vec!['는'];
+        assert_eq!(result, filter_only_significant(temp));
+
+        let temp = "(는)은";
+        let result = vec!['은'];
+        assert_eq!(result, filter_only_significant(temp));
+
+        let temp = "(가)이";
+        let result = vec!['이'];
+        assert_eq!(result, filter_only_significant(temp));
+
+        let temp = "(이)가";
+        let result = vec!['가'];
+        assert_eq!(result, filter_only_significant(temp));
     }
 
     #[test]
