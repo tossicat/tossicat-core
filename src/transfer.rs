@@ -8,6 +8,7 @@ const EUL: (&str, &str, &str) = ("(을)를", "를", "을");
 const IDA: (&str, &str, &str) = ("(이)다", "다", "이다");
 const KA: (&str, &str, &str) = ("(이)가", "가", "이");
 const NA: (&str, &str, &str) = ("(이)나", "나", "이나");
+const NAMA: (&str, &str, &str) = ("(이)나마", "나마", "이나마");
 const NEUN: (&str, &str, &str) = ("(은)는", "는", "은");
 const RAN: (&str, &str, &str) = ("(이)란", "란", "이란");
 const RANG: (&str, &str, &str) = ("(이)랑", "랑", "이랑");
@@ -30,6 +31,7 @@ pub fn tossi(word: &str, tossi: Tossi) -> &str {
         TossiKind::Ida => IDA,
         TossiKind::Ka => KA,
         TossiKind::Na => NA,
+        TossiKind::Nama => NAMA,
         TossiKind::Neun => NEUN,
         TossiKind::Ran => RAN,
         TossiKind::Rang => RANG,
@@ -104,6 +106,7 @@ fn when_rieul_and_blank<'a>(word: &'a str, tossi_variants: (&'a str, &'a str, &'
 /// const KA: (&str, &str, &str) = ("(이)가", "가", "이");
 /// const IDA: (&str, &str, &str) = ("(이)다", "다", "이다");
 /// const NA: (&str, &str, &str) = ("(이)나", "나", "이나");
+/// const NAMA: (&str, &str, &str) = ("(이)나마", "나마", "이나마");
 /// const NEUN: (&str, &str, &str) = ("(은)는", "는", "은");
 /// const RAN: (&str, &str, &str) = ("(이)란", "란", "이란");
 /// const RANG: (&str, &str, &str) = ("(이)랑", "이", "이랑");
@@ -147,6 +150,11 @@ fn when_rieul_and_blank<'a>(word: &'a str, tossi_variants: (&'a str, &'a str, &'
 /// - '란'는 받침 없는 체언 뒤에 붙습니다.
 /// - '이란'는 받침 있는 체언 뒤에 붙습니다.
 /// - 외국어가 앞 단어로 오는 경우 병기 '(이)란'가 출력됩니다.
+///
+/// ### NAMA(나마) 경우
+/// - '나마'는 받침 없는 체언 뒤에 붙습니다.
+/// - '이나마'는 받침 있는 체언 뒤에 붙습니다.
+/// - 외국어가 앞 단어로 오는 경우 병기 '(이)나마'가 출력됩니다.
 
 fn when_blank<'a>(word: &'a str, tossi_variants: (&'a str, &'a str, &'a str)) -> &'a str {
     let filtered = guess_final_letter(word);
@@ -293,5 +301,34 @@ mod tests {
         let temp = "비타500";
         let result = "이란";
         assert_eq!(result, when_blank(temp, RAN));
+    }
+    #[test]
+    fn _when_blank_nama() {
+        // 마지막 받침이 있는 경우
+        let temp = "못하";
+        let result = "나마";
+        assert_eq!(result, when_blank(temp, NAMA));
+        let temp = "책";
+        let result = "이나마";
+        assert_eq!(result, when_blank(temp, NAMA));
+        // 마지막 받침이 없는 경우
+        let temp = "몸";
+        let result = "이나마";
+        assert_eq!(result, when_blank(temp, NAMA));
+        let temp = "힘";
+        let result = "이나마";
+        assert_eq!(result, when_blank(temp, NAMA));
+        // 마지막 글자가 영어가 나오는 경우
+        let temp = "google";
+        let result = "(이)나마";
+        assert_eq!(result, when_blank(temp, NAMA));
+        // 괄호 안에 들어 있는 글자는 무시하고 바로 앞 글자가 마지막 글자가 됩니다.
+        let temp = "넥슨(코리아)";
+        let result = "이나마";
+        assert_eq!(result, when_blank(temp, NAMA));
+        // 숫자는 그 숫자를 한글로 발음하는 것으로 변환합니다.
+        let temp = "비타500";
+        let result = "이나마";
+        assert_eq!(result, when_blank(temp, NAMA));
     }
 }
