@@ -5,6 +5,11 @@ edition = "2021"
 authors = ["Jae-Hwan Chung <dialektike@gmail.com>","Jess <dev.bearabbit@gmail.com>"]
 description = "TossiCat core is ~."
 license = "LGPL-2.1"
+keywords = ["Hangul", "library", "lib"]
+exclude = ["main.rs"] #crates.io에 업로드할 때 제외할 파일
+repository = "https://github.com/tossicat/tossicat-core"
+documentation = "https://github.com/tossicat/tossicat-core/blob/master/README.md"
+homepage = "https://github.com/tossicat/tossicat-core/blob/master/README.md"
 
 [lib]
 name = "tossicat"
