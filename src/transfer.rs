@@ -7,6 +7,7 @@
 const EUL: (&str, &str, &str) = ("(을)를", "를", "을");
 const IDA: (&str, &str, &str) = ("(이)다", "다", "이다");
 const KA: (&str, &str, &str) = ("(이)가", "가", "이");
+const MYEO: (&str, &str, &str) = ("(이)며", "며", "이며");
 const NA: (&str, &str, &str) = ("(이)나", "나", "이나");
 const NAMA: (&str, &str, &str) = ("(이)나마", "나마", "이나마");
 const NEUN: (&str, &str, &str) = ("(은)는", "는", "은");
@@ -30,6 +31,7 @@ pub fn tossi(word: &str, tossi: Tossi) -> &str {
         TossiKind::Eul => EUL,
         TossiKind::Ida => IDA,
         TossiKind::Ka => KA,
+        TossiKind::Myeo => MYEO,
         TossiKind::Na => NA,
         TossiKind::Nama => NAMA,
         TossiKind::Neun => NEUN,
@@ -110,6 +112,7 @@ fn when_rieul_and_blank<'a>(word: &'a str, tossi_variants: (&'a str, &'a str, &'
 /// const NEUN: (&str, &str, &str) = ("(은)는", "는", "은");
 /// const RAN: (&str, &str, &str) = ("(이)란", "란", "이란");
 /// const RANG: (&str, &str, &str) = ("(이)랑", "이", "이랑");
+/// const MYEO: (&str, &str, &str) = ("(이)며", "며", "이며");
 /// ```
 ///
 /// 입력된 특정 문자열(단어)의 마지막 글자의 종성만을 뽑아서 이 종성에 맞는
@@ -155,6 +158,11 @@ fn when_rieul_and_blank<'a>(word: &'a str, tossi_variants: (&'a str, &'a str, &'
 /// - '나마'는 받침 없는 체언 뒤에 붙습니다.
 /// - '이나마'는 받침 있는 체언 뒤에 붙습니다.
 /// - 외국어가 앞 단어로 오는 경우 병기 '(이)나마'가 출력됩니다.
+
+/// ### MYEO(며) 경우
+/// - '며'는 받침 없는 체언 뒤에 붙습니다.
+/// - '이며'는 받침 있는 체언 뒤에 붙습니다.
+/// - 외국어가 앞 단어로 오는 경우 병기 '(이)며'가 출력됩니다.
 
 fn when_blank<'a>(word: &'a str, tossi_variants: (&'a str, &'a str, &'a str)) -> &'a str {
     let filtered = guess_final_letter(word);
@@ -330,5 +338,34 @@ mod tests {
         let temp = "비타500";
         let result = "이나마";
         assert_eq!(result, when_blank(temp, NAMA));
+    }
+    #[test]
+    fn _when_blank_myeo() {
+        // 마지막 받침이 있는 경우
+        let temp = "그림";
+        let result = "이며";
+        assert_eq!(result, when_blank(temp, MYEO));
+        let temp = "조각";
+        let result = "이며";
+        assert_eq!(result, when_blank(temp, MYEO));
+        // 마지막 받침이 없는 경우
+        let temp = "학자";
+        let result = "며";
+        assert_eq!(result, when_blank(temp, MYEO));
+        let temp = "정치가";
+        let result = "며";
+        assert_eq!(result, when_blank(temp, MYEO));
+        // 마지막 글자가 영어가 나오는 경우
+        let temp = "google";
+        let result = "(이)며";
+        assert_eq!(result, when_blank(temp, MYEO));
+        // 괄호 안에 들어 있는 글자는 무시하고 바로 앞 글자가 마지막 글자가 됩니다.
+        let temp = "넥슨(코리아)";
+        let result = "이며";
+        assert_eq!(result, when_blank(temp, MYEO));
+        // 숫자는 그 숫자를 한글로 발음하는 것으로 변환합니다.
+        let temp = "비타500";
+        let result = "이며";
+        assert_eq!(result, when_blank(temp, MYEO));
     }
 }
