@@ -7,6 +7,7 @@
 const EUL: (&str, &str, &str) = ("(을)를", "를", "을");
 const IDA: (&str, &str, &str) = ("(이)다", "다", "이다");
 const KA: (&str, &str, &str) = ("(이)가", "가", "이");
+const KO: (&str, &str, &str) = ("(이)고", "고", "이고");
 const MYEO: (&str, &str, &str) = ("(이)며", "며", "이며");
 const NA: (&str, &str, &str) = ("(이)나", "나", "이나");
 const NAMA: (&str, &str, &str) = ("(이)나마", "나마", "이나마");
@@ -32,6 +33,7 @@ pub fn tossi(word: &str, tossi: Tossi) -> &str {
         TossiKind::Eul => EUL,
         TossiKind::Ida => IDA,
         TossiKind::Ka => KA,
+        TossiKind::Ko => KO,
         TossiKind::Myeo => MYEO,
         TossiKind::Na => NA,
         TossiKind::Nama => NAMA,
@@ -108,6 +110,7 @@ fn when_rieul_and_blank<'a>(word: &'a str, tossi_variants: (&'a str, &'a str, &'
 /// ```rust
 /// const EUL: (&str, &str, &str) = ("(을)를", "를", "을");
 /// const KA: (&str, &str, &str) = ("(이)가", "가", "이");
+/// const KO: (&str, &str, &str) = ("(이)고", "고", "이고");
 /// const IDA: (&str, &str, &str) = ("(이)다", "다", "이다");
 /// const NA: (&str, &str, &str) = ("(이)나", "나", "이나");
 /// const NAMA: (&str, &str, &str) = ("(이)나마", "나마", "이나마");
@@ -166,6 +169,11 @@ fn when_rieul_and_blank<'a>(word: &'a str, tossi_variants: (&'a str, &'a str, &'
 /// - '야말로'는 받침 없는 체언 뒤에 붙습니다.
 /// - '이야말로'는 받침 있는 체언 뒤에 붙습니다.
 /// - 외국어가 앞 단어로 오는 경우 병기 '(이)야말로'가 출력됩니다.
+///
+/// ### KO(고) 경우
+/// - '고'는 받침 없는 체언 뒤에 붙습니다.
+/// - '이고'는 받침 있는 체언 뒤에 붙습니다.
+/// - 외국어가 앞 단어로 오는 경우 병기 '(이)고'가 출력됩니다.
 ///
 
 fn when_blank<'a>(word: &'a str, tossi_variants: (&'a str, &'a str, &'a str)) -> &'a str {
@@ -400,5 +408,40 @@ mod tests {
         let temp = "비타500";
         let result = "이야말로";
         assert_eq!(result, when_blank(temp, YAMALRO));
+    }
+    #[test]
+    fn _when_blank_ko() {
+        // 마지막 받침이 있는 경우
+        let temp = "산";
+        let result = "이고";
+        assert_eq!(result, when_blank(temp, KO));
+        let temp = "강";
+        let result = "이고";
+        assert_eq!(result, when_blank(temp, KO));
+        // 마지막 받침이 없는 경우
+        let temp = "공부";
+        let result = "고";
+        assert_eq!(result, when_blank(temp, KO));
+        let temp = "뭐";
+        let result = "고";
+        assert_eq!(result, when_blank(temp, KO));
+        let temp = "직장에서";
+        let result = "고";
+        assert_eq!(result, when_blank(temp, KO));
+        let temp = "가정에서고";
+        let result = "고";
+        assert_eq!(result, when_blank(temp, KO));
+        // 마지막 글자가 영어가 나오는 경우
+        let temp = "google";
+        let result = "(이)고";
+        assert_eq!(result, when_blank(temp, KO));
+        // 괄호 안에 들어 있는 글자는 무시하고 바로 앞 글자가 마지막 글자가 됩니다.
+        let temp = "넥슨(코리아)";
+        let result = "이고";
+        assert_eq!(result, when_blank(temp, KO));
+        // 숫자는 그 숫자를 한글로 발음하는 것으로 변환합니다.
+        let temp = "비타500";
+        let result = "이고";
+        assert_eq!(result, when_blank(temp, KO));
     }
 }
