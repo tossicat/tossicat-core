@@ -12,4 +12,6 @@ fn main() {
     println!("결과: {:?}", verifiers("apple", "은"));
     println!("결과: {:?}", verifiers("apple", "는"));
     println!("결과: {:?}", verifiers("apple", "is"));
+    // 아래 것은 '누가'가 나와야 합니다.
+    println!("결과: {}", postfix("누구", "이"));
 }
