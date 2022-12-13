@@ -103,6 +103,40 @@ fn when_rieul_and_blank<'a>(word: &'a str, tossi_variants: (&'a str, &'a str, &'
     }
 }
 
+/// 입력된 특정 문자열(단어)의 마지막 글자의 종성만을 뽑아서 이 종성에 맞는
+/// "~이"/ "~가" 토시 변화형 중 해당 토시에 적합한 것을 찾아서 반환해주는 역할을 합니다.
+///
+/// - '가'는 받침 없는 체언 뒤에 붙습니다.
+/// - '이'는 받침 있는 체언 뒤에 붙습니다.
+/// - 외국어가 앞 단어로 오는 경우 병기 '(이)가'이 출력됩니다.
+///
+/// ‘가’가 붙을 때 형태가 변하는 예가 있습니다.
+/// ‘누구’와 ‘가’가 함께 쓰이면 ‘누가’로 쓰이며,
+/// 너, 나, 저’와 같이 쓸 때는 ‘네가, 내가, 제가’로 씁니다.
+///
+// fn only_ka<'a>(word: &'a str, tossi_variants: (&'a str, &'a str, &'a str)) -> &'a str {
+//     let filtered = guess_final_letter(word);
+//     // find_last_letter()은 한글이나 숫자가 없을 경우 ' '을 출력한다.
+//     // println!("마지막 글자 받침: {}", filtered);
+//     if filtered == 'N' {
+//         tossi_variants.0
+//     } else if filtered == ' ' {
+//         if word == "누구" {
+//             "누가"
+//         } else if word == "나" {
+//             "내가"
+//         } else if word == "저" {
+//             "제가"
+//         } else if word == "너" {
+//             "네가"
+//         } else {
+//             tossi_variants.1
+//         }
+//     } else {
+//         tossi_variants.2
+//     }
+// }
+
 /// ## 받침 없는 체언 뒤에 붙는 경우에 토시가 변화하는 함수
 ///
 /// 이 함수는 현재 아래 목록에 있는 토시를 입력된 특정 문자열(단어)에 따라 변환합니다.
