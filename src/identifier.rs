@@ -32,6 +32,7 @@
 use crate::filter::filter_only_significant;
 
 pub enum TossiKind {
+    Deun,
     Eul,
     Ida,
     Ka,
@@ -74,6 +75,7 @@ impl Tossi {
             _ => TossiKind::Others,
         };
         let temp_trans_tossi_when = match temp_kind {
+            TossiKind::Deun => TransTossiWhen::Blank,
             TossiKind::Eul => TransTossiWhen::Blank,
             TossiKind::Ida => TransTossiWhen::Blank,
             TossiKind::Ka => TransTossiWhen::Blank,
@@ -115,6 +117,7 @@ fn one_letter(element: char) -> TossiKind {
         '며' => TossiKind::Myeo,
         '고' => TossiKind::Ko,
         '니' => TossiKind::Ni,
+        '든' => TossiKind::Deun,
         _ => TossiKind::Others,
     }
 }
@@ -134,6 +137,7 @@ fn two_letters(elements: &[char]) -> TossiKind {
         ('이', '며') => TossiKind::Myeo,
         ('이', '고') => TossiKind::Ko,
         ('이', '니') => TossiKind::Ni,
+        ('이', '든') => TossiKind::Deun,
         (_, _) => TossiKind::Others,
     }
 }
