@@ -5,6 +5,7 @@
 //! 나머지 함수들을 현형 함수입니다.
 
 const DEUN: (&str, &str, &str) = ("(이)든", "든", "이든");
+const DEUNKA: (&str, &str, &str) = ("(이)든가", "든가", "이든가");
 const DEUNJI: (&str, &str, &str) = ("(이)든지", "든지", "이든지");
 const EUL: (&str, &str, &str) = ("(을)를", "를", "을");
 const IDA: (&str, &str, &str) = ("(이)다", "다", "이다");
@@ -34,6 +35,7 @@ use crate::identifier::{Tossi, TossiKind, TransTossiWhen};
 pub fn tossi(word: &str, tossi: Tossi) -> &str {
     let tossi_variants = match tossi.kind {
         TossiKind::Deun => DEUN,
+        TossiKind::Deunka => DEUNKA,
         TossiKind::Deunji => DEUNJI,
         TossiKind::Eul => EUL,
         TossiKind::Ida => IDA,
@@ -162,6 +164,7 @@ fn when_rieul_and_blank<'a>(word: &'a str, tossi_variants: (&'a str, &'a str, &'
 /// const YAMALRO: (&str, &str, &str) = ("(이)야말로", "야말로", "이야말로");
 /// const DEUN: (&str, &str, &str) = ("(이)든", "든", "이든");
 /// const DEUNJI: (&str, &str, &str) = ("(이)든지", "든지", "이든지");
+/// const DEUNKA: (&str, &str, &str) = ("(이)든가", "든가", "이든가");
 /// ```
 ///
 /// 입력된 특정 문자열(단어)의 마지막 글자의 종성만을 뽑아서 이 종성에 맞는
@@ -231,6 +234,11 @@ fn when_rieul_and_blank<'a>(word: &'a str, tossi_variants: (&'a str, &'a str, &'
 /// ### Deunji(든지) 경우
 /// - '든지'은 받침 없는 체언 뒤에 붙습니다.
 /// - '이든지'은 받침 있는 체언 뒤에 붙습니다.
+/// - 외국어가 앞 단어로 오는 경우 병기 '(이)든지'가 출력됩니다.
+///
+/// ### Deunka(든가) 경우
+/// - '든가'는 받침 없는 체언 뒤에 붙습니다.
+/// - '이든가'는 받침 있는 체언 뒤에 붙습니다.
 /// - 외국어가 앞 단어로 오는 경우 병기 '(이)든지'가 출력됩니다.
 ///
 
@@ -594,5 +602,34 @@ mod tests {
         let temp = "비타500";
         let result = "이든지";
         assert_eq!(result, when_blank(temp, DEUNJI));
+    }
+    #[test]
+    fn _when_blank_deunka() {
+        // 마지막 받침이 있는 경우
+        let temp = "재작년";
+        let result = "이든가";
+        assert_eq!(result, when_blank(temp, DEUNKA));
+        let temp = "작년";
+        let result = "이든가";
+        assert_eq!(result, when_blank(temp, DEUNKA));
+        // 마지막 받침이 없는 경우
+        let temp = "운전이라";
+        let result = "든가";
+        assert_eq!(result, when_blank(temp, DEUNKA));
+        let temp = "뭐";
+        let result = "든가";
+        assert_eq!(result, when_blank(temp, DEUNKA));
+        // 마지막 글자가 영어가 나오는 경우
+        let temp = "google";
+        let result = "(이)든가";
+        assert_eq!(result, when_blank(temp, DEUNKA));
+        // 괄호 안에 들어 있는 글자는 무시하고 바로 앞 글자가 마지막 글자가 됩니다.
+        let temp = "넥슨(코리아)";
+        let result = "이든가";
+        assert_eq!(result, when_blank(temp, DEUNKA));
+        // 숫자는 그 숫자를 한글로 발음하는 것으로 변환합니다.
+        let temp = "비타500";
+        let result = "이든가";
+        assert_eq!(result, when_blank(temp, DEUNKA));
     }
 }
