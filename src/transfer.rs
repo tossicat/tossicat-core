@@ -12,6 +12,7 @@ const MYEO: (&str, &str, &str) = ("(이)며", "며", "이며");
 const NA: (&str, &str, &str) = ("(이)나", "나", "이나");
 const NAMA: (&str, &str, &str) = ("(이)나마", "나마", "이나마");
 const NEUN: (&str, &str, &str) = ("(은)는", "는", "은");
+const NI: (&str, &str, &str) = ("(이)니", "니", "이니");
 const RAN: (&str, &str, &str) = ("(이)란", "란", "이란");
 const RANG: (&str, &str, &str) = ("(이)랑", "랑", "이랑");
 const YAMALRO: (&str, &str, &str) = ("(이)야말로", "야말로", "이야말로");
@@ -38,6 +39,7 @@ pub fn tossi(word: &str, tossi: Tossi) -> &str {
         TossiKind::Na => NA,
         TossiKind::Nama => NAMA,
         TossiKind::Neun => NEUN,
+        TossiKind::Ni => NI,
         TossiKind::Ran => RAN,
         TossiKind::Rang => RANG,
         TossiKind::Yamalro => YAMALRO,
@@ -149,6 +151,7 @@ fn when_rieul_and_blank<'a>(word: &'a str, tossi_variants: (&'a str, &'a str, &'
 /// const NA: (&str, &str, &str) = ("(이)나", "나", "이나");
 /// const NAMA: (&str, &str, &str) = ("(이)나마", "나마", "이나마");
 /// const NEUN: (&str, &str, &str) = ("(은)는", "는", "은");
+/// const NI: (&str, &str, &str) = ("(이)니", "니", "이니");
 /// const RAN: (&str, &str, &str) = ("(이)란", "란", "이란");
 /// const RANG: (&str, &str, &str) = ("(이)랑", "이", "이랑");
 /// const MYEO: (&str, &str, &str) = ("(이)며", "며", "이며");
@@ -208,6 +211,11 @@ fn when_rieul_and_blank<'a>(word: &'a str, tossi_variants: (&'a str, &'a str, &'
 /// - '고'는 받침 없는 체언 뒤에 붙습니다.
 /// - '이고'는 받침 있는 체언 뒤에 붙습니다.
 /// - 외국어가 앞 단어로 오는 경우 병기 '(이)고'가 출력됩니다.
+///
+/// ### Ni(니) 경우
+/// - '니'는 받침 없는 체언 뒤에 붙습니다.
+/// - '이니'는 받침 있는 체언 뒤에 붙습니다.
+/// - 외국어가 앞 단어로 오는 경우 병기 '(이)니'가 출력됩니다.
 ///
 
 fn when_blank<'a>(word: &'a str, tossi_variants: (&'a str, &'a str, &'a str)) -> &'a str {
@@ -477,5 +485,37 @@ mod tests {
         let temp = "비타500";
         let result = "이고";
         assert_eq!(result, when_blank(temp, KO));
+    }
+    #[test]
+    fn _when_blank_ni() {
+        // 마지막 받침이 있는 경우
+        let temp = "떡";
+        let result = "이니";
+        assert_eq!(result, when_blank(temp, NI));
+        let temp = "과일";
+        let result = "이니";
+        assert_eq!(result, when_blank(temp, NI));
+        // 마지막 받침이 없는 경우
+        let temp = "옥수수";
+        let result = "니";
+        assert_eq!(result, when_blank(temp, NI));
+        let temp = "조";
+        let result = "니";
+        assert_eq!(result, when_blank(temp, NI));
+        let temp = "고추";
+        let result = "니";
+        assert_eq!(result, when_blank(temp, NI));
+        // 마지막 글자가 영어가 나오는 경우
+        let temp = "google";
+        let result = "(이)니";
+        assert_eq!(result, when_blank(temp, NI));
+        // 괄호 안에 들어 있는 글자는 무시하고 바로 앞 글자가 마지막 글자가 됩니다.
+        let temp = "넥슨(코리아)";
+        let result = "이니";
+        assert_eq!(result, when_blank(temp, NI));
+        // 숫자는 그 숫자를 한글로 발음하는 것으로 변환합니다.
+        let temp = "비타500";
+        let result = "이니";
+        assert_eq!(result, when_blank(temp, NI));
     }
 }
