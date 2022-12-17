@@ -172,7 +172,7 @@ fn three_letters(elements: &[char]) -> TossiKind {
         ('야', '말', '로') => TossiKind::Yamalro,
         ('이', '든', '지') => TossiKind::Deunji,
         ('이', '든', '가') => TossiKind::Deunka,
-        ('이', '라', '야') => TossiKind::Deunka,
+        ('이', '라', '야') => TossiKind::Raya,
         ('이', '라', '도') => TossiKind::Rado,
         (_, _, _) => TossiKind::Others,
     }
