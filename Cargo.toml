@@ -1,14 +1,14 @@
 [package]
 name = "tossicat"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2021"
 authors = ["Jae-Hwan Chung <dialektike@gmail.com>","Jess <dev.bearabbit@gmail.com>"]
-description = "TossiCat core is ~."
+description = "입력된 단어에 맞게 같이 입력된 토시(조사)를 적절하게 변환하는 라이브러리"
 license = "LGPL-2.1"
 keywords = ["Hangul", "library", "lib"]
-exclude = ["main.rs"] #crates.io에 업로드할 때 제외할 파일
+categories = ["development-tools", "text-processing"]
+exclude = ["main.rs", "/docs"] #crates.io에 업로드할 때 제외할 파일
 repository = "https://github.com/tossicat/tossicat-core"
-documentation = "https://github.com/tossicat/tossicat-core/blob/master/README.md"
 homepage = "https://github.com/tossicat/tossicat-core/blob/master/README.md"
 
 [lib]
