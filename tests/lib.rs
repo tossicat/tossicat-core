@@ -72,6 +72,14 @@ fn _postfix() {
     let tossi = "으로";
     let result = "4로";
     assert_eq!(result, postfix(word, tossi));
+
+    // 한글과 숫자가 같이 들어있는 경우에는 뒷부분에 숫자가 들어 있는 경우
+    // 숫자만 뽑아서 처리합니다.
+    // 그 예를 추가합니다.
+    let word = "천사1004";
+    let tossi = "은";
+    let result = "천사1004는";
+    assert_eq!(result, postfix(word, tossi));
 }
 
 #[test]
