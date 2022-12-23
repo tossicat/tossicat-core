@@ -9,6 +9,8 @@ keywords = ["Hangul", "library", "lib"]
 categories = ["development-tools", "text-processing"]
 exclude = ["main.rs", "/docs"] #crates.io에 업로드할 때 제외할 파일
 repository = "https://github.com/tossicat/tossicat-core"
+# documentation 항목이 없으면 자동적으로 https://docs.rs/ 에 올리고 
+# https://crates.io/ 에 링크를 넣어 줍니다.
 homepage = "https://github.com/tossicat/tossicat-core/blob/master/README.md"
 
 [lib]
