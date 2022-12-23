@@ -49,11 +49,6 @@ pub fn change_num_to_hangeul(word: &str) -> String {
     number::change_num_to_hangeul(word)
 }
 
-// tests/number.rs 에서 test 한다.
-pub fn change_int_char(num: char) -> char {
-    number::change_int_char(num)
-}
-
 /// ## 입력된 토시를 같이 입력된 단어에 맞게 변환해, 입력된 단어와 변환한 토시를 같이 반환하는 실질적인 함수
 ///
 /// 아래 `postfix()`, `pick()`, 두 함수 안에서 실질적인 역할을 하는 함수입니다.

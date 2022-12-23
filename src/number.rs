@@ -25,7 +25,7 @@ pub fn is_digits(num: char) -> bool {
 }
 
 /// ## 숫자 한 글자를 한글 발음으로 변환해주는 함수
-pub fn change_int_char(num: char) -> char {
+fn change_int_char(num: char) -> char {
     let idx: usize = num as usize;
     DIGITS[idx - 48]
 }
@@ -134,5 +134,38 @@ mod tests {
 
         let temp = '😀';
         assert_eq!(false, is_digits(temp));
+    }
+
+    #[test]
+    fn _change_int_char() {
+        let temp = '1';
+        assert_eq!('일', change_int_char(temp));
+
+        let temp = '2';
+        assert_eq!('이', change_int_char(temp));
+
+        let temp = '3';
+        assert_eq!('삼', change_int_char(temp));
+
+        let temp = '4';
+        assert_eq!('사', change_int_char(temp));
+
+        let temp = '5';
+        assert_eq!('오', change_int_char(temp));
+
+        let temp = '6';
+        assert_eq!('육', change_int_char(temp));
+
+        let temp = '7';
+        assert_eq!('칠', change_int_char(temp));
+
+        let temp = '8';
+        assert_eq!('팔', change_int_char(temp));
+
+        let temp = '9';
+        assert_eq!('구', change_int_char(temp));
+
+        let temp = '0';
+        assert_eq!('영', change_int_char(temp));
     }
 }
