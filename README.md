@@ -31,7 +31,7 @@ fn main() {
 결과: 를
 ```
 
-자세한 내용은 [docs.rs/tossicat/](https://docs.rs/tossicat) 참고하세요.
+자세한 내용은 [(https://crates.io/crates/tossicat](https://crates.io/crates/tossicat) 참고하세요.
 
 ## 왜 이 라이브러리가 필요할까?
 
