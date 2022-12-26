@@ -21,13 +21,43 @@ mod verifier;
 
 use identifier::{Tossi, TossiKind};
 
-// hangeul 모듈
-// tests/hangeul.rs 에서 test 한다.
+// hangeul 모듈에 있습니다.
+// tests/hangeul.rs 에서 test 합니다.
+
+/// ## 초,중,종성을 하나의 글자로 합쳐주는 함수
+///
+/// 이 함수는 기본적으로 입력된 것이 종성까지 가지고 있는다고 가정하고 작성하였습니다.
+/// 사용하기 위해서는 종성이 없는 경우에도 다음과 같이 종성 자리에 ` `를 넣어야 합니다.
+/// 만약 종성이 없이 글자를 만들려고 한다면  `['ㅈ','ㅏ',' ']`처럼
+/// 공백으로 종성을 넣어야 합니다. 만악 `['ㅈ','ㅏ','']` 처럼
+/// 한다면 에러가 발생합니다.
+///
+/// ```rust
+/// use tossicat::join_phonemes;
+/// assert_eq!('글', join_phonemes(['ㄱ','ㅡ','ㄹ']));
+/// assert_eq!('자', join_phonemes(['ㅈ','ㅏ',' ']));
+/// ```
+
 pub fn join_phonemes(word: [char; 3]) -> char {
     hangeul::join_phonemes(word)
 }
 
-// tests/hangeul.rs 에서 test 한다.
+// hangeul 모듈에 있습니다.
+// tests/hangeul.rs 에서 test 함니다.
+
+/// ## 한글 한 글자를 초,중,종성으로 분리해 주는 함수
+///
+/// 이 함수는 기본적으로 입력된 것이 종성이 없는 경우에도
+/// 종성을 스페이스, 즉 `' '`으로 반환한다.
+/// 예를 들어 만약 종성이 없는 경우에는 ' '으로 치환됩니다.
+/// 아래 2번째 예를 참고하세요.
+///
+/// ```rust
+/// use tossicat::split_phonemes;
+/// assert_eq!(['ㄱ','ㅡ','ㄹ'], split_phonemes('글'));
+/// assert_eq!(['ㅈ','ㅏ',' '], split_phonemes('자'));
+/// ```
+
 pub fn split_phonemes(word: char) -> [char; 3] {
     hangeul::split_phonemes(word)
 }
