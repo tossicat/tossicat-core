@@ -1,6 +1,6 @@
 [package]
 name = "tossicat"
-version = "0.3.0"
+version = "0.3.1"
 edition = "2021"
 authors = ["Jae-Hwan Chung <dialektike@gmail.com>","Jess <dev.bearabbit@gmail.com>"]
 description = "입력된 단어에 맞게 같이 입력된 토시(조사)를 적절하게 변환하는 라이브러리"
@@ -9,8 +9,7 @@ keywords = ["hangul", "hangeul", "library", "lib"]
 categories = ["development-tools", "text-processing"]
 exclude = ["main.rs", "/docs"] #crates.io에 업로드할 때 제외할 파일
 repository = "https://github.com/tossicat/tossicat-core"
-# documentation 항목이 없으면 자동적으로 https://docs.rs/ 에 올리고 
-# https://crates.io/ 에 링크를 넣어 줍니다.
+documentation = "https://docs.rs/tossicat"
 homepage = "https://github.com/tossicat/tossicat-core/blob/master/README.md"
 
 [lib]
