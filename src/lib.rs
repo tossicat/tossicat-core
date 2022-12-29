@@ -66,11 +66,46 @@ pub fn split_phonemes(word: char) -> [char; 3] {
 
 // filter 모듈
 // tests/filter.rs 에서 test 합니다.
+
+/// ## 입력된 문자열에서 마지막 글자를 찾아 주는함수
+///
+/// 만약 입력된 문자가 한글이 아니면 `N`을 반환합니다.
+/// 아래 2번째 예를 참고하세요.
+/// 숫자는 한글로 변환해서 마지막 글자를 뽑아냅니다.
+/// 아래 3번째 예를 참고하세요.
+/// 마지막 문자만을 뽑아내는 것이기 때문에 마지막 글자만 한글이나 숫자이면 됩니다.
+///
+/// ```rust
+/// use tossicat::find_last_letter;
+/// assert_eq!('자', find_last_letter("글자"));
+/// assert_eq!('N', find_last_letter("apple"));
+/// assert_eq!('삼', find_last_letter("123"));
+/// ```
+
 pub fn find_last_letter(word: &str) -> char {
     filter::find_last_letter(word)
 }
 
+// filter 모듈
 // tests/filter.rs 에 test 합니다.
+
+/// ## 종성만 찾아서 도출해주는 함수
+///
+/// 이 함수는 특정 문자열에서 마지막 글자의 종성만 도출합니다.
+/// 만약 마지막 글자가 종성이 없는 경우에는 스페이스, 즉 `' '`을 반환합니다.
+/// 예를 들어 만약 종성이 없는 경우에는 ' '으로 치환됩니다.
+/// 아래 2번째 예를 참고하세요.
+/// 만약 입력된 문자가 한글이 아니면 `N`을 반환합니다.
+/// 아래 4번째 예를 참고하세요.
+///
+/// ```rust
+/// use tossicat::guess_final_letter;
+/// assert_eq!('ㄹ', guess_final_letter("글"));
+/// assert_eq!(' ', guess_final_letter("글자"));
+/// assert_eq!('ㅇ', guess_final_letter("몸빵"));
+/// assert_eq!('N', guess_final_letter("apple"));
+/// ```
+
 pub fn guess_final_letter(word: &str) -> char {
     filter::guess_final_letter(word)
 }
