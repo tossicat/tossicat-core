@@ -45,7 +45,7 @@ pub fn join_phonemes(word: [char; 3]) -> char {
 }
 
 // hangeul 모듈에 있습니다.
-// tests/hangeul.rs 에서 test 함니다.
+// tests/hangeul.rs 에서 test 합니다.
 
 /// ## 한글 한 글자를 초, 중, 종성으로 분리해 주는 함수
 ///
@@ -65,12 +65,12 @@ pub fn split_phonemes(word: char) -> [char; 3] {
 }
 
 // filter 모듈
-// tests/filter.rs 에서 test 한다.
+// tests/filter.rs 에서 test 합니다.
 pub fn find_last_letter(word: &str) -> char {
     filter::find_last_letter(word)
 }
 
-// tests/filter.rs 에 test 가 한다.
+// tests/filter.rs 에 test 합니다.
 pub fn guess_final_letter(word: &str) -> char {
     filter::guess_final_letter(word)
 }
