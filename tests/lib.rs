@@ -83,28 +83,22 @@ fn _postfix() {
 }
 
 #[test]
-fn _verifiers() {
+fn _verifier() {
     // 둘 다 적절하다
     let temp = verifiers("하하하", "은");
-    assert_eq!(Ok(()), temp);
+    assert_eq!(0, temp);
     // 둘 다 적절하다
     let temp = verifiers("하하하", "는");
-    assert_eq!(Ok(()), temp);
+    assert_eq!(0, temp);
     // 단어는 적절하지만, 토시가 적절하지 않다.
     let temp = verifiers("하하하", "은은");
-    assert_eq!(Err("This value is not correct tossi."), temp);
+    assert_eq!(1, temp);
     // 단어도 마지막이 한글이고 토시도 적절하지만, 단어 길이가 50 글자 이상이다. 그래서 에러 처리
     let temp_word = "1테트리스2테트리스3테트리스4테트리스5테트리스6테트리스7테트리스8테트리스9테트리스10테트리스";
     let temp = verifiers(temp_word, "은");
-    assert_eq!(
-        Err("The length has been exceeded. Set the word length to less than 50."),
-        temp
-    );
+    assert_eq!(2, temp);
     // 단어도 마지막이 숫자이고 토시도 적절하지만, 단어 길이가 50 글자 이상이다. 그래서 에러 처리
     let temp_word = "테트리스1테트리스2테트리스3테트리스4테트리스5테트리스6테트리스7테트리스8테트리스9테트리스10";
     let temp = verifiers(temp_word, "은");
-    assert_eq!(
-        Err("The length has been exceeded. Set the word length to less than 50."),
-        temp
-    );
+    assert_eq!(2, temp);
 }

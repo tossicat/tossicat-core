@@ -188,6 +188,6 @@ pub fn pick(word: &str, tossi: &str) -> String {
 /// 4. 단어의 길이가 50자를 넘으면 처리하지 않도록 처리한다.
 ///
 /// 이 4가지를 만족하면 본 작업인 글자에 맞게 토시를 변환하게 된다.
-pub fn verifiers<'a>(word: &'a str, tossi: &'a str) -> Result<(), &'a str> {
-    verifier::verifiers(word, tossi)
+pub fn verifiers<'a>(word: &'a str, tossi: &'a str) -> i32 {
+    verifier::verifier(word, tossi)
 }

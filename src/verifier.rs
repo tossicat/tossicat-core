@@ -59,77 +59,58 @@ const TOSSI_LIST: [&str; 42] = [
 /// 이 4가지를 만족하면 본 작업인 글자에 맞게 토시를 변환하게 된다.
 /// 이 함수의 사용법은 `tests/lib.rs`에서 `verifiers()`를 테스트 하는
 /// `_verifiers()` 부분을 살펴보시면 됩니다.
-pub fn verifiers<'a>(word: &'a str, tossi: &'a str) -> Result<(), &'a str> {
-    if verifier_tossi(tossi) != Ok(()) {
-        verifier_tossi(tossi)
-    } else if limit_word_len(word) != Ok(()) {
-        limit_word_len(word)
+pub fn verifier<'a>(word: &'a str, tossi: &'a str) -> i32 {
+    if verifier_tossi(tossi) != 0 {
+        1
+    } else if limit_word_len(word) != 0 {
+        2
     } else {
-        Ok(())
+        0
     }
 }
 
-// 올바른 토씨를 입력했는지 확인해주는 함수
-fn verifier_tossi(tossi: &str) -> Result<(), &str> {
-    let mut status = 0;
+//올바른 토씨를 입력했는지 확인해주는 함수
+fn verifier_tossi(tossi: &str) -> i32 {
     for check in TOSSI_LIST.iter() {
         if check == &tossi {
-            status = 1;
-            break;
+            return 0
         }
     }
-    if status == 1 {
-        Ok(())
-    } else {
-        Err("This value is not correct tossi.")
-    }
+    1
 }
 
-// 파라미터롤 받는 단어를 제한 기준 함수
-fn limit_word_len(word: &str) -> Result<(), &str> {
+//파라미터롤 받는 단어를 제한 기준 함수
+fn limit_word_len(word: &str) -> i32 {
     let limitation = 50;
     if word.chars().count() <= limitation {
-        Ok(())
-    } else {
-        Err("The length has been exceeded. Set the word length to less than 50.")
+        return 0
     }
+    1
 }
 
-#[test]
-fn _limit_word_len() {
-    let temp = "12345";
-    assert_eq!(Ok(()), limit_word_len(temp));
+ #[test]
+ fn _limit_word_len() {
+     let temp = "12345";
+     assert_eq!(0, limit_word_len(temp));
 
-    let temp = "아이디는 50자까지 설정이 가능합니다.";
-    assert_eq!(Ok(()), limit_word_len(temp));
+     let temp = "아이디는 50자까지 설정이 가능합니다.";
+     assert_eq!(0, limit_word_len(temp));
 
-    let temp = "10000000000000000000000000000000000000000000000000000";
-    assert_eq!(
-        Err("The length has been exceeded. Set the word length to less than 50."),
-        limit_word_len(temp)
-    );
+     let temp = "10000000000000000000000000000000000000000000000000000";
+     assert_eq!(1, limit_word_len(temp));
 
-    let temp = "테트리스1테트리스2테트리스3테트리스4테트리스5테트리스6테트리스7테트리스8테트리스9테트리스10";
-    assert_eq!(
-        Err("The length has been exceeded. Set the word length to less than 50."),
-        limit_word_len(temp)
-    );
+     let temp = "테트리스1테트리스2테트리스3테트리스4테트리스5테트리스6테트리스7테트리스8테트리스9테트리스10";
+     assert_eq!(1, limit_word_len(temp));
 
-    let temp = "1테트리스2테트리스3테트리스4테트리스5테트리스6테트리스7테트리스8테트리스9테트리스10테트리스";
-    assert_eq!(
-        Err("The length has been exceeded. Set the word length to less than 50."),
-        limit_word_len(temp)
-    );
-}
+     let temp = "1테트리스2테트리스3테트리스4테트리스5테트리스6테트리스7테트리스8테트리스9테트리스10테트리스";
+     assert_eq!(1, limit_word_len(temp));
+ }
 
-#[test]
-fn _verifier_tossi() {
-    let temp = "까지";
-    assert_eq!(Ok(()), verifier_tossi(temp));
+ #[test]
+ fn _verifier_tossi() {
+     let temp = "까지";
+     assert_eq!(0, verifier_tossi(temp));
 
-    let temp = "류현지";
-    assert_eq!(
-        Err("This value is not correct tossi."),
-        verifier_tossi(temp)
-    );
-}
+     let temp = "류현지";
+     assert_eq!(1, verifier_tossi(temp));
+ }
