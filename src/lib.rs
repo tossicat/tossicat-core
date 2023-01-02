@@ -14,6 +14,7 @@
 //! 위의 기능을 구현하기 위해서 작성한 몇개의 함수도 같이 공개합니다.
 //! 자세한 내용은 각 함수 설명을 참고하세요.
 
+mod bracket;
 mod filter;
 mod hangeul;
 mod identifier;
@@ -22,6 +23,10 @@ mod transfer;
 mod verifier;
 
 use identifier::{Tossi, TossiKind};
+
+pub fn brackets(string: &str) {
+    bracket::find_pairs(string)
+}
 
 // hangeul 모듈에 있습니다.
 // tests/hangeul.rs 에서 test 합니다.
