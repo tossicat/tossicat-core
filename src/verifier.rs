@@ -48,7 +48,7 @@ const TOSSI_LIST: [&str; 42] = [
     "한테",
 ];
 
-use crate::error::{InvalidValue};
+use crate::error::InvalidValue;
 
 /// 변환하기 전에 입력된 것들이 변환가능한 것인지 검사하는 함수
 /// 위에서부터 아래 조건 문을 순서대로 살펴 보겠다.
@@ -61,9 +61,9 @@ use crate::error::{InvalidValue};
 /// 이 4가지를 만족하면 본 작업인 글자에 맞게 토시를 변환하게 된다.
 /// 이 함수의 사용법은 `tests/lib.rs`에서 `verifiers()`를 테스트 하는
 /// `_verifiers()` 부분을 살펴보시면 됩니다.
-/// 
+///
 
-pub fn verifier<'a>(word: &'a str, tossi: &'a str) -> Result<(),InvalidValue> {
+pub fn verifier<'a>(word: &'a str, tossi: &'a str) -> Result<(), InvalidValue> {
     if !is_verifier_tossi(tossi) {
         Err(InvalidValue::InvalidTossi)
     } else if over_limit_word_len(word) {
@@ -93,44 +93,43 @@ fn over_limit_word_len(word: &str) -> bool {
 }
 
 #[test]
- fn _over_limit_word_len() {
-     let temp = "12345";
-     assert_eq!(false, over_limit_word_len(temp));
+fn _over_limit_word_len() {
+    let temp = "12345";
+    assert_eq!(false, over_limit_word_len(temp));
 
-     let temp = "아이디는 50자까지 설정이 가능합니다.";
-     assert_eq!(false, over_limit_word_len(temp));
+    let temp = "아이디는 50자까지 설정이 가능합니다.";
+    assert_eq!(false, over_limit_word_len(temp));
 
-     let temp = "10000000000000000000000000000000000000000000000000000";
-     assert_eq!(true, over_limit_word_len(temp));
+    let temp = "10000000000000000000000000000000000000000000000000000";
+    assert_eq!(true, over_limit_word_len(temp));
 
-     let temp = "테트리스1테트리스2테트리스3테트리스4테트리스5테트리스6테트리스7테트리스8테트리스9테트리스10";
-     assert_eq!(true, over_limit_word_len(temp));
+    let temp = "테트리스1테트리스2테트리스3테트리스4테트리스5테트리스6테트리스7테트리스8테트리스9테트리스10";
+    assert_eq!(true, over_limit_word_len(temp));
 
-     let temp = "1테트리스2테트리스3테트리스4테트리스5테트리스6테트리스7테트리스8테트리스9테트리스10테트리스";
-     assert_eq!(true, over_limit_word_len(temp));
- }
+    let temp = "1테트리스2테트리스3테트리스4테트리스5테트리스6테트리스7테트리스8테트리스9테트리스10테트리스";
+    assert_eq!(true, over_limit_word_len(temp));
+}
 
- #[test]
- fn _is_verifier_tossi() {
-     let temp = "까지";
-     assert_eq!(true, is_verifier_tossi(temp));
+#[test]
+fn _is_verifier_tossi() {
+    let temp = "까지";
+    assert_eq!(true, is_verifier_tossi(temp));
 
-     let temp = "류현지";
-     assert_eq!(false, is_verifier_tossi(temp));
- }
+    let temp = "류현지";
+    assert_eq!(false, is_verifier_tossi(temp));
+}
 
- #[test]
- fn _verifier() {
-     let word = "코코아";
-     let tossi = "까지";
-     assert_eq!(Ok(()), verifier(word, tossi));
+#[test]
+fn _verifier() {
+    let word = "코코아";
+    let tossi = "까지";
+    assert_eq!(Ok(()), verifier(word, tossi));
 
-     let word = "코코아";
-     let tossi = "먹고싶다";
-     assert_eq!(Err(InvalidValue::InvalidTossi), verifier(word, tossi));
+    let word = "코코아";
+    let tossi = "먹고싶다";
+    assert_eq!(Err(InvalidValue::InvalidTossi), verifier(word, tossi));
 
-     let word = "코코아코코아코코아코코아코코아코코아코코아코코아코코아코코아코코아코코아코코아코코아코코아코코아코코아코코아코코아코코아";
-     let tossi = "는";
-     assert_eq!(Err(InvalidValue::LimitLength), verifier(word, tossi));
-
- }
+    let word = "코코아코코아코코아코코아코코아코코아코코아코코아코코아코코아코코아코코아코코아코코아코코아코코아코코아코코아코코아코코아";
+    let tossi = "는";
+    assert_eq!(Err(InvalidValue::LimitLength), verifier(word, tossi));
+}

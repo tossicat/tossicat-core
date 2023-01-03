@@ -199,10 +199,10 @@ pub fn verifiers<'a>(word: &'a str, tossi: &'a str) -> String {
     match verifier::verifier(word, tossi) {
         Err(error::InvalidValue::InvalidTossi) => {
             return format!("{}", ValueError::new(error::InvalidValue::InvalidTossi));
-        },
+        }
         Err(error::InvalidValue::LimitLength) => {
             return format!("{}", ValueError::new(error::InvalidValue::LimitLength));
-        },
-        Ok(()) => "Success".to_string()
+        }
+        Ok(()) => "Success".to_string(),
     }
 }
