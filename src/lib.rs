@@ -15,13 +15,13 @@
 //! 자세한 내용은 각 함수 설명을 참고하세요.
 
 mod bracket;
+mod error;
 mod filter;
 mod hangeul;
 mod identifier;
 mod number;
 mod transfer;
 mod verifier;
-mod error;
 
 use error::ValueError;
 use identifier::{Tossi, TossiKind};
