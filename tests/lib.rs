@@ -96,9 +96,15 @@ fn _verifier() {
     // 단어도 마지막이 한글이고 토시도 적절하지만, 단어 길이가 50 글자 이상이다. 그래서 에러 처리
     let temp_word = "1테트리스2테트리스3테트리스4테트리스5테트리스6테트리스7테트리스8테트리스9테트리스10테트리스";
     let temp = verifiers(temp_word, "은");
-    assert_eq!("The length has been exceeded. Set the word length to less than 50.", temp);
+    assert_eq!(
+        "The length has been exceeded. Set the word length to less than 50.",
+        temp
+    );
     // 단어도 마지막이 숫자이고 토시도 적절하지만, 단어 길이가 50 글자 이상이다. 그래서 에러 처리
     let temp_word = "테트리스1테트리스2테트리스3테트리스4테트리스5테트리스6테트리스7테트리스8테트리스9테트리스10";
     let temp = verifiers(temp_word, "은");
-    assert_eq!("The length has been exceeded. Set the word length to less than 50.", temp);
+    assert_eq!(
+        "The length has been exceeded. Set the word length to less than 50.",
+        temp
+    );
 }
