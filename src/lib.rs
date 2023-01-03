@@ -198,12 +198,10 @@ pub fn pick(word: &str, tossi: &str) -> String {
 pub fn verifiers<'a>(word: &'a str, tossi: &'a str) -> String {
     match verifier::verifier(word, tossi) {
         Err(error::InvalidValue::InvalidTossi) => {
-            let error_cmt = ValueError::new(error::InvalidValue::InvalidTossi);
-            return format!("{}", error_cmt);
+            return format!("{}", ValueError::new(error::InvalidValue::InvalidTossi));
         },
         Err(error::InvalidValue::LimitLength) => {
-            let error_cmt = ValueError::new(error::InvalidValue::LimitLength);
-            return format!("{}", error_cmt);
+            return format!("{}", ValueError::new(error::InvalidValue::LimitLength));
         },
         Ok(()) => "Success".to_string()
     }
