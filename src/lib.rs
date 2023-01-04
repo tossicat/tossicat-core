@@ -26,8 +26,24 @@ mod verifier;
 use error::ValueError;
 use identifier::{Tossi, TossiKind};
 
-pub fn brackets(string: &str) -> (bool, Vec<(String, String)>) {
-    bracket::find_pairs(string)
+pub fn modify_sentence(string: &str) -> (bool, String) {
+    // let mut original_copy = string;
+    let mut sentence = String::from(string);
+    let temp = bracket::modify_pairs(string);
+    let mut temp_tossi_num: Vec<bool> = vec![];
+    for item in temp.1 {
+        let temp = postfix(&item.1, &item.2);
+        // 만약 분석할 결과가 모두 빈 것이라면 빈
+        if &temp.replace(' ', "").len().to_string() == "0" {
+            temp_tossi_num.push(false);
+            return (false, sentence);
+        } else {
+            temp_tossi_num.push(true);
+            let original = "{".to_string() + &item.0 + "}";
+            sentence = sentence.replace(&original, &temp);
+        }
+    }
+    (true, sentence)
 }
 
 // hangeul 모듈에 있습니다.

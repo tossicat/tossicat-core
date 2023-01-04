@@ -1,5 +1,5 @@
-use tossicat::brackets;
 use tossicat::join_phonemes;
+use tossicat::modify_sentence;
 use tossicat::pick;
 use tossicat::postfix;
 use tossicat::verifiers;
@@ -20,12 +20,20 @@ fn main() {
     // 아래 것은 '누가'가 나와야 합니다.
     println!("결과: {}", postfix("누구", "이"));
     println!("결과: {}", join_phonemes(['ㅋ', 'ㅔ', 'ㅅ']));
+    let test = "{철수, 은} {영희,   과} {밥,  를} 먹습니다.";
+    println!("테스트 문장: {}", test);
+    let testing = modify_sentence(test);
+    if testing.0{
+        println!("결과 문장: {:?}", testing.1);
+    } else {
+        println!("문제가 있습니다.");
+    }
     let test = "{철수, 은} {영희,   과} {밥,  를} {,,} 먹습니다.";
     println!("테스트 문장: {}", test);
-    let temp = brackets(test);
-    println!("temp 결과: {:?}", temp);
-    for item in temp.1 {
-        println!("결과: {}", postfix(&item.0, &item.1));
+    let testing = modify_sentence(test);
+    if testing.0{
+        println!("결과 문장: {:?}", testing.1);
+    } else {
+        println!("문제가 있습니다.");
     }
-    println!("결과: {:?}", test.replace("{철수, 은}", "철수는"));
 }
