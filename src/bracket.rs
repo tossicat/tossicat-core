@@ -56,7 +56,7 @@ fn split_tossi_word(
     } else {
         let mut i = 0;
         for item in temp {
-            let temp = item.trim().replace("char", "");
+            let temp = item.trim().replace(' ', "");
             if i == 0 {
                 results.0 = temp;
                 i += 1;
