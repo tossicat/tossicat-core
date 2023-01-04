@@ -1,42 +1,160 @@
-//! # 괄호를 다루는 모듈
+//! # 괄호에 들어 있는 단어와 토시를 다루는 모듈
 //!
-//! 이 모듈은 다양한 괄호('{' | '[' | '(' )를 가 들어 있는 문자열에서
-//! 입력된 문자열에 들어 있는 괄호들이 올바른 짝이 있는지를 파악하고
-//! 이렇게 파악된 결과에 따라 올바른 괄호 쌍의 위치를 알려주는 역할을 한다.
+//! 이 모듈은 다양한 괄호('{' | '[' | '(' )에 `,`로 분리되어 들어 있는
+//! 단어와 문자열을 뽑아내는 역할을 합니다.
+//! 이 일을 하는 이유는 단어 하나, 토시 하나로 된 것만 분석하는 것이 아니라,
+//! 특정 문장에 이런 쌍이 많이 들어 있는 문장이 입력될 때 이를 이 라이브러리 안에서
+//! 한 번에 처리할 수 있게 하고 싶기 때문입니다.
+//!
+//! ## 에러 처리 기준
 //!
 //! 이 라이브러리에서는 "{철수,와} {밥,를} 먹습니다." 과 같은 것을 분석하려고 하기 때문에
-//! 괄호 안의 괄호가 들어 있는 즉 중첩된 괄호도 분석할 필요가 없습니다. 
+//! 괄호 안의 괄호가 들어 있는 즉 중첩된 괄호도 분석할 필요가 없습니다.
 //! 따라서 만약 괄호 안의 괄호가 들어 있는 문자열이 들어오면 처리하지 않고,
 //! false를 반환하게 됩니다.
-//! 
+//!
 
-pub fn find_pairs(string: &str){
-    let temp = are_balanced(string);
+pub fn find_pairs(string: &str) -> (bool, Vec<(String, String)>) {
+    let mut temp_result: Vec<(String, String)> = vec![];
+    let content = are_balanced(string);
+    println!("are_balanced: {:?}: ", content);
+    let content = find_pairs_nums(content.1);
+    println!("find_pairs_nums: {:?}, {:?}", content.1, content.1.len());
+    for item in 0..content.1.len() {
+        let temp = split_tossi_word(string, content.1[item].open, content.1[item].close);
+        println!("temp_splited: {:?}", (temp.1, &temp.2 .0, &temp.2 .1));
+        temp_result.push(temp.2);
+        if !temp.0 {
+            return (false, temp_result);
+        }
+    }
+    (true, temp_result)
+}
 
-    if temp.0 {
-        let mut open_brackets: Vec<usize> = vec![];
-        let mut close_brackets: Vec<usize> = vec![];
-        for item in temp.1 {
-            // 아래 `match`는 중괄호, "{}"만 있는지 확인하기 위한 것입니다.
-            match item.2 {
-                '{' | '}' => {
-                    if item.1 != 1 {
-                        return println!("in No 1 deep");
-                    } else if item.2 == '{' {
-                        open_brackets.push(item.0);
-                    } else {
-                        close_brackets.push(item.0);
-                    }
-                }
-                _ => return println!("in No WFF!"),
+/// ## 괄호 짝이 올바른 문장에서 올바른 짝의 열린 괄호와 닫힌 괄호의 숫자를 반환하는 함수   
+///
+/// `find_pairs_nums()` 함수로 처리되어 문제가 없는, 즉 `true`과 반환된
+/// `[BracketPair { open: 0, close: 6 }]`과 같은 요소로 구성된`Vec`를 처리하는
+/// 함수입니다. 이것들 가지고 입력된 `string`에서 중괄호, 즉 `{, }`로 쌓여 있는 문자열을
+/// 뽑아낸 다음 그 문장이 쉼표, 즉 `,`로 하나로 되어 있는지 확인합니다. 만약 2개 이상이면
+/// `false`를 반환하면서 분석을 멈추게 됩니다.
+/// 만약 1개이면 앞뒤로 문자열을 쪼갠 다음, 이 2개의 문자열의 앞 뒤에 있는 공백을 제거한 다음
+/// 이 두 쌍의 문자열, 분석을 성공했기 때문에 `true`, 그리고 원본 문자열을 반환합니다.
+
+fn split_tossi_word(
+    string: &str,
+    start_num: usize,
+    end_num: usize,
+) -> (bool, String, (String, String)) {
+    let temp = string.chars().collect::<Vec<_>>();
+    let temp_splited = temp[start_num + 1..end_num]
+        .iter()
+        .cloned()
+        .collect::<String>();
+    let temp: Vec<&str> = temp_splited.split(',').collect();
+    let mut results: (String, String) = (" ".to_owned(), " ".to_owned());
+    if temp.len() != 2 {
+        return (false, temp_splited, results);
+    } else {
+        let mut i = 0;
+        for item in temp {
+            let temp = item.trim().replace("char", "");
+            if i == 0 {
+                results.0 = temp;
+                i += 1;
+            } else {
+                results.1 = temp;
+                i -= 1;
             }
         }
-        println!("{:?}", open_brackets);
-        println!("{:?}", close_brackets);
-    } else {
-        println!("No WFF!");
     }
+    (true, temp_splited, results)
 }
+
+/// ## 괄호 짝이 올바른 문장에서 올바른 짝의 열린 괄호와 닫힌 괄호의 숫자를 반환하는 함수   
+///
+/// 이 함수를 사용하기 전에 알아야 할 점을 살펴봅시다. 이 함수를 사용하려면, 사용할 문장이
+/// `are_balanced()` 함수를 통해서 처리된 것만을 사용할 수 있습니다.
+/// `are_balanced()` 함수는 입력된 문장에 들어 있는 괄호의 짝이 올바른 짝으로 구성되어 있다면,
+/// `true`를, 구성되어 있지 않다면 `false`를 반환합니다.  
+/// 그러나 현재 설명하고 있는 `find_pairs_nums()` 함수는 `true`을 반환한 것의 자료,
+/// 즉 짝이 올바른 것들로만 `Vec`가 들어 온다고 가정할 것입니다.
+/// 따라서 이 함수를 쓰기 전에 `are_balanced()` 함수를 통해  `false`를 받는 문장은
+/// 예러 처리해야 합니다.
+///
+/// 이 `find_pairs_nums()` 함수는 `[(0, 1, '{'), (6, 1, '}')]`과 같은 `Vec`를
+/// 받습니다. 각 요소에 대한 설명은 `are_balanced()`를 참고하세요. 이 `Vec` 안에 들어 있는
+/// 값은 단지 해당 괄호 쌍이 어디부터 어디인지 알려주지 않습니다. 이 함수가 그것을 알려주는 역할을
+/// 합니다. 예를 들어 앞의 `Vec`는 `BracketPair { open: 0, close: 6 }`과 같이
+/// 처리합니다. 이는 첫번째 괄호 짝이 분석할 문자열의 0번째부터 시작해 6번째에 끝난다는 것을
+/// 알려주는 것입니다. 이렇게 이 함수는 여러개의 올바른 괄호를 시작 번호와 끝나는 번호를
+/// 반환해주는 역할을 합니다.
+///
+/// 그렇게 하면서 2가지는 제한합니다.
+///
+/// 1. 우선 괄호는 중괄호, `{,}`만을 다룹니다. 그래서 다른 형식의 괄호가 발견된다면,
+/// `false`를 반환하고 실행을 끝냅니다.
+///
+/// 2. 중첩된 괄호를 처리하지 않습니다. 이 라이브러리 특성상 처리하고자 하는 것은 `{철수, 은}`과 같은
+/// 것입니다. 따라서 중첩된 괄호를 분석할 필요가 없습니다. 왜냐하면 중괄호에 들어 있는 2개의 요소를 가지고
+/// 분석하는 것이 이 라이브러리의 목표이기 때문입니다. 따라서 중첩된 괄호가 발견된다면,
+/// `false`를 반환하고 실행을 끝냅니다.
+
+#[derive(Debug)]
+struct BracketPair {
+    open: usize,
+    close: usize,
+}
+
+fn find_pairs_nums(temp_vec: Vec<(usize, i32, char)>) -> (bool, Vec<BracketPair>) {
+    let mut brackets: Vec<BracketPair> = vec![];
+    let mut temp_open = 0;
+    for item in temp_vec {
+        // 아래 if 는 중괄호, "{}"만 있는지 확인하기 위한 것입니다.
+        if let '{' | '}' = item.2 {
+            // 아래 `if`문은 깊이가 1단계 인지 아닌지 확인하는 것입니다.
+            // 코드를 진행하다가 1단계가 이상이 있으면 바로 정지합니다.
+            if item.1 != 1 {
+                // println!("in No 1 deep");
+                return (false, brackets);
+            // 앞에서 1단계
+            } else if item.2 == '{' {
+                temp_open = item.0;
+            } else {
+                brackets.push(BracketPair {
+                    open: temp_open,
+                    close: item.0,
+                });
+            }
+        } else {
+            // println!("in No WFF!");
+            return (false, brackets);
+        }
+    }
+    (false, brackets)
+}
+
+/// ## 입력된 괄호들의 짝이 올바른지 검사하고 숫자인지 아닌지 확인하는 함수
+///
+/// 입력된 문장 안에 있는 괄호들의 짝이 모두 올바르면,
+/// 첫 번째 반환 값은 `true`, 아니면 `false`이 됩니다.
+/// 따라서 이 값이 `false`이면, 입력된 문장을 처리할 필요가 없습니다.
+/// 곧장 에러 처리하면 됩니다.
+/// 두 번째 반환값은 괄호의 정보를 저장한 튜플로 구성된 `Vec`입니다.
+/// 주의할 점은 첫 번째 반환 값인 `bool` 값이 `false`이더라도
+/// `Vec` 값의 원소는 빈 껍데기를 반환하는 것이 아니라
+/// 짝이 올바른지 파악할 때까지 분석한 것이 들어있게 됩니다.
+/// 왜냐하면 입력된 문장 전체를 분석하기 전에는 이 문장에 들어있는 괄호들이 올바른 짝을
+/// 구성하고 있는지 결정할 수 없기 때문입니다.
+///
+/// 아래 `Vec`의 구성 요소인 튜플의 2번째 값은 괄호 안에 괄호가 들어 있는 경우를
+/// 분석한 것입니다. 수학에서처럼 안에 들어 있는 괄호를 해결해야 밖에 있는 괄호를
+/// 처리할 수 있기 때문에 안에 들어 있는 괄호가 우선 순위가 높게 되는 것입니다.
+///
+/// `Vec`의 구성 요소인 튜플의 각 원소 값은 다음과 같습니다.
+/// - 첫 번째: 해당 괄호의 위치 숫자
+/// - 두 번째: 해당 괄호의 우선 순위?
+/// - 세 번째: 해당 괄호를 `char`로 저장
 
 enum Bracket {
     Open(char),
@@ -54,23 +172,6 @@ impl Bracket {
         }
     }
 }
-
-/// ## 입력된 괄호가 짝이 올바른지 검사하고 숫자인지 아닌지 확인하는 함수
-/// 
-/// 첫 번째 값은 우선 짝이 맞지 않으면, `true`, 아니면 `false`를 반환합니다.
-/// 두 번째 값은 괄호의 정보를 저장한 튜플로 구성된 `Vec`입니다.
-/// 만약 첫 번째 반환 값인 `bool` 값이 `false`이 될 것이며,
-/// `Vec` 값의 원소는 빈 껍데기를 반환하는 것이 아니라
-/// 짝이 올바른지 파악할 때까지 분석한 것이 들어있게 됩니다.
-/// 
-/// 아래 `Vec`의 구성 요소인 튜플의 2번째 값은 괄호 안에 괄호가 들어 있는 경우를 
-/// 분석한 것입니다. 수학에서처럼 안에 들어 있는 괄호를 해결해야 밖에 있는 괄호를 
-/// 처리할 수 있기 때문에 안에 들어 있는 괄호가 우선 순위가 높게 되는 것입니다.
-///
-/// `Vec`의 구성 요소인 튜플의 각 원소 값은 다음과 같습니다.
-/// - 첫 번째: 해당 괄호의 위치 숫자
-/// - 두 번째: 해당 괄호의 우선 순위?
-/// - 세 번째: 해당 괄호를 `char`로 저장
 
 fn are_balanced(string: &str) -> (bool, Vec<(usize, i32, char)>) {
     let mut brackets: Vec<Bracket> = vec![];
@@ -105,6 +206,7 @@ fn are_balanced(string: &str) -> (bool, Vec<(usize, i32, char)>) {
 /// 비 공개 함수 테스트
 #[cfg(test)]
 mod tests {
+
     use super::*;
 
     #[test]
@@ -122,7 +224,7 @@ mod tests {
         let result = (true, v);
         assert_eq!(result, are_balanced(temp));
         // 괄호 짝이 맞지 않는 경우 입니다.
-        // 당연히 반환값 중 첫 번째 값이 `false`가 되지만, 
+        // 당연히 반환값 중 첫 번째 값이 `false`가 되지만,
         // `false`를 판정할때까지 분석한 내용이 들어 `Vec`는 반환합니다.
         // 자세한 내용은 앞의 `are_balanced()` 설명을 참고하세요.
         let temp = "{[]";

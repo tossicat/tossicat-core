@@ -26,7 +26,7 @@ mod verifier;
 use error::ValueError;
 use identifier::{Tossi, TossiKind};
 
-pub fn brackets(string: &str) {
+pub fn brackets(string: &str) -> (bool, Vec<(String, String)>) {
     bracket::find_pairs(string)
 }
 
