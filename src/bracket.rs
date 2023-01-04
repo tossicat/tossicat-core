@@ -12,18 +12,16 @@
 //! 괄호 안의 괄호가 들어 있는 즉 중첩된 괄호도 분석할 필요가 없습니다.
 //! 따라서 만약 괄호 안의 괄호가 들어 있는 문자열이 들어오면 처리하지 않고,
 //! false를 반환하게 됩니다.
-//!
 
-pub fn find_pairs(string: &str) -> (bool, Vec<(String, String)>) {
-    let mut temp_result: Vec<(String, String)> = vec![];
+pub fn modify_pairs(string: &str) -> (bool, Vec<(String, String, String)>) {
+    let mut temp_result: Vec<(String, String, String)> = vec![];
     let content = are_balanced(string);
-    println!("are_balanced: {:?}: ", content);
+    // println!("are_balanced: {:?}: ", content);
     let content = find_pairs_nums(content.1);
-    println!("find_pairs_nums: {:?}, {:?}", content.1, content.1.len());
+    // println!("find_pairs_nums: {:?}, {:?}", content.1, content.1.len());
     for item in 0..content.1.len() {
         let temp = split_tossi_word(string, content.1[item].open, content.1[item].close);
-        println!("temp_splited: {:?}", (temp.1, &temp.2 .0, &temp.2 .1));
-        temp_result.push(temp.2);
+        temp_result.push((temp.1, temp.2 .0, temp.2 .1));
         if !temp.0 {
             return (false, temp_result);
         }
@@ -39,7 +37,7 @@ pub fn find_pairs(string: &str) -> (bool, Vec<(String, String)>) {
 /// 뽑아낸 다음 그 문장이 쉼표, 즉 `,`로 하나로 되어 있는지 확인합니다. 만약 2개 이상이면
 /// `false`를 반환하면서 분석을 멈추게 됩니다.
 /// 만약 1개이면 앞뒤로 문자열을 쪼갠 다음, 이 2개의 문자열의 앞 뒤에 있는 공백을 제거한 다음
-/// 이 두 쌍의 문자열, 분석을 성공했기 때문에 `true`, 그리고 원본 문자열을 반환합니다.
+/// 이 두 쌍의 문자열과 원본 문자열, 그리고 분석을 성공했기 때문에 `true`를 반환합니다.
 
 fn split_tossi_word(
     string: &str,
