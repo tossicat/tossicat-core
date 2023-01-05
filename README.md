@@ -1,6 +1,6 @@
 # TossiCat core
 
-![This is an image](./doc/logo/tossicat_core_logo.png)
+![This is an image](../doc/logo/tossicat_core_logo.png)
 
 이 프로젝트는 [tossi](https://github.com/what-studio/tossi)에서 영감을 받았습니다. 파이썬으로 구현된 앞의 **tossi**처럼 이 프로젝트도 임의의 단어와 그 단어에 붙일 조사(즉 토시)를 입력하면, 입력한 조사를 같이 입력한 단어에 자연스러운 형태로 바꿔서 반환해 줍니다.
 
