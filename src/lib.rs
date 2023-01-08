@@ -210,7 +210,7 @@ pub fn pick(word: &str, tossi: &str) -> String {
 /// 3. 변환할 수 있는 토시인지 아닌지 파악한다.
 /// 4. 단어의 길이가 50자를 넘으면 처리하지 않도록 처리한다.
 ///
-/// 이 4가지를 만족하면 본 작업인 글자에 맞게 토시를 변환하게 된다.
+/// 이 4가지를 만족하면 Success라고 반환하며, 문제가 있다면 에러 원인을 반환합니다.
 pub fn value_verifier<'a>(word: &'a str, tossi: &'a str) -> String {
     match verifier::verify_value(word, tossi) {
         Err(error::ValueErrorType::InvalidTossi) => {
