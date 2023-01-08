@@ -48,7 +48,8 @@ const TOSSI_LIST: [&str; 42] = [
     "한테",
 ];
 
-use crate::error::InvalidValue;
+use crate::error::{ValueErrorType, ParseErrorType};
+use crate::modify_sentence;
 
 /// 변환하기 전에 입력된 것들이 변환가능한 것인지 검사하는 함수
 /// 위에서부터 아래 조건 문을 순서대로 살펴 보겠다.
@@ -62,12 +63,22 @@ use crate::error::InvalidValue;
 /// 이 함수의 사용법은 `tests/lib.rs`에서 `verifiers()`를 테스트 하는
 /// `_verifiers()` 부분을 살펴보시면 됩니다.
 ///
+/// 
+pub fn verify_sentence<'a>(sentence: &'a str) -> Result<(), ParseErrorType> {
+    let stc = modify_sentence(sentence);
+    if stc.0 {
+        Ok(())
+    }
+    else {
+        Err(ParseErrorType::InvalidParentheses)
+    }
+}
 
-pub fn verifier<'a>(word: &'a str, tossi: &'a str) -> Result<(), InvalidValue> {
+pub fn verify_value<'a>(word: &'a str, tossi: &'a str) -> Result<(), ValueErrorType> {
     if !is_verifier_tossi(tossi) {
-        Err(InvalidValue::InvalidTossi)
+        Err(ValueErrorType::InvalidTossi)
     } else if over_limit_word_len(word) {
-        Err(InvalidValue::LimitLength)
+        Err(ValueErrorType::LimitLength)
     } else {
         Ok(())
     }
@@ -123,13 +134,13 @@ fn _is_verifier_tossi() {
 fn _verifier() {
     let word = "코코아";
     let tossi = "까지";
-    assert_eq!(Ok(()), verifier(word, tossi));
+    assert_eq!(Ok(()), verify_value(word, tossi));
 
     let word = "코코아";
     let tossi = "먹고싶다";
-    assert_eq!(Err(InvalidValue::InvalidTossi), verifier(word, tossi));
+    assert_eq!(Err(ValueErrorType::InvalidTossi), verify_value(word, tossi));
 
     let word = "코코아코코아코코아코코아코코아코코아코코아코코아코코아코코아코코아코코아코코아코코아코코아코코아코코아코코아코코아코코아";
     let tossi = "는";
-    assert_eq!(Err(InvalidValue::LimitLength), verifier(word, tossi));
+    assert_eq!(Err(ValueErrorType::LimitLength), verify_value(word, tossi));
 }
