@@ -13,12 +13,24 @@
 //! 따라서 만약 괄호 안의 괄호가 들어 있는 문자열이 들어오면 처리하지 않고,
 //! false를 반환하게 됩니다.
 
+/// ## 입력된 문장 안의 여러 개의 단어와 토시 쌍을 뽑아내서 적절한 토시로 변경하는 함수
+///
+/// 이 `bracket` 모듈에서 최종 함수입니다. 이 함수 아래에 있는 다음 함수들을 사용하고 있습니다.
+/// 
+/// - `are_balanced()`
+/// - `find_pairs_nums()`
+/// - `split_tossi_word()
+/// 
+/// 각각의 함수에 대한 자세한 내용은 해당 함수의 설명을 참고하세요. 
+/// 
+
 pub fn modify_pairs(string: &str) -> (bool, Vec<(String, String, String)>) {
     let mut temp_result: Vec<(String, String, String)> = vec![];
     let content = are_balanced(string);
-    // println!("are_balanced: {:?}: ", content);
+    println!("are_balanced: {:?}: ", content);
     let content = find_pairs_nums(content.1);
     // println!("find_pairs_nums: {:?}, {:?}", content.1, content.1.len());
+    println!("find_pairs_nums: {:?}", content);
     for item in 0..content.1.len() {
         let temp = split_tossi_word(string, content.1[item].open, content.1[item].close);
         temp_result.push((temp.1, temp.2 .0, temp.2 .1));
@@ -129,7 +141,7 @@ fn find_pairs_nums(temp_vec: Vec<(usize, i32, char)>) -> (bool, Vec<BracketPair>
             return (false, brackets);
         }
     }
-    (false, brackets)
+    (true, brackets)
 }
 
 /// ## 입력된 괄호들의 짝이 올바른지 검사하고 숫자인지 아닌지 확인하는 함수
