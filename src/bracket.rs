@@ -138,6 +138,7 @@ fn find_pairs_nums(temp_vec: Vec<(usize, i32, char)>) -> (bool, Vec<BracketPair>
                 });
             }
         } else {
+            // 즉 중괄호 아닌 괄호가 있는 경우에 여기로 옵니다.
             // println!("in No WFF!");
             return (false, brackets);
         }
@@ -284,7 +285,7 @@ mod tests {
         // 원래는 이 함수에 도달할 수 없지만, 테스트 파일에 넣어 봤습니다.
         // 당연히 반환값 중 첫 번ㅉ 값은 `false`이 나옵니다.
         // `false`를 판정할때까지 분석한 내용이 들어 있는 `Vec`는 반환해야 하지만, 
-        // 하나 밖에 없는 괄호의 짝이 없기 때문에 두 번째 값은 빈 것만 반환하게 됨니다.
+        // 하나 밖에 없는 괄호의 짝이 없기 때문에 두 번째 값은 빈 `Vec`만 반환하게 됩니다.
         let temp = vec![(0, 1, '{'), (1, 2, '['), (2, 2, ']')];
         let result = (false, vec![]);
         assert_eq!(result, find_pairs_nums(temp));
