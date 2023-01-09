@@ -16,13 +16,13 @@
 /// ## 입력된 문장 안의 여러 개의 단어와 토시 쌍을 뽑아내서 적절한 토시로 변경하는 함수
 ///
 /// 이 `bracket` 모듈에서 최종 함수입니다. 이 함수 아래에 있는 다음 함수들을 사용하고 있습니다.
-/// 
+///
 /// - `are_balanced()`
 /// - `find_pairs_nums()`
 /// - `split_tossi_word()
-/// 
-/// 각각의 함수에 대한 자세한 내용은 해당 함수의 설명을 참고하세요. 
-/// 
+///
+/// 각각의 함수에 대한 자세한 내용은 해당 함수의 설명을 참고하세요.
+///
 
 pub fn modify_pairs(string: &str) -> (bool, Vec<(String, String, String)>) {
     let mut temp_result: Vec<(String, String, String)> = vec![];
@@ -110,7 +110,8 @@ fn split_tossi_word(
 /// 분석하는 것이 이 라이브러리의 목표이기 때문입니다. 따라서 중첩된 괄호가 발견된다면,
 /// `false`를 반환하고 실행을 끝냅니다.
 
-#[derive(Debug)]
+// 테스트 코드 작성을 위해 `PartialEq` 키워드 추가
+#[derive(Debug, PartialEq)]
 struct BracketPair {
     open: usize,
     close: usize,
@@ -216,7 +217,6 @@ fn are_balanced(string: &str) -> (bool, Vec<(usize, i32, char)>) {
 /// 비 공개 함수 테스트
 #[cfg(test)]
 mod tests {
-
     use super::*;
 
     #[test]
@@ -241,5 +241,52 @@ mod tests {
         let v = vec![(0, 1, '{'), (1, 2, '['), (2, 2, ']')];
         let result = (false, v);
         assert_eq!(result, are_balanced(temp));
+    }
+
+    #[test]
+    fn _find_pairs_nums() {
+        // `find_pairs_nums()` 설명에서도 언급한 것처럼 이 함수는 짝이 올바른 것만
+        // 들어온다고 가정하고 있습니다.
+        // 자세한 내용은 앞의 `find_pairs_nums()` 설명을 참고하세요.
+        // 아래 테스트 코드는 짝이 맞는 경우 입니다. 참고로 아래 `temp` 는
+        // 다음 코드에서 나온 것입니다.
+        // `let test = "{철수, 은} {영희,   과} {밥,  를} 먹습니다.";
+        // 괄호 깊이가 1단계이고 모두 같은 중괄호, `{,} 이기 때문에 적절하게
+        // 적절하게 처리할 수 있습니다.
+        let temp: Vec<(usize, i32, char)> = vec![
+            (0, 1, '{'),
+            (6, 1, '}'),
+            (8, 1, '{'),
+            (16, 1, '}'),
+            (18, 1, '{'),
+            (24, 1, '}'),
+        ];
+        let result = (
+            true,
+            vec![
+                BracketPair { open: 0, close: 6 },
+                BracketPair { open: 8, close: 16 },
+                BracketPair {
+                    open: 18,
+                    close: 24,
+                },
+            ],
+        );
+        assert_eq!(result, find_pairs_nums(temp));
+        // 아래 테스트 코드는 당연히 중괄호가 아닌 대괄호가 있기 때문에 첫 번째 값이 `false`가 되지만,
+        // `false`를 판정할때까지 분석한 내용이 들어 있는 `Vec`는 반환합니다.
+        // 그래서 첫 번째 중 괄호만 분석해서 반환합니다.
+        let temp: Vec<(usize, i32, char)> =
+            vec![(0, 1, '{'), (6, 1, '}'), (8, 1, '['), (16, 1, ']')];
+        let result = (false, vec![BracketPair { open: 0, close: 6 }]);
+        assert_eq!(result, find_pairs_nums(temp));
+        // 괄호 짝이 맞지 않는 경우 입니다.
+        // 원래는 이 함수에 도달할 수 없지만, 테스트 파일에 넣어 봤습니다.
+        // 당연히 반환값 중 첫 번ㅉ 값은 `false`이 나옵니다.
+        // `false`를 판정할때까지 분석한 내용이 들어 있는 `Vec`는 반환해야 하지만, 
+        // 하나 밖에 없는 괄호의 짝이 없기 때문에 두 번째 값은 빈 것만 반환하게 됨니다.
+        let temp = vec![(0, 1, '{'), (1, 2, '['), (2, 2, ']')];
+        let result = (false, vec![]);
+        assert_eq!(result, find_pairs_nums(temp));
     }
 }
