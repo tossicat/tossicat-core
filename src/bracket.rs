@@ -35,12 +35,14 @@ pub fn modify_pairs(string: &str) -> Result<Vec<(String, String, String)>, Brack
     } else {
         let content = find_pairs_nums(content.1);
         if !content.0 {
-            Err(BracketErrorType::PairsNums)
+            Err(BracketErrorType::NestedParentheses)
+        } else if !content.1 {
+            Err(BracketErrorType::IsNotBrace)
         } else {
             // println!("find_pairs_nums: {:?}, {:?}", content.1, content.1.len());
             // println!("find_pairs_nums: {:?}", content);
-            for item in 0..content.1.len() {
-                let temp = split_tossi_word(string, content.1[item].open, content.1[item].close);
+            for item in 0..content.2.len() {
+                let temp = split_tossi_word(string, content.2[item].open, content.2[item].close);
                 println!("temp: {:?}", temp);
                 temp_result.push((temp.1, temp.2 .0, temp.2 .1));
                 if !temp.0 {
@@ -114,12 +116,12 @@ fn split_tossi_word(
 /// 그렇게 하면서 2가지는 제한합니다.
 ///
 /// 1. 우선 괄호는 중괄호, `{,}`만을 다룹니다. 그래서 다른 형식의 괄호가 발견된다면,
-/// `false`를 반환하고 실행을 끝냅니다.
+/// `true, false`를 반환하고 실행을 끝냅니다.
 ///
 /// 2. 중첩된 괄호를 처리하지 않습니다. 이 라이브러리 특성상 처리하고자 하는 것은 `{철수, 은}`과 같은
 /// 것입니다. 따라서 중첩된 괄호를 분석할 필요가 없습니다. 왜냐하면 중괄호에 들어 있는 2개의 요소를 가지고
 /// 분석하는 것이 이 라이브러리의 목표이기 때문입니다. 따라서 중첩된 괄호가 발견된다면,
-/// `false`를 반환하고 실행을 끝냅니다.
+/// `(false, true,`를 반환하고 실행을 끝냅니다.
 
 // 테스트 코드 작성을 위해 `PartialEq` 키워드 추가
 #[derive(Debug, PartialEq)]
@@ -128,7 +130,7 @@ struct BracketPair {
     close: usize,
 }
 
-fn find_pairs_nums(temp_vec: Vec<(usize, i32, char)>) -> (bool, Vec<BracketPair>) {
+fn find_pairs_nums(temp_vec: Vec<(usize, i32, char)>) -> (bool, bool, Vec<BracketPair>) {
     let mut brackets: Vec<BracketPair> = vec![];
     let mut temp_open = 0;
     for item in temp_vec {
@@ -138,7 +140,7 @@ fn find_pairs_nums(temp_vec: Vec<(usize, i32, char)>) -> (bool, Vec<BracketPair>
             // 코드를 진행하다가 1단계가 이상이 있으면 바로 정지합니다.
             if item.1 != 1 {
                 // println!("in No 1 deep");
-                return (false, brackets);
+                return (false, true, brackets);
             // 앞에서 1단계
             } else if item.2 == '{' {
                 temp_open = item.0;
@@ -151,10 +153,10 @@ fn find_pairs_nums(temp_vec: Vec<(usize, i32, char)>) -> (bool, Vec<BracketPair>
         } else {
             // 즉 중괄호 아닌 괄호가 있는 경우에 여기로 옵니다.
             // println!("in No WFF!");
-            return (false, brackets);
+            return (true, false, brackets);
         }
     }
-    (true, brackets)
+    (true, true, brackets)
 }
 
 /// ## 입력된 괄호들의 짝이 올바른지 검사하고 숫자인지 아닌지 확인하는 함수
@@ -275,6 +277,7 @@ mod tests {
         ];
         let result = (
             true,
+            true,
             vec![
                 BracketPair { open: 0, close: 6 },
                 BracketPair { open: 8, close: 16 },
@@ -290,7 +293,7 @@ mod tests {
         // 그래서 첫 번째 중 괄호만 분석해서 반환합니다.
         let temp: Vec<(usize, i32, char)> =
             vec![(0, 1, '{'), (6, 1, '}'), (8, 1, '['), (16, 1, ']')];
-        let result = (false, vec![BracketPair { open: 0, close: 6 }]);
+        let result = (false, false, vec![BracketPair { open: 0, close: 6 }]);
         assert_eq!(result, find_pairs_nums(temp));
         // 괄호 짝이 맞지 않는 경우 입니다.
         // 원래는 이 함수에 도달할 수 없지만, 테스트 파일에 넣어 봤습니다.
@@ -298,7 +301,7 @@ mod tests {
         // `false`를 판정할때까지 분석한 내용이 들어 있는 `Vec`는 반환해야 하지만,
         // 하나 밖에 없는 괄호의 짝이 없기 때문에 두 번째 값은 빈 `Vec`만 반환하게 됩니다.
         let temp = vec![(0, 1, '{'), (1, 2, '['), (2, 2, ']')];
-        let result = (false, vec![]);
+        let result = (false, false, vec![]);
         assert_eq!(result, find_pairs_nums(temp));
     }
 }
