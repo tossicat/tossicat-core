@@ -13,6 +13,8 @@
 //! 따라서 만약 괄호 안의 괄호가 들어 있는 문자열이 들어오면 처리하지 않고,
 //! false를 반환하게 됩니다.
 
+use crate::error::BracketErrorType;
+
 /// ## 입력된 문장 안의 여러 개의 단어와 토시 쌍을 뽑아내서 적절한 토시로 변경하는 함수
 ///
 /// 이 `bracket` 모듈에서 최종 함수입니다. 이 함수 아래에 있는 다음 함수들을 사용하고 있습니다.
@@ -21,25 +23,33 @@
 /// - `find_pairs_nums()`
 /// - `split_tossi_word()
 ///
-/// 각각의 함수에 대한 자세한 내용은 해당 함수의 설명을 참고하세요.
+/// 각각의 함수에 대한 자세한 내용은 해당 함수의 설명을 참고하세요. 대락적인 소개를 하면
 ///
 
-pub fn modify_pairs(string: &str) -> (bool, Vec<(String, String, String)>) {
+pub fn modify_pairs(string: &str) -> Result<Vec<(String, String, String)>, BracketErrorType> {
     let mut temp_result: Vec<(String, String, String)> = vec![];
     let content = are_balanced(string);
     // println!("are_balanced: {:?}: ", content);
-    let content = find_pairs_nums(content.1);
-    // println!("find_pairs_nums: {:?}, {:?}", content.1, content.1.len());
-    // println!("find_pairs_nums: {:?}", content);
-    for item in 0..content.1.len() {
-        let temp = split_tossi_word(string, content.1[item].open, content.1[item].close);
-        println!("temp: {:?}", temp);
-        temp_result.push((temp.1, temp.2 .0, temp.2 .1));
-        if !temp.0 {
-            return (false, temp_result);
+    if !content.0 {
+        Err(BracketErrorType::AreNotBalanced)
+    } else {
+        let content = find_pairs_nums(content.1);
+        if !content.0 {
+            Err(BracketErrorType::PairsNums)
+        } else {
+            // println!("find_pairs_nums: {:?}, {:?}", content.1, content.1.len());
+            // println!("find_pairs_nums: {:?}", content);
+            for item in 0..content.1.len() {
+                let temp = split_tossi_word(string, content.1[item].open, content.1[item].close);
+                println!("temp: {:?}", temp);
+                temp_result.push((temp.1, temp.2 .0, temp.2 .1));
+                if !temp.0 {
+                    return Err(BracketErrorType::SplitTossiWord);
+                }
+            }
+            Ok(temp_result)
         }
     }
-    (true, temp_result)
 }
 
 /// ## 중 괄호로 쌓여 있는 문자를 뽑아내서 쉽표로 두 개로 분리해 반환하는 함수

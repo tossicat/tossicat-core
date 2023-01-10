@@ -23,15 +23,19 @@ mod number;
 mod transfer;
 mod verifier;
 
-use error::{ValueError, ParseError};
+use error::{ParseError, ValueError};
 use identifier::{Tossi, TossiKind};
 
 pub fn modify_sentence(string: &str) -> (bool, String) {
     // let mut original_copy = string;
     let mut sentence = String::from(string);
-    let temp = bracket::modify_pairs(string);
+    // let temp = bracket::modify_pairs(string);
+    let temp = match bracket::modify_pairs(string) {
+        Ok(temp) => temp,
+        Err(e) => panic!("{:?} 오류 발생!", e),
+    };
     let mut temp_tossi_num: Vec<bool> = vec![];
-    for item in temp.1 {
+    for item in temp {
         let temp = postfix(&item.1, &item.2);
         // 만약 분석할 결과가 모두 빈 것이라면 빈
         if &temp.replace(' ', "").len().to_string() == "0" {
