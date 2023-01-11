@@ -36,8 +36,19 @@ use identifier::{Tossi, TossiKind};
 /// 중괄호, `{,}`를 제거해 완전한 문장으로 바꿔 변환해 줍니다.
 ///
 /// 보기: `"{철수, 은} {영희,   과} {밥,  를} 먹습니다.";`
+/// 
 /// 변환 결과: `"철수는 영희와 밥을 먹습니다.";`
-///
+/// 
+/// 구체적인 사용 방법은 다음과 같습니다.
+/// 
+/// ```rust
+/// use tossicat::modify_sentence;
+///     
+/// let test = "{철수, 은} {영희,   과} {밥,  를} 먹습니다.";
+/// let result = "철수는 영희와 밥을 먹습니다.";
+/// assert_eq!(result, modify_sentence(test).1);
+/// ```
+
 
 pub fn modify_sentence(string: &str) -> (bool, String) {
     // let mut original_copy = string;

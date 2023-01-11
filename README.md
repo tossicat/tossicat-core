@@ -16,12 +16,12 @@
 
 ## 사용법
 
-사용하는 방법은 다음과 같습니다. 현재 프로젝트 안에 있는 `Cargo.toml` 파일에서 `[dependencies]` 다음에 `tossicat = "0.3.2"`을 다음과 같이 추가해 주세요.
+사용하는 방법은 다음과 같습니다. 현재 프로젝트 안에 있는 `Cargo.toml` 파일에서 `[dependencies]` 다음에 `tossicat = "0.4.1"`을 다음과 같이 추가해 주세요.
 
 ```toml
 [dependencies]
 
-tossicat = "0.3.2"
+tossicat = "0.4.2"
 ```
 
 이제 여러분의 코드에서 다음과 같이 `tossicat`에 들어 있는 함수를 다음과 같이 사용할 수 있습니다.
@@ -34,7 +34,7 @@ use tossicat::modify_sentence;
 fn main() {
     println!("결과: {}", postfix("사과", "을"));
     println!("결과: {}", pick("사과", "을"));
-    println!("결과: {}", modify_sentence("{철수, 은} {영희,   과} {밥,  를} 먹습니다."));
+    println!("결과: {}", modify_sentence("{철수, 은} {영희,   과} {밥,  를} 먹습니다.").1);
 }
 ```
 
