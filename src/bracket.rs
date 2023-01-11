@@ -21,10 +21,18 @@ use crate::error::BracketErrorType;
 ///
 /// - `are_balanced()`
 /// - `find_pairs_nums()`
-/// - `split_tossi_word()
+/// - `split_tossi_word()`
 ///
 /// 각각의 함수에 대한 자세한 내용은 해당 함수의 설명을 참고하세요. 대락적인 소개를 하면
-///
+/// 다음과 같습니다. 참고로 이 함수들은 입력된 문장이 변환하기에 올바른 것인지 아닌지도
+/// 평가합니다. 부적합한 것이라면 3 함수 모두 `false` 값을 반환합니다.
+/// 우선 `are_balanced()` 함수로 괄호 쌍이 맞는지 확인하면서 괼호 쌍을 분석해서
+/// 어떤 위치에 있는 괄호가 어떤 괄호와 쌍인지 반환합니다. 이렇게 반환한 값을 토대로  
+/// `find_pairs_nums()` 함수는 중접되지 않는 중괄호를 순서대로 괄호가 열리는 위치와
+/// 닫히는 위치를 반환합니다. 이때 중괄호가 아니면, 중접된 괄호가 있으면 정지합니다.
+/// 마지막으로 `split_tossi_word()`은 중괄호 안에 있는 내용을 순서대로 뽑아내서
+/// 단어와 이 단어에 붙일 토시를 분리하고, `("철수, 은", "철수", "은")`과 같이
+/// 첫번째 값은 원본, 두 번째 값은 단어, 그리고 세 번째 값은 토시로 반환합니다.
 
 pub fn modify_pairs(string: &str) -> Result<Vec<(String, String, String)>, BracketErrorType> {
     let mut temp_result: Vec<(String, String, String)> = vec![];
@@ -94,6 +102,13 @@ fn split_tossi_word(
     (true, temp_splited, results)
 }
 
+// 테스트 코드 작성을 위해 `PartialEq` 키워드 추가
+#[derive(Debug, PartialEq)]
+struct BracketPair {
+    open: usize,
+    close: usize,
+}
+
 /// ## 괄호 짝이 올바른 문장에서 올바른 짝의 열린 괄호와 닫힌 괄호의 숫자를 반환하는 함수   
 ///
 /// 이 함수를 사용하기 전에 알아야 할 점을 살펴봅시다. 이 함수를 사용하려면, 사용할 문장이
@@ -122,13 +137,6 @@ fn split_tossi_word(
 /// 것입니다. 따라서 중첩된 괄호를 분석할 필요가 없습니다. 왜냐하면 중괄호에 들어 있는 2개의 요소를 가지고
 /// 분석하는 것이 이 라이브러리의 목표이기 때문입니다. 따라서 중첩된 괄호가 발견된다면,
 /// `(false, true,`를 반환하고 실행을 끝냅니다.
-
-// 테스트 코드 작성을 위해 `PartialEq` 키워드 추가
-#[derive(Debug, PartialEq)]
-struct BracketPair {
-    open: usize,
-    close: usize,
-}
 
 fn find_pairs_nums(temp_vec: Vec<(usize, i32, char)>) -> (bool, bool, Vec<BracketPair>) {
     let mut brackets: Vec<BracketPair> = vec![];
@@ -159,6 +167,23 @@ fn find_pairs_nums(temp_vec: Vec<(usize, i32, char)>) -> (bool, bool, Vec<Bracke
     (true, true, brackets)
 }
 
+enum Bracket {
+    Open(char),
+    Close(char),
+}
+
+impl Bracket {
+    pub fn new(c: char) -> Option<Bracket> {
+        match c {
+            '{' | '[' | '(' => Some(Bracket::Open(c)),
+            '}' => Some(Bracket::Close('{')),
+            ']' => Some(Bracket::Close('[')),
+            ')' => Some(Bracket::Close('(')),
+            _ => None,
+        }
+    }
+}
+
 /// ## 입력된 괄호들의 짝이 올바른지 검사하고 숫자인지 아닌지 확인하는 함수
 ///
 /// 입력된 문장 안에 있는 괄호들의 짝이 모두 올바르면,
@@ -180,23 +205,6 @@ fn find_pairs_nums(temp_vec: Vec<(usize, i32, char)>) -> (bool, bool, Vec<Bracke
 /// - 첫 번째: 해당 괄호의 위치 숫자
 /// - 두 번째: 해당 괄호의 우선 순위?
 /// - 세 번째: 해당 괄호를 `char`로 저장
-
-enum Bracket {
-    Open(char),
-    Close(char),
-}
-
-impl Bracket {
-    pub fn new(c: char) -> Option<Bracket> {
-        match c {
-            '{' | '[' | '(' => Some(Bracket::Open(c)),
-            '}' => Some(Bracket::Close('{')),
-            ']' => Some(Bracket::Close('[')),
-            ')' => Some(Bracket::Close('(')),
-            _ => None,
-        }
-    }
-}
 
 fn are_balanced(string: &str) -> (bool, Vec<(usize, i32, char)>) {
     let mut brackets: Vec<Bracket> = vec![];
