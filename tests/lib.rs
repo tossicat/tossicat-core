@@ -88,7 +88,7 @@ fn _verifier() {
     let temp = value_verifier("하하하", "은");
     assert_eq!("Success", temp);
     // 둘 다 적절하다
-    let temp =value_verifier("하하하", "는");
+    let temp = value_verifier("하하하", "는");
     assert_eq!("Success", temp);
     // 단어는 적절하지만, 토시가 적절하지 않다.
     let temp = value_verifier("하하하", "은은");

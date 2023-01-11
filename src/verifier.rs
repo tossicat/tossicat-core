@@ -48,7 +48,7 @@ const TOSSI_LIST: [&str; 42] = [
     "한테",
 ];
 
-use crate::error::{ValueErrorType, ParseErrorType};
+use crate::error::{ParseErrorType, ValueErrorType};
 use crate::modify_sentence;
 
 /// 변환하기 전에 입력된 것들이 변환가능한 것인지 검사하는 함수
@@ -63,13 +63,12 @@ use crate::modify_sentence;
 /// 이 함수의 사용법은 `tests/lib.rs`에서 `verifiers()`를 테스트 하는
 /// `_verifiers()` 부분을 살펴보시면 됩니다.
 ///
-/// 
+///
 pub fn verify_sentence<'a>(sentence: &'a str) -> Result<(), ParseErrorType> {
     let stc = modify_sentence(sentence);
     if stc.0 {
         Ok(())
-    }
-    else {
+    } else {
         Err(ParseErrorType::InvalidParentheses)
     }
 }
