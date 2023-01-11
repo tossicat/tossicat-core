@@ -2,7 +2,7 @@ use tossicat::bracket::modify_pairs;
 
 #[test]
 
-fn _modify_sentence() {
+fn _modify_pairs() {
     let temp: String = "{철수, 은} {영희,   과} {밥,  를} 먹습니다.".to_owned();
     let result = Ok(vec![
         ("철수, 은".to_owned(), "철수".to_owned(), "은".to_owned()),
