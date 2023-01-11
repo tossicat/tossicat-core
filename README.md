@@ -19,10 +19,12 @@ tossicat = "0.3.2"
 ```rust
 use tossicat::pick;
 use tossicat::postfix;
+use tossicat::modify_sentence;
 
 fn main() {
     println!("결과: {}", postfix("사과", "을"));
     println!("결과: {}", pick("사과", "을"));
+    println!("결과: {}", modify_sentence("{철수, 은} {영희,   과} {밥,  를} 먹습니다."));
 }
 ```
 
@@ -31,6 +33,7 @@ fn main() {
 ```cmd
 결과: 사과를
 결과: 를
+결과: "철수는 영희와 밥을 먹습니다."
 ```
 
 자세한 내용은 [https://crates.io/crates/tossicat](https://crates.io/crates/tossicat) 참고하세요.
