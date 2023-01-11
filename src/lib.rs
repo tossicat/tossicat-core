@@ -26,6 +26,19 @@ mod verifier;
 use error::{ParseError, ValueError};
 use identifier::{Tossi, TossiKind};
 
+// bracket 모듈에 있습니다.
+// tests/bracket.rs 에서 test 합니다.
+
+/// ## 변경할 토시가 여러 개 들어 있는 문장을 적절한 토시로 변경해 문장을 반환하는 함수  
+///
+/// 아래 보기 같이 변결할 단어와 토시가 중괄호로 여러 개를 감싸고 있는 문장에서
+/// 토시를 같이 입력된 단어에 맞게 적절한 토시로 일괄적으로 변경해서 아래 변환 결과처럼
+/// 중괄호, `{,}`를 제거해 완전한 문장으로 바꿔 변환해 줍니다.
+///
+/// 보기: `"{철수, 은} {영희,   과} {밥,  를} 먹습니다.";`
+/// 변환 결과: `"철수는 영희와 밥을 먹습니다.";`
+///
+
 pub fn modify_sentence(string: &str) -> (bool, String) {
     // let mut original_copy = string;
     let mut sentence = String::from(string);
