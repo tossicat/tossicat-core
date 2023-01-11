@@ -14,7 +14,7 @@
 //! 위의 기능을 구현하기 위해서 작성한 몇개의 함수도 같이 공개합니다.
 //! 자세한 내용은 각 함수 설명을 참고하세요.
 
-mod bracket;
+pub mod bracket;
 mod error;
 mod filter;
 mod hangeul;
