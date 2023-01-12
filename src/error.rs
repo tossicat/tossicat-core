@@ -78,14 +78,14 @@ impl fmt::Display for ParseError {
     }
 }
 
-/// BracketErrorType 의 종류
+/// SentenceErrorType 의 종류
 ///
 /// - AreNotBalanced : 괄호 짝이 안 맞습니다.
 /// - IsNotBrace : "{,}" 과 같은 중괄호가 아닙니다.
 /// - NestedParentheses: 중복 중괄호가 있습니다. 여기는 1단계만 처리합니다.
 /// - SplitTossiWord: 입력된 것에서 토시와 단어로 분리할 수 없습니다.
 #[derive(Debug, PartialEq)]
-pub enum BracketErrorType {
+pub enum SentenceErrorType {
     AreNotBalanced,
     IsNotBrace,
     NestedParentheses,

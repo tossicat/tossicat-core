@@ -13,7 +13,7 @@
 //! 따라서 만약 괄호 안의 괄호가 들어 있는 문자열이 들어오면 처리하지 않고,
 //! false를 반환하게 됩니다.
 
-use crate::error::BracketErrorType;
+use crate::error::SentenceErrorType;
 
 /// ## 입력된 문장 안의 여러 개의 단어와 토시 쌍을 뽑아내서 적절한 토시로 변경하는 함수
 ///
@@ -34,18 +34,18 @@ use crate::error::BracketErrorType;
 /// 단어와 이 단어에 붙일 토시를 분리하고, `("철수, 은", "철수", "은")`과 같이
 /// 첫번째 값은 원본, 두 번째 값은 단어, 그리고 세 번째 값은 토시로 반환합니다.
 
-pub fn modify_pairs(string: &str) -> Result<Vec<(String, String, String)>, BracketErrorType> {
+pub fn modify_pairs(string: &str) -> Result<Vec<(String, String, String)>, SentenceErrorType> {
     let mut temp_result: Vec<(String, String, String)> = vec![];
     let content = are_balanced(string);
     // println!("are_balanced: {:?}: ", content);
     if !content.0 {
-        Err(BracketErrorType::AreNotBalanced)
+        Err(SentenceErrorType::AreNotBalanced)
     } else {
         let content = find_pairs_nums(content.1);
         if !content.0 {
-            Err(BracketErrorType::NestedParentheses)
+            Err(SentenceErrorType::NestedParentheses)
         } else if !content.1 {
-            Err(BracketErrorType::IsNotBrace)
+            Err(SentenceErrorType::IsNotBrace)
         } else {
             // println!("find_pairs_nums: {:?}, {:?}", content.1, content.1.len());
             // println!("find_pairs_nums: {:?}", content);
@@ -54,7 +54,7 @@ pub fn modify_pairs(string: &str) -> Result<Vec<(String, String, String)>, Brack
                 println!("temp: {:?}", temp);
                 temp_result.push((temp.1, temp.2 .0, temp.2 .1));
                 if !temp.0 {
-                    return Err(BracketErrorType::SplitTossiWord);
+                    return Err(SentenceErrorType::SplitTossiWord);
                 }
             }
             Ok(temp_result)
