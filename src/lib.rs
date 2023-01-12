@@ -33,7 +33,7 @@ mod number;
 mod transfer;
 mod verifier;
 
-use error::{ParseError, ValueError};
+use error::{SentenceType, ValueError};
 use identifier::{Tossi, TossiKind};
 
 // bracket 모듈에 있습니다.
@@ -55,32 +55,31 @@ use identifier::{Tossi, TossiKind};
 /// use tossicat::modify_sentence;
 ///     
 /// let test = "{철수, 은} {영희,   과} {밥,  를} 먹습니다.";
-/// let result = "철수는 영희와 밥을 먹습니다.";
-/// assert_eq!(result, modify_sentence(test).1);
+/// let result = Ok("철수는 영희와 밥을 먹습니다.".to_string());
+/// assert_eq!(result, modify_sentence(test));
 /// ```
 
-pub fn modify_sentence(string: &str) -> (bool, String) {
+pub fn modify_sentence(string: &str) -> Result<String, SentenceType> {
     // let mut original_copy = string;
     let mut sentence = String::from(string);
     // let temp = bracket::modify_pairs(string);
     let temp = match bracket::modify_pairs(string) {
         Ok(temp) => temp,
-        Err(e) => panic!("{:?} 오류 발생!", e),
+        Err(e) => return Err(e),
     };
     let mut temp_tossi_num: Vec<bool> = vec![];
     for item in temp {
         let temp = postfix(&item.1, &item.2);
-        // 만약 분석할 결과가 모두 빈 것이라면 빈
         if &temp.replace(' ', "").len().to_string() == "0" {
             temp_tossi_num.push(false);
-            return (false, sentence);
+            return Err(SentenceType::IsEmpty);
         } else {
             temp_tossi_num.push(true);
             let original = "{".to_string() + &item.0 + "}";
             sentence = sentence.replace(&original, &temp);
         }
     }
-    (true, sentence)
+    Ok(sentence)
 }
 
 // hangeul 모듈에 있습니다.

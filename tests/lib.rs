@@ -1,4 +1,11 @@
-use tossicat::{postfix, value_verifier};
+use tossicat::{modify_sentence, postfix, value_verifier};
+
+#[test]
+fn _modify_sentence() {
+    let test = "{철수, 은} {영희,   과} {밥,  를} 먹습니다.";
+    let result = Ok("철수는 영희와 밥을 먹습니다.".to_string());
+    assert_eq!(result, modify_sentence(test));
+}
 
 #[test]
 fn _postfix() {
