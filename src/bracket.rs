@@ -51,7 +51,7 @@ pub fn modify_pairs(string: &str) -> Result<Vec<(String, String, String)>, Sente
             // println!("find_pairs_nums: {:?}", content);
             for item in 0..content.2.len() {
                 let temp = split_tossi_word(string, content.2[item].open, content.2[item].close);
-                println!("temp: {:?}", temp);
+                // println!("temp: {:?}", temp);
                 temp_result.push((temp.1, temp.2 .0, temp.2 .1));
                 if !temp.0 {
                     return Err(SentenceErrorType::SplitTossiWord);
