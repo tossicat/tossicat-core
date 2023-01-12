@@ -49,7 +49,7 @@ const TOSSI_LIST: [&str; 42] = [
 ];
 
 use crate::error::{ParseErrorType, ValueErrorType};
-use crate::modify_sentence;
+// use crate::modify_sentence;
 
 /// 변환하기 전에 입력된 것들이 변환가능한 것인지 검사하는 함수
 /// 위에서부터 아래 조건 문을 순서대로 살펴 보겠다.
@@ -64,14 +64,14 @@ use crate::modify_sentence;
 /// `_verifiers()` 부분을 살펴보시면 됩니다.
 ///
 ///
-pub fn verify_sentence<'a>(sentence: &'a str) -> Result<(), ParseErrorType> {
-    let stc = modify_sentence(sentence);
-    if stc.0 {
-        Ok(())
-    } else {
-        Err(ParseErrorType::InvalidParentheses)
-    }
-}
+// pub fn verify_sentence<'a>(sentence: &'a str) -> Result<(), ParseErrorType> {
+//     let stc = modify_sentence(sentence);
+//     if stc.0 {
+//         Ok(())
+//     } else {
+//         Err(ParseErrorType::InvalidParentheses)
+//     }
+// }
 
 pub fn verify_value<'a>(word: &'a str, tossi: &'a str) -> Result<(), ValueErrorType> {
     if !is_verifier_tossi(tossi) {
