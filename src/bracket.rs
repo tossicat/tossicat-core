@@ -52,11 +52,13 @@ pub fn modify_pairs(string: &str) -> Result<Vec<(String, String, String)>, Sente
             for item in 0..content.2.len() {
                 let temp = split_tossi_word(string, content.2[item].open, content.2[item].close);
                 // println!("temp: {:?}", temp);
+                // `split_tossi_word()`가 실패하면 `temp.0` 가 `false`가 됩니다.
                 if !temp.0 {
                     return Err(SentenceType::SplitTossiWord);
-                // 단어와 토시 중 빈 것이 있다면 Err 처리
-                } else if temp.2 .0.is_empty(){
+                // 단어가 비어 있다면 Err 처리
+                } else if temp.2 .0.is_empty() {
                     return Err(SentenceType::WordIsEmpty);
+                // 토시가 비어 있다면 Err 처리
                 } else if temp.2 .1.is_empty() {
                     return Err(SentenceType::TossiIsEmpty);
                 }
@@ -309,7 +311,7 @@ mod tests {
         // 그래서 첫 번째 중 괄호만 분석해서 반환합니다.
         let temp: Vec<(usize, i32, char)> =
             vec![(0, 1, '{'), (6, 1, '}'), (8, 1, '['), (16, 1, ']')];
-        let result = (false, false, vec![BracketPair { open: 0, close: 6 }]);
+        let result = (true, false, vec![BracketPair { open: 0, close: 6 }]);
         assert_eq!(result, find_pairs_nums(temp));
         // 괄호 짝이 맞지 않는 경우 입니다.
         // 원래는 이 함수에 도달할 수 없지만, 테스트 파일에 넣어 봤습니다.

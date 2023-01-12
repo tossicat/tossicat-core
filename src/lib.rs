@@ -70,14 +70,9 @@ pub fn modify_sentence(string: &str) -> Result<String, SentenceType> {
     let mut temp_tossi_num: Vec<bool> = vec![];
     for item in temp {
         let temp = postfix(&item.1, &item.2);
-        if &temp.replace(' ', "").len().to_string() == "0" {
-            temp_tossi_num.push(false);
-            return Err(SentenceType::IsEmpty);
-        } else {
-            temp_tossi_num.push(true);
-            let original = "{".to_string() + &item.0 + "}";
-            sentence = sentence.replace(&original, &temp);
-        }
+        temp_tossi_num.push(true);
+        let original = "{".to_string() + &item.0 + "}";
+        sentence = sentence.replace(&original, &temp);
     }
     Ok(sentence)
 }
