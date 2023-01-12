@@ -13,7 +13,7 @@ fn main() {
     println!("결과: {}", pick("테스트", "류현지"));
     println!("결과: {}", pick("구글", "으로부터"));
     println!("결과: {}", pick("토시캣", "보다"));
-    println!("결과: {}", pick("네이버", "에서부터"));
+    println!("결과: {}", pick("네이버", "코코"));
     println!("결과: {:?}", value_verifier("apple", "은"));
     println!("결과: {:?}", value_verifier("apple", "는"));
     println!("결과: {:?}", value_verifier("apple", "is"));

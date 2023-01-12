@@ -33,7 +33,7 @@ mod number;
 mod transfer;
 mod verifier;
 
-use error::{SentenceType, ValueError};
+use error::{ParseError, ValueError};
 use identifier::{Tossi, TossiKind};
 
 // bracket 모듈에 있습니다.
@@ -59,13 +59,13 @@ use identifier::{Tossi, TossiKind};
 /// assert_eq!(result, modify_sentence(test));
 /// ```
 
-pub fn modify_sentence(string: &str) -> Result<String, SentenceType> {
+pub fn modify_sentence(string: &str) -> Result<String, ParseError> {
     // let mut original_copy = string;
     let mut sentence = String::from(string);
     // let temp = bracket::modify_pairs(string);
     let temp = match bracket::modify_pairs(string) {
         Ok(temp) => temp,
-        Err(e) => return Err(e),
+        Err(e) => return Err(ParseError::new(e)),
     };
     let mut temp_tossi_num: Vec<bool> = vec![];
     for item in temp {
@@ -253,3 +253,4 @@ pub fn value_verifier<'a>(word: &'a str, tossi: &'a str) -> String {
         Ok(()) => "Success".to_string(),
     }
 }
+

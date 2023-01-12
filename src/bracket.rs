@@ -13,7 +13,7 @@
 //! 따라서 만약 괄호 안의 괄호가 들어 있는 문자열이 들어오면 처리하지 않고,
 //! false를 반환하게 됩니다.
 
-use crate::error::SentenceType;
+use crate::error::ParseErrorType;
 
 /// ## 입력된 문장 안의 여러 개의 단어와 토시 쌍을 뽑아내서 적절한 토시로 변경하는 함수
 ///
@@ -38,18 +38,18 @@ use crate::error::SentenceType;
 /// 단어가 비어 있다면 Err 처리(`SentenceType::TossiIsEmpty`)
 /// 합니다.
 
-pub fn modify_pairs(string: &str) -> Result<Vec<(String, String, String)>, SentenceType> {
+pub fn modify_pairs(string: &str) -> Result<Vec<(String, String, String)>, ParseErrorType> {
     let mut temp_result: Vec<(String, String, String)> = vec![];
     let content = are_balanced(string);
     // println!("are_balanced: {:?}: ", content);
     if !content.0 {
-        Err(SentenceType::AreNotBalanced)
+        Err(ParseErrorType::AreNotBalanced)
     } else {
         let content = find_pairs_nums(content.1);
         if !content.0 {
-            Err(SentenceType::NestedParentheses)
+            Err(ParseErrorType::NestedParentheses)
         } else if !content.1 {
-            Err(SentenceType::IsNotBrace)
+            Err(ParseErrorType::IsNotBrace)
         } else {
             // println!("find_pairs_nums: {:?}, {:?}", content.1, content.1.len());
             // println!("find_pairs_nums: {:?}", content);
@@ -58,13 +58,13 @@ pub fn modify_pairs(string: &str) -> Result<Vec<(String, String, String)>, Sente
                 // println!("temp: {:?}", temp);
                 // `split_tossi_word()`가 실패하면 `temp.0` 가 `false`가 됩니다.
                 if !temp.0 {
-                    return Err(SentenceType::SplitTossiWord);
+                    return Err(ParseErrorType::SplitTossiWord);
                 // 단어가 비어 있다면 Err 처리
                 } else if temp.2 .0.is_empty() {
-                    return Err(SentenceType::WordIsEmpty);
+                    return Err(ParseErrorType::WordIsEmpty);
                 // 토시가 비어 있다면 Err 처리
                 } else if temp.2 .1.is_empty() {
-                    return Err(SentenceType::TossiIsEmpty);
+                    return Err(ParseErrorType::TossiIsEmpty);
                 }
                 temp_result.push((temp.1, temp.2 .0, temp.2 .1));
                 // if !temp.0 {
