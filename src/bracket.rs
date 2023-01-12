@@ -33,6 +33,10 @@ use crate::error::SentenceType;
 /// 마지막으로 `split_tossi_word()`은 중괄호 안에 있는 내용을 순서대로 뽑아내서
 /// 단어와 이 단어에 붙일 토시를 분리하고, `("철수, 은", "철수", "은")`과 같이
 /// 첫번째 값은 원본, 두 번째 값은 단어, 그리고 세 번째 값은 토시로 반환합니다.
+///
+/// 만약 입력된 중괄호에서 단어가 비어 있다면 Err 처리(`SentenceType::WordIsEmpty`)
+/// 단어가 비어 있다면 Err 처리(`SentenceType::TossiIsEmpty`)
+/// 합니다.
 
 pub fn modify_pairs(string: &str) -> Result<Vec<(String, String, String)>, SentenceType> {
     let mut temp_result: Vec<(String, String, String)> = vec![];
@@ -315,11 +319,11 @@ mod tests {
         assert_eq!(result, find_pairs_nums(temp));
         // 괄호 짝이 맞지 않는 경우 입니다.
         // 원래는 이 함수에 도달할 수 없지만, 테스트 파일에 넣어 봤습니다.
-        // 당연히 반환값 중 첫 번ㅉ 값은 `false`이 나옵니다.
+        // 당연히 반환값 중 첫 번째 값은 `false`이 나옵니다.
         // `false`를 판정할때까지 분석한 내용이 들어 있는 `Vec`는 반환해야 하지만,
         // 하나 밖에 없는 괄호의 짝이 없기 때문에 두 번째 값은 빈 `Vec`만 반환하게 됩니다.
-        let temp = vec![(0, 1, '{'), (1, 2, '['), (2, 2, ']')];
-        let result = (false, false, vec![]);
+        let temp = vec![(0, 1, '{'), (1, 2, '['), (2, 2, ']'), (3, 4, '}')];
+        let result = (true, false, vec![]);
         assert_eq!(result, find_pairs_nums(temp));
     }
 }
