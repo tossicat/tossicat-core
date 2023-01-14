@@ -12,7 +12,7 @@
 //!
 //! 다음과 같이 변경해 줍니다.
 //!
-//!  `"철수는 영희와 밥을 먹습니다."`
+//!  `"철수는 영희처럼 밥을 먹습니다."`
 //!
 //! 이 라이브러리에서 구현하고 있는 함수는 다음과 같습니다.
 //!
@@ -45,17 +45,17 @@ use identifier::{Tossi, TossiKind};
 /// 토시를 같이 입력된 단어에 맞게 적절한 토시로 일괄적으로 변경해서 아래 변환 결과처럼
 /// 중괄호, `{,}`를 제거해 완전한 문장으로 바꿔 변환해 줍니다.
 ///
-/// 보기: `"{철수, 은} {영희,   과} {밥,  를} 먹습니다.";`
+/// 보기: `"{철수, 은} {영희, 처럼} {밥,  를} 먹습니다.";`
 ///
-/// 변환 결과: `"철수는 영희와 밥을 먹습니다.";`
+/// 변환 결과: `"철수는 영희처럼 밥을 먹습니다.";`
 ///
 /// 구체적인 사용 방법은 다음과 같습니다.
 ///
 /// ```rust
 /// use tossicat::modify_sentence;
 ///     
-/// let test = "{철수, 은} {영희,   과} {밥,  를} 먹습니다.";
-/// let result = Ok("철수는 영희와 밥을 먹습니다.".to_string());
+/// let test = "{철수, 은} {영희, 처럼} {밥,  를} 먹습니다.";
+/// let result = Ok("철수는 영희처럼 밥을 먹습니다.".to_string());
 /// assert_eq!(result, modify_sentence(test));
 /// ```
 
@@ -69,10 +69,13 @@ pub fn modify_sentence(string: &str) -> Result<String, ParseError> {
     };
     let mut temp_tossi_num: Vec<bool> = vec![];
     for item in temp {
-        let temp = postfix(&item.1, &item.2);
+        let result = postfix(&item.1, &item.2);
         temp_tossi_num.push(true);
         let original = "{".to_string() + &item.0 + "}";
-        sentence = sentence.replace(&original, &temp);
+        match result {
+            Ok(n) => sentence = sentence.replace(&original, &n),
+            Err(e) => return Err(ParseError::new(error::ParseErrorType::InvalidValue(e))),
+        }
     }
     Ok(sentence)
 }
@@ -212,9 +215,12 @@ fn postfix_raw(word: &str, tossi: &str) -> (String, String) {
 /// postfix("집", "로");
 /// postfix("집", "(으)로");
 /// ```
-pub fn postfix(word: &str, tossi: &str) -> String {
-    let temp = postfix_raw(word, tossi);
-    temp.0 + &temp.1
+pub fn postfix(word: &str, tossi: &str) -> Result<String, ValueError> {
+    let result = postfix_raw(word, tossi);
+    match verifier::verify_value(word, tossi) {
+        Err(e) => Err(ValueError::new(e)),
+        Ok(()) => Ok(result.0 + &result.1),
+    }
 }
 
 /// ## 입력된 토시를 같이 입력된 단어에 맞게 변환해, 변환된 토시만 반환하는 함수
@@ -228,29 +234,10 @@ pub fn postfix(word: &str, tossi: &str) -> String {
 /// pick("집", "(으)로");
 /// ```
 
-pub fn pick(word: &str, tossi: &str) -> String {
-    let temp = postfix_raw(word, tossi);
-    temp.1
-}
-
-/// ## 변환하기 전에 입력된 값들이 변환가능한 것인지 검사하는 함수
-/// 입력된 토씨가 올바른지, 단어의 길이가 50자가 넘는지 확인합니다.
-///
-/// 1. 단어는 마지막 글자가 한글이나 숫자이면 된다.
-/// 2. 토시는 한글이면 된다.
-/// 3. 변환할 수 있는 토시인지 아닌지 파악한다.
-/// 4. 단어의 길이가 50자를 넘으면 처리하지 않도록 처리한다.
-///
-/// 이 4가지를 만족하면 Success라고 반환하며, 문제가 있다면 에러 원인을 반환합니다.
-pub fn value_verifier<'a>(word: &'a str, tossi: &'a str) -> String {
+pub fn pick(word: &str, tossi: &str) -> Result<String, ValueError> {
+    let result = postfix_raw(word, tossi);
     match verifier::verify_value(word, tossi) {
-        Err(error::ValueErrorType::InvalidTossi) => {
-            format!("{}", ValueError::new(error::ValueErrorType::InvalidTossi))
-        }
-        Err(error::ValueErrorType::LimitLength) => {
-            format!("{}", ValueError::new(error::ValueErrorType::LimitLength))
-        }
-        Ok(()) => "Success".to_string(),
+        Err(e) => Err(ValueError::new(e)),
+        Ok(()) => Ok(result.1),
     }
 }
-

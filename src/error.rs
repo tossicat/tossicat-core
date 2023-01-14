@@ -49,6 +49,7 @@ impl fmt::Display for ValueError {
 /// - WordIsEmpty : 입력한 문장에 들어 있는 중괄호에 단어가 없습니다.
 #[derive(Debug, PartialEq)]
 pub enum ParseErrorType {
+    InvalidValue(ValueError),
     AreNotBalanced,
     IsNotBrace,
     NestedParentheses,
@@ -60,6 +61,10 @@ pub enum ParseErrorType {
 impl fmt::Display for ParseErrorType {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match self {
+            ParseErrorType::InvalidValue(value_error) => write!(
+                f,
+                "The sentence can not be parsed. Please check the sentence has incorrect val."
+            ),
             ParseErrorType::AreNotBalanced => write!(
                 f,
                 "The sentence can not be parsed. Please check the sentence has incorrect parentheses."
