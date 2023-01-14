@@ -29,7 +29,7 @@
 //! `postfix()`입니다.
 //! 
 //! ```
-//! use tossicat::modify_sentence;
+//! use tossicat::postfix;
 //! 
 //! let result = Ok("사과를".to_string());
 //! assert_eq!(result, postfix("사과", "을"));
