@@ -19,7 +19,7 @@ fn main() {
     println!("테스트 문장: {:?}", test);
     let testing = modify_sentence(test);
     println!("결과 문장: {:?}", testing);
-    let test = "{철수, 은} {영희,   과} {밥,  를} {나물,} 먹습니다.";
+    let test = "{철수, 은} {영희,   과} {밥,  를} {나물, 코코} 먹습니다.";
     println!("테스트 문장: {:?}", test);
     let testing = modify_sentence(test);
     println!("결과 문장: {:?}", testing);
