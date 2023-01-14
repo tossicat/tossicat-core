@@ -119,7 +119,6 @@ const TOSSI_LIST: [&str; 112] = [
 ];
 
 use crate::error::ValueErrorType;
-// use crate::modify_sentence;
 
 /// 변환하기 전에 입력된 것들이 변환가능한 것인지 검사하는 함수
 /// 위에서부터 아래 조건 문을 순서대로 살펴 보겠다.
@@ -132,9 +131,8 @@ use crate::error::ValueErrorType;
 /// 이 4가지를 만족하면 본 작업인 글자에 맞게 토시를 변환하게 된다.
 /// 이 함수의 사용법은 `tests/lib.rs`에서 `verifiers()`를 테스트 하는
 /// `_verifiers()` 부분을 살펴보시면 됩니다.
-///
-///
-pub fn verify_value<'a>(word: &'a str, tossi: &'a str) -> Result<(), ValueErrorType> {
+
+pub fn verify_value(word: &str, tossi: &str) -> Result<(), ValueErrorType> {
     if !is_verifier_tossi(tossi) {
         Err(ValueErrorType::InvalidTossi)
     } else if over_limit_word_len(word) {
@@ -193,6 +191,11 @@ fn _is_verifier_tossi() {
 #[test]
 fn _verifier() {
     let word = "코코아";
+    let tossi = "까지";
+    assert_eq!(Ok(()), verify_value(word, tossi));
+
+    // word에 한글이 들어가면 에러가 나야 합니다.
+    let word = "Cocoa";
     let tossi = "까지";
     assert_eq!(Ok(()), verify_value(word, tossi));
 
