@@ -21,7 +21,7 @@
 ```toml
 [dependencies]
 
-tossicat = "0.4.4"
+tossicat = "0.4.5"
 ```
 
 이제 여러분의 코드에서 다음과 같이 `tossicat`에 들어 있는 함수를 다음과 같이 사용할 수 있습니다.
