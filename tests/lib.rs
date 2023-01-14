@@ -2,8 +2,8 @@ use tossicat::{modify_sentence, postfix};
 
 #[test]
 fn _modify_sentence() {
-    let test = "{철수, 은} {영희, 처럼} {밥, 를} 먹습니다.";
-    let result = Ok("철수는 영희처럼 밥을 먹습니다.".to_string());
+    let test = "{철수, 은} {영희, 과} {밥, 를} 먹습니다.";
+    let result = Ok("철수는 영희와 밥을 먹습니다.".to_string());
     assert_eq!(result, modify_sentence(test));
 }
 
