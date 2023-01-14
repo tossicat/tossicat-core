@@ -12,11 +12,12 @@
     - `Wa_variations`
 
 Usage:
-    python docs/python_scripts/list_automation.py
+    python docs/python_scripts/automatic_list_creation.py
 """
 
 import os
 import re
+import json
 
 temp_dir = os.path.dirname(
     os.path.abspath(os.path.dirname(os.path.abspath(os.path.dirname(__file__))))
@@ -61,8 +62,14 @@ result_1 = result + Eul_variations + Ka_variations + Neun_variations + Wa_variat
 
 result_1 = sorted(set(result_1))
 
-print(result_1)
-print(len(result_1))
+print("단어에 따라 변환하는 토시 중에서 이 라이브러리에서")
+print("처리할 수 있는 토시 총 목록. `/src/transfer.rs`에서 뽑아 냈습니다.")
+print("")
+print(f"갯수는: {len(result_1)}")
+print("")
+# print(result_1)
+print(json.dumps(result_1, ensure_ascii=False))
+print("")
 
 parenthesis_exist_in_result = []
 parenthesis_is_not_exist_in_result = []
@@ -73,11 +80,67 @@ for item in result_1:
     else:
         parenthesis_is_not_exist_in_result.append(item)
 
+print("변환을 해서 처리할 수 있는 목록 중에서 괄호가 들어 있는 토시들")
+print("이것들은 굳이 외부에 공개할 필요가 없습니다.")
+print("")
+print(f"갯수는: {len(parenthesis_exist_in_result)}")
+print("")
 print(parenthesis_exist_in_result)
-print(len(parenthesis_exist_in_result))
+print("")
 
+print("변환을 해서 처리할 수 있는 목록 중에서 괄호가 없는 토시들")
+print("이것들은 위에 괄호 있는 것들까지 포함해서 대표할 수 있는 토시들 입니다")
+print("이걸 외부적으로 공개해야 합니다.")
+print("")
+print(f"갯수는: {len(parenthesis_is_not_exist_in_result)}")
+print("")
 print(parenthesis_is_not_exist_in_result)
-print(len(parenthesis_is_not_exist_in_result))
+print("")
+
+not_need_to_be_converted_tossi_list = {
+    "에게로",
+    "께",
+    "조차",
+    "게",
+    "대로",
+    "마다",
+    "께서",
+    "뿐",
+    "거나",
+    "한테서",
+    "보다",
+    "부터",
+    "에다가",
+    "에게",
+    "이다",
+    "까지",
+    "마저",
+    "한테",
+    "에서",
+    "에서부터",
+    "만",
+    "커녕",
+    "같이",
+    "에",
+    "에게서",
+    "처럼",
+    "하고",
+    "의",
+    "밖에",
+    "마냥",
+    "도",
+}
+
+not_need_to_be_converted_tossi_list = sorted(not_need_to_be_converted_tossi_list)
+
+print("변환이 필요 없는 토시 목록 입니다.")
+print("이것들도 모두 이 라이브러리로 처리할 수 있는 것입니다.")
+print("왜냐하면 이 라이브러리가 변환할 필요가 없다는 것을 알려주기 때문입니다.")
+print("")
+print(f"갯수는: {len(not_need_to_be_converted_tossi_list)}")
+print("")
+print(not_need_to_be_converted_tossi_list)
+print("")
 
 # 2차
 # 아래 코드는
