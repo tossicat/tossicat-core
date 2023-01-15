@@ -20,8 +20,8 @@ impl fmt::Display for ValueErrorType {
 
 #[derive(Debug, PartialEq)]
 pub struct ValueError {
-    error: ValueErrorType,
-    description: String,
+    pub error: ValueErrorType,
+    pub description: String,
 }
 
 impl ValueError {
@@ -32,6 +32,8 @@ impl ValueError {
         }
     }
 }
+
+
 
 impl fmt::Display for ValueError {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
@@ -49,7 +51,7 @@ impl fmt::Display for ValueError {
 /// - WordIsEmpty : 입력한 문장에 들어 있는 중괄호에 단어가 없습니다.
 #[derive(Debug, PartialEq)]
 pub enum ParseErrorType {
-    InvalidValue(ValueError),
+    InvalidValue(ValueErrorType),
     AreNotBalanced,
     IsNotBrace,
     NestedParentheses,
@@ -63,7 +65,7 @@ impl fmt::Display for ParseErrorType {
         match self {
             ParseErrorType::InvalidValue(value_error) => write!(
                 f,
-                "The sentence can not be parsed. Please check the sentence has incorrect val."
+                "{value_error}."
             ),
             ParseErrorType::AreNotBalanced => write!(
                 f,
@@ -95,8 +97,8 @@ impl fmt::Display for ParseErrorType {
 
 #[derive(Debug, PartialEq)]
 pub struct ParseError {
-    error: ParseErrorType,
-    description: String,
+    pub error: ParseErrorType,
+    pub description: String,
 }
 
 impl ParseError {
