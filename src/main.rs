@@ -15,16 +15,17 @@ fn main() {
     println!("결과: {:?}", pick("네이버", "코코"));
     println!("결과: {:?}", postfix("누구", "이"));
     println!("결과: {:?}", join_phonemes(['ㅋ', 'ㅔ', 'ㅅ']));
-    let test = "{철수, 은} {영희, 과} {밥, 를} 먹습니다.";
+    let test = "{철수, 은} {영희,   과} {밥,  를} 먹습니다.";
     println!("테스트 문장: {:?}", test);
     let testing = modify_sentence(test);
     println!("결과 문장: {:?}", testing);
-    let test = "{철수, 은} {영희, 과} {밥,  를} {나물,} 먹습니다.";
+    let test = "{철수, 은} {영희,   과} {밥,  를} {나물, 코코} 먹습니다.";
     println!("테스트 문장: {:?}", test);
     let testing = modify_sentence(test);
     println!("결과 문장: {:?}", testing);
-    let test = "{철수, 은} {영희, 과} {밥, 코코} 먹습니다.";
+    let test = "{철수, 은} {영희, 과} {밥,  를} 먹습니다.";
     println!("테스트 문장: {:?}", test);
     let testing = modify_sentence(test);
     println!("결과 문장: {:?}", testing);
+}
 }
