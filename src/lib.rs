@@ -96,7 +96,11 @@ pub fn modify_sentence(string: &str) -> Result<String, ParseError> {
         let original = "{".to_string() + &item.0 + "}";
         match result {
             Ok(n) => sentence = sentence.replace(&original, &n),
-            Err(e) => return Err(ParseError::new(error::ParseErrorType::InvalidValue(e.error))),
+            Err(e) => {
+                return Err(ParseError::new(error::ParseErrorType::InvalidValue(
+                    e.error,
+                )))
+            }
         }
     }
     Ok(sentence)
