@@ -261,10 +261,12 @@ fn postfix_raw(word: &str, tossi: &str) -> (String, String) {
 /// postfix("집", "(으)로");
 /// ```
 pub fn postfix(word: &str, tossi: &str) -> Result<String, ValueError> {
-    let result = postfix_raw(word, tossi);
     match verifier::verify_value(word, tossi) {
         Err(e) => Err(ValueError::new(e)),
-        Ok(()) => Ok(result.0 + &result.1),
+        Ok(()) => {
+            let result = postfix_raw(word, tossi);
+            Ok(result.0 + &result.1)
+        }
     }
 }
 
@@ -280,9 +282,8 @@ pub fn postfix(word: &str, tossi: &str) -> Result<String, ValueError> {
 /// ```
 
 pub fn pick(word: &str, tossi: &str) -> Result<String, ValueError> {
-    let result = postfix_raw(word, tossi);
     match verifier::verify_value(word, tossi) {
         Err(e) => Err(ValueError::new(e)),
-        Ok(()) => Ok(result.1),
+        Ok(()) => Ok(postfix_raw(word, tossi).1),
     }
 }
