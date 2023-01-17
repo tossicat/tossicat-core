@@ -6,6 +6,7 @@ use tossicat::postfix;
 fn main() {
     // 테스트
     println!("결과: {:?}", postfix("사과", "을"));
+    println!("결과: {:?}", postfix("apple", "을"));
     println!("결과: {:?}", pick("사과", "을"));
     println!("결과: {:?}", postfix("테스트", "처럼"));
     println!("결과: {:?}", postfix("천사1004", "은"));
@@ -23,7 +24,7 @@ fn main() {
     println!("테스트 문장: {:?}", test);
     let testing = modify_sentence(test);
     println!("결과 문장: {:?}", testing);
-    let test = "{철수, 은} {영희, 과} {밥,  를} 먹습니다.";
+    let test = "{철수, 은} {apple, 를} 먹습니다.";
     println!("테스트 문장: {:?}", test);
     let testing = modify_sentence(test);
     println!("결과 문장: {:?}", testing);
