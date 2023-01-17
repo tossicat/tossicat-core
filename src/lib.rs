@@ -48,7 +48,7 @@
 //! assert_eq!(test, result);
 //!
 //! use tossicat::modify_sentence;
-//! 
+//!
 //! let test = "{철수, 은} {apple, 를} 먹습니다.";
 //! let result = Ok("철수는 apple(을)를 먹습니다.".to_string());
 //! assert_eq!(result, modify_sentence(test));
