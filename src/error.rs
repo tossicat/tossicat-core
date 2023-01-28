@@ -9,10 +9,10 @@ pub enum ValueErrorType {
 impl fmt::Display for ValueErrorType {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match self {
-            ValueErrorType::InvalidTossi => write!(f, "This value is not correct tossi"),
+            ValueErrorType::InvalidTossi => write!(f, "101"),
             ValueErrorType::LimitLength => write!(
                 f,
-                "The length has been exceeded. Set the word length to less than 50."
+                "102"
             ),
         }
     }
@@ -65,31 +65,31 @@ impl fmt::Display for ParseErrorType {
         match self {
             ParseErrorType::InvalidValue(_value_error) => write!(
                 f,
-                "{_value_error}."
+                "201({_value_error})."
             ),
             ParseErrorType::AreNotBalanced => write!(
                 f,
-                "The sentence can not be parsed. Please check the sentence has incorrect parentheses."
+                "202"
             ),
             ParseErrorType::IsNotBrace => write!(
                 f,
-                "The sentence can not be parsed. Please set the parentheses as a brace."
+                "203"
             ),
             ParseErrorType::NestedParentheses => write!(
                 f,
-                "The sentence includes Nested Parentheses."
+                "204"
             ),
             ParseErrorType::SplitTossiWord => write!(
                 f,
-                "The sentence includes Nested Parentheses. Please separate words and tossi with a comma."
+                "205"
             ),
             ParseErrorType::TossiIsEmpty => write!(
                 f,
-                "The sentence can not be parsed. Please fill the tossi section in the parentheses."
+                "206"
             ),
             ParseErrorType::WordIsEmpty => write!(
                 f,
-                "The sentence can not be parsed. Please fill the word section in the parentheses."
+                "207"
             ),
         }
     }
