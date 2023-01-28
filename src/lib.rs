@@ -35,6 +35,26 @@
 //! assert_eq!(result, postfix("사과", "을"));
 //! ```
 //!
+//! 현재 단어의 마지막 글자가 한글과 숫자라면 아무런 문제 없이 같이 입력된 토시를 적절하게 
+//! 변경해줄 수 있습니다. 그런데 입력된 단어 전체가 영어와 같은 외국어 단어로 되어 있거나 
+//! 마지막 글자가 외국어라면, 에러를 발생하지 않고
+//! 아래와 같이 토시를 병기해 처리합니다. 따라서 외국어를 사용하는데도 문제가 발생하지
+//! 않습니다.
+//!
+//! ```
+//! use tossicat::postfix;
+//!
+//! let test = postfix("apple", "을");
+//! let result = Ok("apple(을)를".to_string());
+//! assert_eq!(test, result);
+//!
+//! use tossicat::modify_sentence;
+//!
+//! let test = "{철수, 은} {apple, 를} 먹습니다.";
+//! let result = Ok("철수는 apple(을)를 먹습니다.".to_string());
+//! assert_eq!(result, modify_sentence(test));
+//! ```
+//!
 //! 이 두 개의 함수가 이 라이브러리의 가장 중요한 기능입니다.
 //! 이 라이브러리에서 구현하고 있는 중요한 함수는 다음과 같습니다.
 //!
@@ -96,7 +116,11 @@ pub fn modify_sentence(string: &str) -> Result<String, ParseError> {
         let original = "{".to_string() + &item.0 + "}";
         match result {
             Ok(n) => sentence = sentence.replace(&original, &n),
-            Err(e) => return Err(ParseError::new(error::ParseErrorType::InvalidValue(e.error))),
+            Err(e) => {
+                return Err(ParseError::new(error::ParseErrorType::InvalidValue(
+                    e.error,
+                )))
+            }
         }
     }
     Ok(sentence)
@@ -238,10 +262,12 @@ fn postfix_raw(word: &str, tossi: &str) -> (String, String) {
 /// postfix("집", "(으)로");
 /// ```
 pub fn postfix(word: &str, tossi: &str) -> Result<String, ValueError> {
-    let result = postfix_raw(word, tossi);
     match verifier::verify_value(word, tossi) {
         Err(e) => Err(ValueError::new(e)),
-        Ok(()) => Ok(result.0 + &result.1),
+        Ok(()) => {
+            let result = postfix_raw(word, tossi);
+            Ok(result.0 + &result.1)
+        }
     }
 }
 
@@ -257,9 +283,8 @@ pub fn postfix(word: &str, tossi: &str) -> Result<String, ValueError> {
 /// ```
 
 pub fn pick(word: &str, tossi: &str) -> Result<String, ValueError> {
-    let result = postfix_raw(word, tossi);
     match verifier::verify_value(word, tossi) {
         Err(e) => Err(ValueError::new(e)),
-        Ok(()) => Ok(result.1),
+        Ok(()) => Ok(postfix_raw(word, tossi).1),
     }
 }

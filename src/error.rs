@@ -33,8 +33,6 @@ impl ValueError {
     }
 }
 
-
-
 impl fmt::Display for ValueError {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         write!(f, "{}", self.error)
