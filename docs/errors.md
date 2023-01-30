@@ -1,9 +1,8 @@
 # TossiCat Error
 
-
 |error type|error code|error name|description|
 |----|----|-----|-----|
-|ValueError|101|InvalidTossi|올바른 토씨가 아닙니다.  <br/> This value is not correct tossi|
+|ValueError|101|InvalidTossi|올바른 토씨가 아닙니다. \ This value is not correct tossi|
 |ValueError|102|LimitLength|단어 길이가 50를 초과합니다. <br/> The length has been exceeded. Set the word length to less than 50|
 |ParseError|201:101|InvalidValue(InvalidTossi)|파싱된 토씨가 올바르지 않습니다. ValueError를 반환합니다. <br/> Return to ValueError|
 |ParseError|201:102|InvalidValue(LimitLength)|파싱된 단어 길이가 50을 초과합니다. ValueError를 반환합니다. <br/> Return to ValueError|
