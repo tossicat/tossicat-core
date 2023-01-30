@@ -87,4 +87,40 @@ fn _postfix() {
     let tossi = "은";
     let result = Ok("천사1004는".to_string());
     assert_eq!(result, postfix(word, tossi));
+
+    // KA(가) 경우, 즉 "가"와 "이" 같은 경우에는 특정 단어가 오게 되면
+    // 토시도 변하지만, 특정 단어 또한 변하게 됩니다.
+    // 아래는 이런 경우를 테스트하는 것입니다.
+    let word = "누구";
+    let tossi = "가";
+    let result = Ok("누가".to_string());
+    assert_eq!(result, postfix(word, tossi));
+    let word = "누구";
+    let tossi = "이";
+    let result = Ok("누가".to_string());
+    assert_eq!(result, postfix(word, tossi));
+    let word = "나";
+    let tossi = "가";
+    let result = Ok("내가".to_string());
+    assert_eq!(result, postfix(word, tossi));
+    let word = "나";
+    let tossi = "이";
+    let result = Ok("내가".to_string());
+    assert_eq!(result, postfix(word, tossi));
+    let word = "저";
+    let tossi = "가";
+    let result = Ok("제가".to_string());
+    assert_eq!(result, postfix(word, tossi));
+    let word = "저";
+    let tossi = "이";
+    let result = Ok("제가".to_string());
+    assert_eq!(result, postfix(word, tossi));
+    let word = "너";
+    let tossi = "가";
+    let result = Ok("네가".to_string());
+    assert_eq!(result, postfix(word, tossi));
+    let word = "너";
+    let tossi = "이";
+    let result = Ok("네가".to_string());
+    assert_eq!(result, postfix(word, tossi));
 }

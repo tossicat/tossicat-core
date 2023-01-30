@@ -67,6 +67,7 @@ pub fn tossi(word: &str, tossi: Tossi) -> &str {
     let result = match tossi.when {
         TransTossiWhen::Blank => when_blank(word, tossi_variants),
         TransTossiWhen::RiEulAndBlank => when_rieul_and_blank(word, tossi_variants),
+        TransTossiWhen::OnlyKa => only_ka(word, tossi_variants),
         TransTossiWhen::Nothing => " ",
     };
     result
@@ -130,28 +131,28 @@ fn when_rieul_and_blank<'a>(word: &'a str, tossi_variants: (&'a str, &'a str, &'
 /// ‘누구’와 ‘가’가 함께 쓰이면 ‘누가’로 쓰이며,
 /// 너, 나, 저’와 같이 쓸 때는 ‘네가, 내가, 제가’로 씁니다.
 ///
-// fn only_ka<'a>(word: &'a str, tossi_variants: (&'a str, &'a str, &'a str)) -> &'a str {
-//     let filtered = guess_final_letter(word);
-//     // find_last_letter()은 한글이나 숫자가 없을 경우 ' '을 출력한다.
-//     // println!("마지막 글자 받침: {}", filtered);
-//     if filtered == 'N' {
-//         tossi_variants.0
-//     } else if filtered == ' ' {
-//         if word == "누구" {
-//             "누가"
-//         } else if word == "나" {
-//             "내가"
-//         } else if word == "저" {
-//             "제가"
-//         } else if word == "너" {
-//             "네가"
-//         } else {
-//             tossi_variants.1
-//         }
-//     } else {
-//         tossi_variants.2
-//     }
-// }
+fn only_ka<'a>(word: &'a str, tossi_variants: (&'a str, &'a str, &'a str)) -> &'a str {
+    let filtered = guess_final_letter(word);
+    // find_last_letter()은 한글이나 숫자가 없을 경우 ' '을 출력한다.
+    // println!("마지막 글자 받침: {}", filtered);
+    if filtered == 'N' {
+        tossi_variants.0
+    } else if filtered == ' ' {
+        if word == "누구" {
+            "누가"
+        } else if word == "나" {
+            "내가"
+        } else if word == "저" {
+            "제가"
+        } else if word == "너" {
+            "네가"
+        } else {
+            tossi_variants.1
+        }
+    } else {
+        tossi_variants.2
+    }
+}
 
 /// ## 받침 없는 체언 뒤에 붙는 경우에 토시가 변화하는 함수
 ///
@@ -192,6 +193,12 @@ fn when_rieul_and_blank<'a>(word: &'a str, tossi_variants: (&'a str, &'a str, &'
 /// - '가'는 받침 없는 체언 뒤에 붙습니다.
 /// - '이'는 받침 있는 체언 뒤에 붙습니다.
 /// - 외국어가 앞 단어로 오는 경우 병기 '(이)가'가 출력됩니다.
+/// 그러나 "나", "누구", "저"와 같은 것이 오면 위와 같이 토시는 변환하지만,
+/// 같이 입력된 단어도 함께 변합니다.
+/// 누구 + 가(이) : 누가
+/// 나 + 가(이): 내가
+/// 저 + 가(이): 제가
+/// 너 + 가(이): 네가
 ///
 /// ### IDA(이다) 경우
 /// - '다'는 받침 없는 체언 뒤에 붙습니다.

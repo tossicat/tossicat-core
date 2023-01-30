@@ -60,6 +60,7 @@ pub enum TossiKind {
 pub enum TransTossiWhen {
     Blank,
     RiEulAndBlank,
+    OnlyKa,
     Nothing,
 }
 
@@ -86,7 +87,7 @@ impl Tossi {
             TossiKind::Deunji => TransTossiWhen::Blank,
             TossiKind::Eul => TransTossiWhen::Blank,
             TossiKind::Ida => TransTossiWhen::Blank,
-            TossiKind::Ka => TransTossiWhen::Blank,
+            TossiKind::Ka => TransTossiWhen::OnlyKa,
             TossiKind::Ko => TransTossiWhen::Blank,
             TossiKind::Myeo => TransTossiWhen::Blank,
             TossiKind::Na => TransTossiWhen::Blank,

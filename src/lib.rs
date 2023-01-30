@@ -230,24 +230,6 @@ pub fn change_num_to_hangeul(word: &str) -> String {
     number::change_num_to_hangeul(word)
 }
 
-/// ## 입력된 토시를 같이 입력된 단어에 맞게 변환해, 입력된 단어와 변환한 토시를 같이 반환하는 실질적인 함수
-///
-/// 아래 `postfix()`, `pick()`, 두 함수 안에서 실질적인 역할을 하는 함수입니다.
-/// 아래와 같은 형식으로 입력된 것 중 `tossi` 인수로 입력된 것을 어떤 토시인지 파악해서
-/// 그 종류를 열거자로 변환한 다음, 토시를 붙이고자 하는 `word` 인수로 받은 단어와 함께
-/// 해당 토시를 변환하는 함수로 보내서, 그 단어에 적절한 적절한 토시를 받아서
-/// 해당 단어와 변환된 토시를 각각 반환합니다.
-fn postfix_raw(word: &str, tossi: &str) -> (String, String) {
-    //파라미터에 올바른 규격의 값이 들어왔는지 확인하기
-    let temp = Tossi::new(tossi);
-    let result = match temp.kind {
-        TossiKind::Others => tossi.to_string(),
-        _ => transfer::tossi(word, temp).to_string(),
-    };
-
-    let front = word.to_string();
-    (front, result)
-}
 /// ## 입력된 토시를 같이 입력된 단어에 맞게 변환해, 입력된 단어와 합쳐 반환하는 함수
 ///
 /// 아래와 같은 형식으로 입력된 것 중 두 번째로 입력된 토시를
@@ -264,8 +246,12 @@ pub fn postfix(word: &str, tossi: &str) -> Result<String, ValueError> {
     match verifier::verify_value(word, tossi) {
         Err(e) => Err(ValueError::new(e)),
         Ok(()) => {
-            let result = postfix_raw(word, tossi);
-            Ok(result.0 + &result.1)
+            let temp = Tossi::new(tossi);
+            match temp.kind {
+                TossiKind::Others => Ok(word.to_string() + tossi),
+                TossiKind::Ka => Ok(transfer::tossi(word, temp).to_string()),
+                _ => Ok(word.to_string() + transfer::tossi(word, temp)),
+            }
         }
     }
 }
