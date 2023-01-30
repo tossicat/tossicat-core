@@ -10,10 +10,7 @@ impl fmt::Display for ValueErrorType {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match self {
             ValueErrorType::InvalidTossi => write!(f, "101"),
-            ValueErrorType::LimitLength => write!(
-                f,
-                "102"
-            ),
+            ValueErrorType::LimitLength => write!(f, "102"),
         }
     }
 }
@@ -61,34 +58,13 @@ pub enum ParseErrorType {
 impl fmt::Display for ParseErrorType {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match self {
-            ParseErrorType::InvalidValue(_value_error) => write!(
-                f,
-                "201({_value_error})."
-            ),
-            ParseErrorType::AreNotBalanced => write!(
-                f,
-                "202"
-            ),
-            ParseErrorType::IsNotBrace => write!(
-                f,
-                "203"
-            ),
-            ParseErrorType::NestedParentheses => write!(
-                f,
-                "204"
-            ),
-            ParseErrorType::SplitTossiWord => write!(
-                f,
-                "205"
-            ),
-            ParseErrorType::TossiIsEmpty => write!(
-                f,
-                "206"
-            ),
-            ParseErrorType::WordIsEmpty => write!(
-                f,
-                "207"
-            ),
+            ParseErrorType::InvalidValue(_value_error) => write!(f, "201({_value_error})."),
+            ParseErrorType::AreNotBalanced => write!(f, "202"),
+            ParseErrorType::IsNotBrace => write!(f, "203"),
+            ParseErrorType::NestedParentheses => write!(f, "204"),
+            ParseErrorType::SplitTossiWord => write!(f, "205"),
+            ParseErrorType::TossiIsEmpty => write!(f, "206"),
+            ParseErrorType::WordIsEmpty => write!(f, "207"),
         }
     }
 }
