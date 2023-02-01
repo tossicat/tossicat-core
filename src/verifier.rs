@@ -3,7 +3,7 @@
 //! 이 모듈은 입력된 단어와 토시가 적절한 것들인지 검사하는 모듈이다.
 //! 최종 함수는 `verifiers()`이다.
 
-const TOSSI_LIST: [&str; 112] = [
+const TOSSI_LIST: [&str; 113] = [
     "(가)이",
     "(과)와",
     "(는)은",
@@ -116,6 +116,7 @@ const TOSSI_LIST: [&str; 112] = [
     "하고",
     "한테",
     "한테서",
+    "인들",
 ];
 
 use crate::error::ValueErrorType;
