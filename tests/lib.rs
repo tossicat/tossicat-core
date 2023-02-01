@@ -5,6 +5,10 @@ fn _modify_sentence() {
     let test = "{철수, 은} {영희, 과} {밥, 를} 먹습니다.";
     let result = Ok("철수는 영희와 밥을 먹습니다.".to_string());
     assert_eq!(result, modify_sentence(test));
+
+    let test = "{나, 가} {철수, 과} {사과, 을} 먹었습니다.";
+    let result = Ok("내가 철수와 사과를 먹었습니다.".to_string());
+    assert_eq!(result, modify_sentence(test));
 }
 
 #[test]
