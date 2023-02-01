@@ -48,13 +48,13 @@ pub enum TossiKind {
     Ran,
     Rang,
     Raya,
-    Yamalro,
-    Yeo,
-    Wa,
     Ro,
     Robuteo,
     Roseo,
     Rosseo,
+    Wa,
+    Yamalro,
+    Yeo,
     Others,
 }
 pub enum TransTossiWhen {
@@ -83,8 +83,8 @@ impl Tossi {
         };
         let temp_trans_tossi_when = match temp_kind {
             TossiKind::Deun => TransTossiWhen::Blank,
-            TossiKind::Deunka => TransTossiWhen::Blank,
             TossiKind::Deunji => TransTossiWhen::Blank,
+            TossiKind::Deunka => TransTossiWhen::Blank,
             TossiKind::Eul => TransTossiWhen::Blank,
             TossiKind::Ida => TransTossiWhen::Blank,
             TossiKind::Ka => TransTossiWhen::OnlyKa,
@@ -98,13 +98,13 @@ impl Tossi {
             TossiKind::Ran => TransTossiWhen::Blank,
             TossiKind::Rang => TransTossiWhen::Blank,
             TossiKind::Raya => TransTossiWhen::Blank,
-            TossiKind::Yamalro => TransTossiWhen::Blank,
-            TossiKind::Yeo => TransTossiWhen::Blank,
-            TossiKind::Wa => TransTossiWhen::Blank,
             TossiKind::Ro => TransTossiWhen::RiEulAndBlank,
             TossiKind::Robuteo => TransTossiWhen::RiEulAndBlank,
             TossiKind::Roseo => TransTossiWhen::RiEulAndBlank,
             TossiKind::Rosseo => TransTossiWhen::RiEulAndBlank,
+            TossiKind::Wa => TransTossiWhen::Blank,
+            TossiKind::Yamalro => TransTossiWhen::Blank,
+            TossiKind::Yeo => TransTossiWhen::Blank,
             TossiKind::Others => TransTossiWhen::Nothing,
         };
         Self {
