@@ -51,11 +51,6 @@ fn is_medial(word: char) -> bool {
     ('ㅏ'..='ㅣ').contains(&word)
 }
 
-/// 종성인지 체크하는 함수
-fn is_final(word: char) -> bool {
-    FINAL.contains(&word)
-}
-
 /// ## 한글 음절인지 아닌지 체크하는 함수
 /// 초,중,종성으로 들어온 것이 합치면 적절하게 한글 음절이 될 수 없는지 있는지를 판단하는 함수
 /// 사용법: 이 모둘 아래 tests 모듈, _hangeul.rs 참고
@@ -155,21 +150,6 @@ pub fn split_phonemes(word: char) -> [char; 3] {
 #[cfg(test)]
 mod tests {
     use super::*;
-
-    #[test]
-    fn _is_final() {
-        let temp = 'ㅈ';
-        assert_eq!(true, is_final(temp));
-        // 이건 초성으로 쓰이는 자음이지만, 총성으로는 쓰이지 않는다.
-        let temp = 'ㄸ';
-        assert_eq!(false, is_final(temp));
-        // 당연히 한글이 아니다.
-        let temp = 'a';
-        assert_eq!(false, is_final(temp));
-        // 이것도 당연히
-        let temp = '😀';
-        assert_eq!(false, is_final(temp));
-    }
 
     #[test]
     fn _is_hangeul() {
