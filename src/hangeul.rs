@@ -51,6 +51,11 @@ fn is_medial(word: char) -> bool {
     ('ㅏ'..='ㅣ').contains(&word)
 }
 
+/// 종성인지 체크하는 함수
+fn is_final(word: char) -> bool {
+    FINAL.contains(&word)
+}
+
 /// ## 한글 음절인지 아닌지 체크하는 함수
 /// 초,중,종성으로 들어온 것이 합치면 적절하게 한글 음절이 될 수 없는지 있는지를 판단하는 함수
 /// 사용법: 이 모둘 아래 tests 모듈, _hangeul.rs 참고
@@ -89,6 +94,25 @@ pub fn join_phonemes(word: [char; 3]) -> char {
     char::from_u32(initial + offset).unwrap()
 }
 
+/// ## 입력된 한 글자에서 종성을 바꿔주는 함수
+/// 이 함수는 입력된 한글 한 글자에서 입력된 값으로 종성을 바꾸는 함수다.
+/// 이때 입력된 값은
+/// 사용하기 위해서는 종성이 없는 경우에도 다음과 같이 종성 자리에 ` `를 넣어야 한다.
+/// ```rust
+///    let temp = ['ㄱ', 'ㅏ', 'ㄴ'];
+///    assert_eq!('간', tossicat::join_phonemes(temp));
+///    let temp = ['ㄱ', 'ㅏ', ' '];
+///    assert_eq!('가', tossicat::join_phonemes(temp));
+/// ```
+/// 사용법 tests 모듈, /tests/_is_hangul_syllable.rs 참고
+// pub fn modify_finall_jamo(letter:char, jamo:char) -> char {
+//     //한글이 아닌 경우에는 입력된 첫 번째 글자 반환합니다.
+//     if !is_hangeul(letter) & is_medial(jamo) {
+//         return letter;
+//     }
+//     let splited_letter = split_phonemes(letter);
+// }
+
 /// ## 입력된 한 글자를 초, 중, 종성으로 구분해 반환하는 함수
 /// 이 함수는 기본적으로 입력된 것이 종성이 없는 경우에도 종성을 스페이스, 즉 `' '`으로 반환한다.
 /// 사용법은 tests 모듈, /tests/hangeul.rs 참고
@@ -124,6 +148,21 @@ pub fn split_phonemes(word: char) -> [char; 3] {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn _is_final() {
+        let temp = 'ㅈ';
+        assert_eq!(true, is_final(temp));
+        // 이건 초성으로 쓰이는 자음이지만, 총성으로는 쓰이지 않는다.
+        let temp = 'ㄸ';
+        assert_eq!(false, is_final(temp));
+        // 당연히 한글이 아니다.
+        let temp = 'a';
+        assert_eq!(false, is_final(temp));
+        // 이것도 당연히
+        let temp = '😀';
+        assert_eq!(false, is_final(temp));
+    }
 
     #[test]
     fn _is_hangeul() {
