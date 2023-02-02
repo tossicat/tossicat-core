@@ -1,4 +1,20 @@
-use tossicat::{join_phonemes, split_phonemes};
+use tossicat::{join_phonemes, modify_finall_jamo, split_phonemes};
+
+#[test]
+fn _modify_finall_jamo() {
+    let temp = '정';
+    assert_eq!('점', modify_finall_jamo(temp, 'ㅁ'));
+    let temp = '감';
+    assert_eq!('강', modify_finall_jamo(temp, 'ㅇ'));
+    //
+    // 이하 테스트들은 모두 문제가 있어 입력된 것을 그대로 반환한다.
+    // 이건 초성으로는 쓰이는 자음이지만, 총성으로는 쓰이지 않는다.
+    assert_eq!('감', modify_finall_jamo('감', 'ㄸ'));
+    // 당연히 한글이 아니다.
+    assert_eq!('a', modify_finall_jamo('a', 'ㅁ'));
+    // 이것도 당연히
+    assert_eq!('😀', modify_finall_jamo('😀', 'ㅁ'));
+}
 
 #[test]
 fn _join_phonemes() {

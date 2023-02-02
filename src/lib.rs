@@ -149,6 +149,25 @@ pub fn join_phonemes(word: [char; 3]) -> char {
 // hangeul 모듈에 있습니다.
 // tests/hangeul.rs 에서 test 합니다.
 
+/// ## 입력된 한 글자에서 그 글자의 종성을 바꿔주는 함수
+/// 이 함수는 입력된 한글 한 글자에서 입력된 값으로 종성을 바꿔 반환한다.
+/// 이때 입력된 한 글자가 한글이 아닌 경우와
+/// 바꾸기 위해 입력한 자모가 한글 종성 자모에 쓰일 수 없는 것이면
+/// 입력된 글자 그대로를 반환한다.
+/// ```rust
+///    let temp = '정';
+///    assert_eq!('점', tossicat::modify_finall_jamo(temp, 'ㅁ'));
+///    let temp = '감';
+///    assert_eq!('강', tossicat::modify_finall_jamo(temp, 'ㅇ'));
+/// ```
+
+pub fn modify_finall_jamo(letter: char, jamo: char) -> char {
+    hangeul::modify_finall_jamo(letter, jamo)
+}
+
+// hangeul 모듈에 있습니다.
+// tests/hangeul.rs 에서 test 합니다.
+
 /// ## 한글 한 글자를 초, 중, 종성으로 분리해 주는 함수
 ///
 /// 이 함수는 기본적으로 입력된 것이 종성이 없는 경우에도

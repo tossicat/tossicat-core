@@ -94,24 +94,31 @@ pub fn join_phonemes(word: [char; 3]) -> char {
     char::from_u32(initial + offset).unwrap()
 }
 
-/// ## 입력된 한 글자에서 종성을 바꿔주는 함수
-/// 이 함수는 입력된 한글 한 글자에서 입력된 값으로 종성을 바꾸는 함수다.
-/// 이때 입력된 값은
-/// 사용하기 위해서는 종성이 없는 경우에도 다음과 같이 종성 자리에 ` `를 넣어야 한다.
+/// ## 입력된 한 글자에서 그 글자의 종성을 바꿔주는 함수
+/// 이 함수는 입력된 한글 한 글자에서 입력된 값으로 종성을 바꿔 반환한다.
+/// 이때 입력된 한 글자가 한글이 아닌 경우와
+/// 바꾸기 위해 입력한 자모가 한글 종성 자모에 쓰일 수 없는 것이면
+/// 입력된 글자 그대로를 반환한다.
 /// ```rust
-///    let temp = ['ㄱ', 'ㅏ', 'ㄴ'];
-///    assert_eq!('간', tossicat::join_phonemes(temp));
-///    let temp = ['ㄱ', 'ㅏ', ' '];
-///    assert_eq!('가', tossicat::join_phonemes(temp));
+///    let temp = '정';
+///    assert_eq!('점', tossicat::modify_finall_jamo(temp, 'ㅁ'));
+///    let temp = '감';
+///    assert_eq!('강', tossicat::modify_finall_jamo(temp, 'ㅇ'));
 /// ```
-/// 사용법 tests 모듈, /tests/_is_hangul_syllable.rs 참고
-// pub fn modify_finall_jamo(letter:char, jamo:char) -> char {
-//     //한글이 아닌 경우에는 입력된 첫 번째 글자 반환합니다.
-//     if !is_hangeul(letter) & is_medial(jamo) {
-//         return letter;
-//     }
-//     let splited_letter = split_phonemes(letter);
-// }
+/// 사용법 tests 모듈, /tests/_is_modify_finall_jamo.rs 참고
+
+pub fn modify_finall_jamo(letter: char, jamo: char) -> char {
+    if !is_hangeul(letter) {
+        return letter;
+    }
+    if FINAL.contains(&jamo) {
+        let mut splited_letter = split_phonemes(letter);
+        splited_letter[2] = jamo;
+        join_phonemes(splited_letter)
+    } else {
+        letter
+    }
+}
 
 /// ## 입력된 한 글자를 초, 중, 종성으로 구분해 반환하는 함수
 /// 이 함수는 기본적으로 입력된 것이 종성이 없는 경우에도 종성을 스페이스, 즉 `' '`으로 반환한다.
