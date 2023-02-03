@@ -12,18 +12,8 @@ fn main() {
     println!("결과: {:?}", postfix("구글", "으로부터"));
     println!("결과: {:?}", postfix("토시캣", "보다"));
     println!("결과: {:?}", postfix("네이버", "코코"));
-    println!("결과: {:?}", postfix("누구", "이"));
     println!("결과: {:?}", join_phonemes(['ㅋ', 'ㅔ', 'ㅅ']));
-    let test = "{철수, 은} {영희,   과} {밥,  를} 먹습니다.";
-    println!("테스트 문장: {:?}", test);
-    let testing = modify_sentence(test);
-    println!("결과 문장: {:?}", testing);
     let test = "{철수, 은} {영희,   과} {밥,  를} {나물, 코코} 먹습니다.";
-    println!("테스트 문장: {:?}", test);
-    let testing = modify_sentence(test);
-    println!("결과 문장: {:?}", testing);
-    let test = "{철수, 은} {apple, 를} 먹습니다.";
-    println!("테스트 문장: {:?}", test);
-    let testing = modify_sentence(test);
-    println!("결과 문장: {:?}", testing);
+    println!("테스트 문장: {test:?}");
+    println!("테스트 결과 문장: {:?}", modify_sentence(test));
 }
