@@ -268,8 +268,8 @@ pub fn postfix(word: &str, tossi: &str) -> Result<String, ValueError> {
             let temp = Tossi::new(tossi);
             match temp.kind {
                 TossiKind::Others => Ok(word.to_string() + tossi),
-                TossiKind::Ka => Ok(transfer::tossi(word, temp).to_string()),
-                _ => Ok(word.to_string() + transfer::tossi(word, temp)),
+                TossiKind::Ka => Ok(transfer::tossi(word, temp)),
+                _ => Ok(word.to_string() + &transfer::tossi(word, temp)),
             }
         }
     }

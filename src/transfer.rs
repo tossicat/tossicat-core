@@ -36,7 +36,7 @@ use crate::identifier::{Tossi, TossiKind, TransTossiWhen};
 /// 토시 변형 후보를 선택하고, `Tossi` 구조체의 `when`을 가지고 있는
 /// 변형 방법에 맞는 변형 함수를 선택합니다. 선택한 함수에 토시를 붙일 단어와
 /// 토시 변형 후보들을 입력히면 적합한 토시를 반환합니다.
-pub fn tossi(word: &str, tossi: Tossi) -> &str {
+pub fn tossi(word: &str, tossi: Tossi) -> String {
     let tossi_variants = match tossi.kind {
         TossiKind::Deun => DEUN,
         TossiKind::Deunka => DEUNKA,
@@ -64,13 +64,12 @@ pub fn tossi(word: &str, tossi: Tossi) -> &str {
         TossiKind::Others => (" ", " ", " "),
     };
 
-    let result = match tossi.when {
-        TransTossiWhen::Blank => when_blank(word, tossi_variants),
-        TransTossiWhen::RiEulAndBlank => when_rieul_and_blank(word, tossi_variants),
-        TransTossiWhen::OnlyKa => only_ka(word, tossi_variants),
-        TransTossiWhen::Nothing => " ",
-    };
-    result
+    match tossi.when {
+        TransTossiWhen::Blank => when_blank(word, tossi_variants).to_string(),
+        TransTossiWhen::RiEulAndBlank => when_rieul_and_blank(word, tossi_variants).to_string(),
+        TransTossiWhen::OnlyKa => only_ka(word, tossi_variants).to_string(),
+        TransTossiWhen::Nothing => " ".to_string(),
+    }
 }
 /// ## 받침 없는 체언이나 ‘ㄹ’ 받침으로 끝나는 체언 뒤에 붙는 경우에 토시가 변환하는 함수
 ///
