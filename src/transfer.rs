@@ -67,7 +67,7 @@ pub fn tossi(word: &str, tossi: Tossi) -> String {
     match tossi.when {
         TransTossiWhen::Blank => when_blank(word, tossi_variants).to_string(),
         TransTossiWhen::RiEulAndBlank => when_rieul_and_blank(word, tossi_variants).to_string(),
-        TransTossiWhen::OnlyKa => only_ka(word, tossi_variants).to_string(),
+        TransTossiWhen::OnlyKa => only_ka(word, tossi_variants),
         TransTossiWhen::Nothing => " ".to_string(),
     }
 }
@@ -119,6 +119,8 @@ fn when_rieul_and_blank<'a>(word: &'a str, tossi_variants: (&'a str, &'a str, &'
     }
 }
 
+/// ## 체언 뒤에 붙는 "이 / 가" 토시를 변환하는 함수
+/// 
 /// 입력된 특정 문자열(단어)의 마지막 글자의 종성만을 뽑아서 이 종성에 맞는
 /// "~이"/ "~가" 토시 변화형 중 해당 토시에 적합한 것을 찾아서 반환해주는 역할을 합니다.
 ///
@@ -126,30 +128,30 @@ fn when_rieul_and_blank<'a>(word: &'a str, tossi_variants: (&'a str, &'a str, &'
 /// - '이'는 받침 있는 체언 뒤에 붙습니다.
 /// - 외국어가 앞 단어로 오는 경우 병기 '(이)가'이 출력됩니다.
 ///
-/// ‘가’가 붙을 때 형태가 변하는 예가 있습니다.
+/// ‘가’가 붙어야 하는 경우에 위와 형태가 변하는 예가 있습니다.
 /// ‘누구’와 ‘가’가 함께 쓰이면 ‘누가’로 쓰이며,
 /// 너, 나, 저’와 같이 쓸 때는 ‘네가, 내가, 제가’로 씁니다.
-///
-fn only_ka<'a>(word: &'a str, tossi_variants: (&'a str, &'a str, &'a str)) -> &'a str {
+
+fn only_ka<'a>(word: &'a str, tossi_variants: (&'a str, &'a str, &'a str)) -> String {
     let filtered = guess_final_letter(word);
     // find_last_letter()은 한글이나 숫자가 없을 경우 ' '을 출력한다.
     // println!("마지막 글자 받침: {}", filtered);
     if filtered == 'N' {
-        tossi_variants.0
+        word.to_string() + tossi_variants.0
     } else if filtered == ' ' {
         if word == "누구" {
-            "누가"
+            "누가".to_string()
         } else if word == "나" {
-            "내가"
+            "내가".to_string()
         } else if word == "저" {
-            "제가"
+            "제가".to_string()
         } else if word == "너" {
-            "네가"
+            "네가".to_string()
         } else {
-            tossi_variants.1
+            word.to_string() + tossi_variants.1
         }
     } else {
-        tossi_variants.2
+        word.to_string() + tossi_variants.2
     }
 }
 
@@ -298,6 +300,44 @@ fn when_blank<'a>(word: &'a str, tossi_variants: (&'a str, &'a str, &'a str)) ->
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn _when_only_ka() {
+        // 밭침이 없는 경우
+        let temp = "철수";
+        let result = "철수가";
+        assert_eq!(result, only_ka(temp, KA));
+        // 받침이 있는 경우
+        let temp = "법원";
+        let result = "법원이";
+        assert_eq!(result, only_ka(temp, KA));
+        // 마지막 글자가 영어가 나오는 경우
+        let temp = "google";
+        let result = "google(이)가";
+        assert_eq!(result, only_ka(temp, KA));
+        // 괄호 안에 들어 있는 글자는 무시하고 바로 앞 글자가 마지막 글자가 됩니다.
+        let temp = "넥슨(코리아)";
+        let result = "넥슨(코리아)이";
+        assert_eq!(result, only_ka(temp, KA));
+        // 숫자는 그 숫자를 한글로 발음하는 것으로 변환합니다.
+        let temp = "비타500";
+        let result = "비타500이";
+        assert_eq!(result, only_ka(temp, KA));
+        // - 가 / 이 변환의 특수한 경우를 테스트 합니다.
+        // 누구, 나, 저, 너
+        let temp = "누구";
+        let result = "누가";
+        assert_eq!(result, only_ka(temp, KA));
+        let temp = "나";
+        let result = "내가";
+        assert_eq!(result, only_ka(temp, KA));
+        let temp = "저";
+        let result = "제가";
+        assert_eq!(result, only_ka(temp, KA));
+        let temp = "너";
+        let result = "네가";
+        assert_eq!(result, only_ka(temp, KA));
+    }
     #[test]
     fn _when_rieul_and_blank() {
         // 밭침이 없는 경우
