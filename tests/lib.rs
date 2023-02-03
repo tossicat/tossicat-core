@@ -9,6 +9,18 @@ fn _modify_sentence() {
     let test = "{나, 가} {철수, 과} {사과, 을} 먹었습니다.";
     let result = Ok("내가 철수와 사과를 먹었습니다.".to_string());
     assert_eq!(result, modify_sentence(test));
+
+    let test = "{법원, 가} {철수, 과} {영희, 의} {출국, 를} 막았습니다.";
+    let result = Ok("법원이 철수와 영희의 출국을 막았습니다.".to_string());
+    assert_eq!(result, modify_sentence(test));
+
+    let test = "{철수, 은} {apple, 를} 먹습니다.";
+    let result = Ok("철수는 apple(을)를 먹습니다.".to_string());
+    assert_eq!(result, modify_sentence(test));
+
+    let test = "{누구, 이} {나, 을} 막을까?";
+    let result = Ok("누가 나를 막을까?".to_string());
+    assert_eq!(result, modify_sentence(test));
 }
 
 #[test]
@@ -126,5 +138,15 @@ fn _postfix() {
     let word = "너";
     let tossi = "이";
     let result = Ok("네가".to_string());
+    assert_eq!(result, postfix(word, tossi));
+    // KA(가) 경우에서 일반적인 경우 테스트
+    // 이건 받침 유무로
+    let word = "철수";
+    let tossi = "이";
+    let result = Ok("철수가".to_string());
+    assert_eq!(result, postfix(word, tossi));
+    let word = "법원";
+    let tossi = "가";
+    let result = Ok("법원이".to_string());
     assert_eq!(result, postfix(word, tossi));
 }
