@@ -4,12 +4,17 @@
 //! 선택하고, 그 구조체가 제시하고 있는 변형 방법에 맞는 변형 함수를 선택하게 됩니다.
 //! 나머지 함수들을 현형 함수입니다.
 
+// 0번째는 토시는 외국어인 경우에 사용하는 토시입니다.
 const DEUN: (&str, &str, &str) = ("(이)든", "든", "이든");
 const DEUNKA: (&str, &str, &str) = ("(이)든가", "든가", "이든가");
 const DEUNJI: (&str, &str, &str) = ("(이)든지", "든지", "이든지");
 const EUL: (&str, &str, &str) = ("(을)를", "를", "을");
 const IDA: (&str, &str, &str) = ("(이)다", "다", "이다");
-const INDEUL: (&str, &str, &str) = ("인들", "들", "인들");
+// INDEUL 경우에는 외국어의 문자에 `ㄴ`을 추가할 수 없기 때문에
+// 이 토시 종류를 명확하게 하기 위해서 0번째에 `ㄴ`을 넣었습니다.
+// 이와 관련된 내용은 `when_last_jamo_nieun()` 함수 설명 부분을
+// 참고하세요.
+const INDEUL: (&str, &str, &str) = ("ㄴ", "들", "인들");
 const KA: (&str, &str, &str) = ("(이)가", "가", "이");
 const KO: (&str, &str, &str) = ("(이)고", "고", "이고");
 const MYEO: (&str, &str, &str) = ("(이)며", "며", "이며");
@@ -175,10 +180,17 @@ fn only_ka<'a>(word: &'a str, tossi_variants: (&'a str, &'a str, &'a str)) -> St
 /// 현재 아래 목록에 있는 토시를 입력된 특정 문자열(단어)에 따라 변환합니다.
 ///
 /// ### NINDEUL(인들) 경우
-/// 체언 뒤에 붙는 "인들" 토시를 변환하는 함수
+///
+/// INDEUL 경우에는 외국어의 문자에 `ㄴ`을 추가할 수 없기 때문에
+/// 이 토시 종류를 명확하게 하기 위해서 0번째에 `ㄴ`을 넣었습니다.
+/// 왜냐하면 이 토시 모음은 "ㄴ들"과 "인들"을 위한 것이지
+/// "들"을 위한 것이 아니기 때문입니다. 물론 0번째가 아니라 1번쩨 칸에
+/// "ㄴ들"을 넣으면 더 명확할 수 있지만, 그렇게 된다면 이 "ㄴ들"를 `str`을 분리해서
+/// "들" 뽑아야 하는데 불필요한 코드를 많이 작성하게 됩니다.
+/// 이렇게 하면 깔끔하게 됩니다.
 ///
 /// ```rust
-/// const INDEUL: (&str, &str, &str) = ("인들", "들", "인들");
+/// const INDEUL: (&str, &str, &str) = ("ㄴ", "들", "인들");
 /// ```
 ///
 /// - '인들'은 받침 있는 체언 뒤에 붙습니다.
@@ -195,12 +207,12 @@ fn when_last_jamo_nieun<'a>(word: &'a str, tossi_variants: (&'a str, &'a str, &'
     // find_last_letter()은 한글이나 숫자가 없을 경우 ' '을 출력한다.
     // println!("마지막 글자 받침: {}", filtered);
     if filtered == 'N' {
-        word.to_string() + tossi_variants.0
+        word.to_string() + tossi_variants.2
     } else if filtered == ' ' {
         let mut temp_word: String = word.to_string();
         let last_char = temp_word.pop();
         // 여기 조건문이 필요 없을 것 같은데 Some으로 들어오기 때문에
-        // 현재 현재 아는 바로는 이렇게 처리할 수 밖에 없다.  
+        // 현재 현재 아는 바로는 이렇게 처리할 수 밖에 없다.
         if let Some(temp) = last_char {
             let temp_last_char = modify_finall_jamo(temp, 'ㄴ');
             temp_word.push(temp_last_char);

@@ -21,10 +21,20 @@ fn _modify_sentence() {
     let test = "{누구, 이} {나, 을} 막을까?";
     let result = Ok("누가 나를 막을까?".to_string());
     assert_eq!(result, modify_sentence(test));
+
+    let test = "{아버지, 인들} {자식들, 에게} {밥, 를} 안 줄까?";
+    let result = Ok("아버진들 자식들에게 밥을 안 줄까?".to_string());
+    assert_eq!(result, modify_sentence(test));
 }
 
 #[test]
 fn _postfix() {
+    // 'ㄴ들', '인들' 테스트
+    let word = "아버지";
+    let tossi = "인들";
+    let result = Ok("아버진들".to_string());
+    assert_eq!(result, postfix(word, tossi));
+
     // '으로', '로' 테스트
     let word = "집";
     let tossi = "으로";

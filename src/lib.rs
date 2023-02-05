@@ -269,6 +269,7 @@ pub fn postfix(word: &str, tossi: &str) -> Result<String, ValueError> {
             match temp.kind {
                 TossiKind::Others => Ok(word.to_string() + tossi),
                 TossiKind::Ka => Ok(transfer::tossi(word, temp)),
+                TossiKind::Indeul => Ok(transfer::tossi(word, temp)),
                 _ => Ok(word.to_string() + &transfer::tossi(word, temp)),
             }
         }
