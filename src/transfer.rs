@@ -9,6 +9,7 @@ const DEUNKA: (&str, &str, &str) = ("(이)든가", "든가", "이든가");
 const DEUNJI: (&str, &str, &str) = ("(이)든지", "든지", "이든지");
 const EUL: (&str, &str, &str) = ("(을)를", "를", "을");
 const IDA: (&str, &str, &str) = ("(이)다", "다", "이다");
+const INDEUL: (&str, &str, &str) = ("인들", "들", "인들");
 const KA: (&str, &str, &str) = ("(이)가", "가", "이");
 const KO: (&str, &str, &str) = ("(이)고", "고", "이고");
 const MYEO: (&str, &str, &str) = ("(이)며", "며", "이며");
@@ -29,6 +30,7 @@ const ROSEO: (&str, &str, &str) = ("(으)로서", "로서", "으로서");
 const ROSSEO: (&str, &str, &str) = ("(으)로써", "로써", "으로써");
 
 use crate::guess_final_letter;
+use crate::modify_finall_jamo;
 
 use crate::identifier::{Tossi, TossiKind, TransTossiWhen};
 
@@ -43,6 +45,7 @@ pub fn tossi(word: &str, tossi: Tossi) -> String {
         TossiKind::Deunji => DEUNJI,
         TossiKind::Eul => EUL,
         TossiKind::Ida => IDA,
+        TossiKind::Indeul => INDEUL,
         TossiKind::Ka => KA,
         TossiKind::Ko => KO,
         TossiKind::Myeo => MYEO,
@@ -68,6 +71,7 @@ pub fn tossi(word: &str, tossi: Tossi) -> String {
         TransTossiWhen::Blank => when_blank(word, tossi_variants).to_string(),
         TransTossiWhen::RiEulAndBlank => when_rieul_and_blank(word, tossi_variants).to_string(),
         TransTossiWhen::OnlyKa => only_ka(word, tossi_variants),
+        TransTossiWhen::LastJamoNieun => when_last_jamo_nieun(word, tossi_variants),
         TransTossiWhen::Nothing => " ".to_string(),
     }
 }
@@ -154,6 +158,53 @@ fn only_ka<'a>(word: &'a str, tossi_variants: (&'a str, &'a str, &'a str)) -> St
             "제가".to_string()
         } else if word == "너" {
             "네가".to_string()
+        } else {
+            word.to_string() + tossi_variants.1
+        }
+    } else {
+        word.to_string() + tossi_variants.2
+    }
+}
+
+/// ## 받침 없는 체언 뒤에 붙는 경우에 그 체언에 "ㄴ"을 추가하는 토시 변환
+///
+/// 이 함수는 받침 있는 체언 뒤에는 그대로 토시가 붙지만,
+/// 받침 없는 체언 뒤에 붙는 경우에는 그 체언에 "ㄴ"을 추가하고 해당 토시는
+/// 그대로 붙는 토시들을 변환하는 함수입니다.
+///
+/// 현재 아래 목록에 있는 토시를 입력된 특정 문자열(단어)에 따라 변환합니다.
+///
+/// ### NINDEUL(인들) 경우
+/// 체언 뒤에 붙는 "인들" 토시를 변환하는 함수
+///
+/// ```rust
+/// const INDEUL: (&str, &str, &str) = ("인들", "들", "인들");
+/// ```
+///
+/// - '인들'은 받침 있는 체언 뒤에 붙습니다.
+/// - 외국어가 앞 단어로 오는 경우 '인들'이 붙습니다.
+///
+/// 그러나 받침 없는 체언 뒤에서는 체언의 마지막 글자에 'ㄴ'를 붙이고 토시 '들'을 붙입니다.
+///
+/// 예를 들면 다음과 같습니다.
+///
+/// - "나" + "인들" = "난들"
+
+fn when_last_jamo_nieun<'a>(word: &'a str, tossi_variants: (&'a str, &'a str, &'a str)) -> String {
+    let filtered = guess_final_letter(word);
+    // find_last_letter()은 한글이나 숫자가 없을 경우 ' '을 출력한다.
+    // println!("마지막 글자 받침: {}", filtered);
+    if filtered == 'N' {
+        word.to_string() + tossi_variants.0
+    } else if filtered == ' ' {
+        let mut temp_word: String = word.to_string();
+        let last_char = temp_word.pop();
+        // 여기 조건문이 필요 없을 것 같은데 Some으로 들어오기 때문에
+        // 현재 현재 아는 바로는 이렇게 처리할 수 밖에 없다.  
+        if let Some(temp) = last_char {
+            let temp_last_char = modify_finall_jamo(temp, 'ㄴ');
+            temp_word.push(temp_last_char);
+            return temp_word + tossi_variants.1;
         } else {
             word.to_string() + tossi_variants.1
         }
@@ -333,6 +384,41 @@ mod tests {
         let result = "네가";
         assert_eq!(result, only_ka(temp, KA));
     }
+
+    #[test]
+    fn _when_when_last_jamo_nieun() {
+        // 밭침이 없는 경우
+        let temp = "철수";
+        let result = "철순들";
+        assert_eq!(result, when_last_jamo_nieun(temp, INDEUL));
+        let temp = "아버지";
+        let result = "아버진들";
+        assert_eq!(result, when_last_jamo_nieun(temp, INDEUL));
+        let temp = "나";
+        let result = "난들";
+        assert_eq!(result, when_last_jamo_nieun(temp, INDEUL));
+        // 받침이 있는 경우
+        let temp = "법원";
+        let result = "법원인들";
+        assert_eq!(result, when_last_jamo_nieun(temp, INDEUL));
+        // 마지막 글자가 영어가 나오는 경우
+        let temp = "google";
+        let result = "google인들";
+        assert_eq!(result, when_last_jamo_nieun(temp, INDEUL));
+        // 마지막 글자가 영어가 나오는 경우
+        let temp = "naver";
+        let result = "naver인들";
+        assert_eq!(result, when_last_jamo_nieun(temp, INDEUL));
+        // 괄호 안에 들어 있는 글자는 무시하고 바로 앞 글자가 마지막 글자가 됩니다.
+        let temp = "넥슨(코리아)";
+        let result = "넥슨(코리아)인들";
+        assert_eq!(result, when_last_jamo_nieun(temp, INDEUL));
+        // 숫자는 그 숫자를 한글로 발음하는 것으로 변환합니다.
+        let temp = "비타500";
+        let result = "비타500인들";
+        assert_eq!(result, when_last_jamo_nieun(temp, INDEUL));
+    }
+
     #[test]
     fn _when_rieul_and_blank() {
         // 밭침이 없는 경우
