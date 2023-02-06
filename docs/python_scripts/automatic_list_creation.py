@@ -62,6 +62,19 @@ result_1 = result + Eul_variations + Ka_variations + Neun_variations + Wa_variat
 
 result_1 = sorted(set(result_1))
 
+# 위 목록에서 아래 목록에 들어 있는 0번째와 1번째 토시를 제외합니다.
+# 왜냐하면 이 토시들은 외국어의 문자에 `ㄴ`을 추가할 수 없기 때문에
+# 이 토시 종류를 명확하게 하기 위해서 0번째에 `ㄴ`을 넣었습니다.
+# 그리고 1번째 토시는 원래 "ㄴ들"인데 이것 또한 앞에서
+
+INDEUL_variations = ["ㄴ", "들", "인들"]
+
+result_1.remove(INDEUL_variations[0])
+result_1.remove(INDEUL_variations[1])
+
+
+result_1 = sorted(result_1)
+
 print("단어에 따라 변환하는 토시 중에서 이 라이브러리에서")
 print("처리할 수 있는 토시 총 목록. `/src/transfer.rs`에서 뽑아 냈습니다.")
 print("")
