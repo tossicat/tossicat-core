@@ -10,11 +10,12 @@ const DEUNKA: (&str, &str, &str) = ("(이)든가", "든가", "이든가");
 const DEUNJI: (&str, &str, &str) = ("(이)든지", "든지", "이든지");
 const EUL: (&str, &str, &str) = ("(을)를", "를", "을");
 const IDA: (&str, &str, &str) = ("(이)다", "다", "이다");
-// INDEUL 경우에는 외국어의 문자에 `ㄴ`을 추가할 수 없기 때문에
+// INDEUL, INJEUK 경우에는 외국어의 문자에 `ㄴ`을 추가할 수 없기 때문에
 // 이 토시 종류를 명확하게 하기 위해서 0번째에 `ㄴ`을 넣었습니다.
 // 이와 관련된 내용은 `when_last_jamo_nieun()` 함수 설명 부분을
 // 참고하세요.
 const INDEUL: (&str, &str, &str) = ("ㄴ", "들", "인들");
+const INJEUK: (&str, &str, &str) = ("ㄴ", "즉", "인즉");
 const KA: (&str, &str, &str) = ("(이)가", "가", "이");
 const KO: (&str, &str, &str) = ("(이)고", "고", "이고");
 const MYEO: (&str, &str, &str) = ("(이)며", "며", "이며");
@@ -51,6 +52,7 @@ pub fn tossi(word: &str, tossi: Tossi) -> String {
         TossiKind::Eul => EUL,
         TossiKind::Ida => IDA,
         TossiKind::Indeul => INDEUL,
+        TossiKind::Injeuk => INJEUK,
         TossiKind::Ka => KA,
         TossiKind::Ko => KO,
         TossiKind::Myeo => MYEO,
@@ -185,9 +187,9 @@ fn only_ka<'a>(word: &'a str, tossi_variants: (&'a str, &'a str, &'a str)) -> St
 /// 이 토시 종류를 명확하게 하기 위해서 0번째에 `ㄴ`을 넣었습니다.
 /// 왜냐하면 이 토시 모음은 "ㄴ들"과 "인들"을 위한 것이지
 /// "들"을 위한 것이 아니기 때문입니다. 물론 0번째가 아니라 1번쩨 칸에
-/// "ㄴ들"을 넣으면 더 명확할 수 있지만, 그렇게 된다면 이 "ㄴ들"를 `str`을 분리해서
-/// "들" 뽑아야 하는데 불필요한 코드를 많이 작성하게 됩니다.
-/// 이렇게 하면 깔끔하게 됩니다.
+/// "ㄴ들"을 넣으면 더 명확할 수 있지만, 그렇게 된다면 이 "ㄴ들"에서 `str`을 분리해서
+/// "들" 뽑아야 하는데 rust에서는 불필요한 코드를 많이 작성하게 됩니다.
+/// 그러나 아래와 같이 하면 깔끔하게 됩니다.
 ///
 /// ```rust
 /// const INDEUL: (&str, &str, &str) = ("ㄴ", "들", "인들");
@@ -201,6 +203,30 @@ fn only_ka<'a>(word: &'a str, tossi_variants: (&'a str, &'a str, &'a str)) -> St
 /// 예를 들면 다음과 같습니다.
 ///
 /// - "나" + "인들" = "난들"
+///
+/// ### INJEUK(인즉) 경우
+///
+/// INDEUL 경우에는 외국어의 문자에 `ㄴ`을 추가할 수 없기 때문에
+/// 이 토시 종류를 명확하게 하기 위해서 0번째에 `ㄴ`을 넣었습니다.
+/// 왜냐하면 이 토시 모음은 "ㄴ즉"과 "인즉"을 위한 것이지
+/// "들"을 위한 것이 아니기 때문입니다. 물론 0번째가 아니라 1번쩨 칸에
+/// "ㄴ들"을 넣으면 더 명확할 수 있지만, 그렇게 된다면 이 "ㄴ즉"에서 `str`을 분리해서
+/// "즉" 뽑아야 하는데 rust에서는 불필요한 코드를 많이 작성하게 됩니다.
+/// 그러나 아래와 같이 하면 깔끔하게 됩니다.
+///
+/// ```rust
+/// const INJEUK: (&str, &str, &str) = ("ㄴ", "즉", "인즉");
+/// ```
+///
+/// - '인들'은 받침 있는 체언 뒤에 붙어, ‘으로 말하면’의 뜻으로 쓰이는 보조사.
+/// - 외국어가 앞 단어로 오는 경우 '인즉'이 붙습니다.
+///
+/// 그러나 받침 없는 체언 뒤에서는 체언의 마지막 글자에 'ㄴ'를 붙이고 토시 '즉'을 붙입니다.
+/// 뜻은 ‘로 말하면’의 뜻을 나타내는 보조사.
+///
+/// 예를 들면 다음과 같습니다.
+///
+/// 얘기∼ 그게 옳다. - 얘긴즉 그게 옳다.
 
 fn when_last_jamo_nieun<'a>(word: &'a str, tossi_variants: (&'a str, &'a str, &'a str)) -> String {
     let filtered = guess_final_letter(word);

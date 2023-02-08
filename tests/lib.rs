@@ -29,6 +29,16 @@ fn _modify_sentence() {
 
 #[test]
 fn _postfix() {
+    // 'ㄴ즉', '인즉' 테스트
+    let word = "물건";
+    let tossi = "인즉";
+    let result = Ok("물건인즉".to_string());
+    assert_eq!(result, postfix(word, tossi));
+    let word = "얘기";
+    let tossi = "인즉";
+    let result = Ok("얘긴즉".to_string());
+    assert_eq!(result, postfix(word, tossi));
+
     // 'ㄴ들', '인들' 테스트
     let word = "아버지";
     let tossi = "인들";

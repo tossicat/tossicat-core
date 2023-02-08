@@ -38,6 +38,7 @@ pub enum TossiKind {
     Eul,
     Ida,
     Indeul,
+    Injeuk,
     Ka,
     Ko,
     Myeo,
@@ -90,6 +91,7 @@ impl Tossi {
             TossiKind::Eul => TransTossiWhen::Blank,
             TossiKind::Ida => TransTossiWhen::Blank,
             TossiKind::Indeul => TransTossiWhen::LastJamoNieun,
+            TossiKind::Injeuk => TransTossiWhen::LastJamoNieun,
             TossiKind::Ka => TransTossiWhen::OnlyKa,
             TossiKind::Ko => TransTossiWhen::Blank,
             TossiKind::Myeo => TransTossiWhen::Blank,
@@ -162,6 +164,7 @@ fn two_letters(elements: &[char]) -> TossiKind {
         ('라', '야') => TossiKind::Raya,
         ('라', '도') => TossiKind::Rado,
         ('인', '들') => TossiKind::Indeul,
+        ('인', '즉') => TossiKind::Injeuk,
         (_, _) => TossiKind::Others,
     }
 }

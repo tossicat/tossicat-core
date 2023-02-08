@@ -62,16 +62,32 @@ result_1 = result + Eul_variations + Ka_variations + Neun_variations + Wa_variat
 
 result_1 = sorted(set(result_1))
 
-# 위 목록에서 아래 목록에 들어 있는 0번째와 1번째 토시를 제외합니다.
-# 왜냐하면 이 토시들은 외국어의 문자에 `ㄴ`을 추가할 수 없기 때문에
-# 이 토시 종류를 명확하게 하기 위해서 0번째에 `ㄴ`을 넣었습니다.
-# 그리고 1번째 토시는 원래 "ㄴ들"인데 이것 또한 앞에서
+# 원칙적으로 하면 1번째 항목이 원래 "ㄴ들"과 같은 형식인데 
+# 이런 형식의 토시들은 마지막 글자에 `ㄴ`을 추가하고 "들"과 같은 것을 
+# 추가하는 방식으로 토시가 붙는 단어가 변하는데 
+# 외국어의 문자에 `ㄴ`을 추가할 수 없기 때문에
+# 이 토시 종류를 명확하게 하기 위해서 0번째에 `ㄴ`을 넣고
+# 그리고 1번째 항목에 "들"과 같이 `ㄴ`을 뺀 나머지 부분을 넣었습니다.
+# 따라서 0번과 1번은 토시 목록에는 들어갈 수 없는 부분입니다.
+# 그래서 위 목록에서 아래 목록에 들어 있는 0번째와 1번째 토시를 제외합니다.
+# 여기에 속한 토시 목록에 대한 설명은 `src/transfer.rs` 에서 
+# `when_last_jamo_nieun()` 함수 설명을 참고하시면 됩니다.
+#
+# - INDEUL_variations
+# - INJEUK_variations
+
 
 INDEUL_variations = ["ㄴ", "들", "인들"]
 
 result_1.remove(INDEUL_variations[0])
 result_1.remove(INDEUL_variations[1])
 
+# 여기서는 0번째를 지우지 않는 이유는 앞에서 이미 "ㄴ"를 지웠기 때문에
+# 또 지우면 에러가 발생하기 때문입니다.
+
+INJEUK_variations = ["ㄴ", "즉", "인즉"]
+
+result_1.remove(INJEUK_variations[1])
 
 result_1 = sorted(result_1)
 
