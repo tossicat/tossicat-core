@@ -24,6 +24,7 @@ const NAMA: (&str, &str, &str) = ("(이)나마", "나마", "이나마");
 const NEUN: (&str, &str, &str) = ("(은)는", "는", "은");
 const NI: (&str, &str, &str) = ("(이)니", "니", "이니");
 const RADO: (&str, &str, &str) = ("(이)라도", "라도", "이라도");
+const RAGO: (&str, &str, &str) = ("(이)라고", "라고", "이라고");
 const RAN: (&str, &str, &str) = ("(이)란", "란", "이란");
 const RANG: (&str, &str, &str) = ("(이)랑", "랑", "이랑");
 const RAYA: (&str, &str, &str) = ("(이)라야", "라야", "이라야");
@@ -61,6 +62,7 @@ pub fn tossi(word: &str, tossi: Tossi) -> String {
         TossiKind::Neun => NEUN,
         TossiKind::Ni => NI,
         TossiKind::Rado => RADO,
+        TossiKind::Rago => RAGO,
         TossiKind::Ran => RAN,
         TossiKind::Rang => RANG,
         TossiKind::Raya => RAYA,
@@ -359,10 +361,16 @@ fn when_last_jamo_nieun<'a>(word: &'a str, tossi_variants: (&'a str, &'a str, &'
 /// - '와'는 받침 없는 체언 뒤에 붙습니다.
 /// - '과'는 받침 있는 체언 뒤에 붙습니다.
 /// - 외국어가 앞 단어로 오는 경우 병기 '(와)과'가 출력됩니다.
+///
 /// ### RADO(라도) 경우
 /// - '라도'는 받침 없는 체언 뒤에 붙습니다.
 /// - '이라도'는 받침 있는 체언 뒤에 붙습니다.
 /// - 외국어가 앞 단어로 오는 경우 병기 '(이)라도'가 출력됩니다.
+///
+/// ### RAGO(라고) 경우
+/// - '라고'는 받침 없는 체언 뒤에 붙습니다.
+/// - '이라고'는 받침 있는 체언 뒤에 붙습니다.
+/// - 외국어가 앞 단어로 오는 경우 병기 '(이)라고'가 출력됩니다.
 
 fn when_blank<'a>(word: &'a str, tossi_variants: (&'a str, &'a str, &'a str)) -> &'a str {
     let filtered = guess_final_letter(word);
@@ -384,6 +392,33 @@ fn when_blank<'a>(word: &'a str, tossi_variants: (&'a str, &'a str, &'a str)) ->
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn _when_blank_rago() {
+        // 마지막 받침이 있는 경우
+        let temp = "고향";
+        let result = "이라고";
+        assert_eq!(result, when_blank(temp, RAGO));
+        // 마지막 받침이 없는 경우
+        let temp = "자네";
+        let result = "라고";
+        assert_eq!(result, when_blank(temp, RAGO));
+        let temp = "아이";
+        let result = "라고";
+        assert_eq!(result, when_blank(temp, RAGO));
+        // 마지막 글자가 영어가 나오는 경우
+        let temp = "google";
+        let result = "(이)라고";
+        assert_eq!(result, when_blank(temp, RAGO));
+        // 괄호 안에 들어 있는 글자는 무시하고 바로 앞 글자가 마지막 글자가 됩니다.
+        let temp = "넥슨(코리아)";
+        let result = "이라고";
+        assert_eq!(result, when_blank(temp, RAGO));
+        // 숫자는 그 숫자를 한글로 발음하는 것으로 변환합니다.
+        let temp = "비타500";
+        let result = "이라고";
+        assert_eq!(result, when_blank(temp, RAGO));
+    }
 
     #[test]
     fn _when_only_ka() {

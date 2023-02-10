@@ -25,6 +25,10 @@ fn _modify_sentence() {
     let test = "{아버지, 인들} {자식들, 에게} {밥, 를} 안 줄까?";
     let result = Ok("아버진들 자식들에게 밥을 안 줄까?".to_string());
     assert_eq!(result, modify_sentence(test));
+
+    let test = "전쟁 통에 {공부, 이라고} 어디 제대로 했나. {자네, 라고} 별수 있겠나.";
+    let result = Ok("전쟁 통에 공부라고 어디 제대로 했나. 자네라고 별수 있겠나.".to_string());
+    assert_eq!(result, modify_sentence(test));
 }
 
 #[test]
