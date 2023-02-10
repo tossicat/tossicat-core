@@ -29,6 +29,11 @@ fn _modify_sentence() {
     let test = "전쟁 통에 {공부, 이라고} 어디 제대로 했나. {자네, 라고} 별수 있겠나.";
     let result = Ok("전쟁 통에 공부라고 어디 제대로 했나. 자네라고 별수 있겠나.".to_string());
     assert_eq!(result, modify_sentence(test));
+
+    // '만큼' 검사
+    let test = "너는 {학생인, 만큼} 공부에만 전념하여라.";
+    let result = Ok("너는 학생인만큼 공부에만 전념하여라.".to_string());
+    assert_eq!(result, modify_sentence(test));
 }
 
 #[test]
