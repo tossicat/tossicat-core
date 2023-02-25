@@ -100,6 +100,7 @@ result_1.remove(INJEUK_variations[1])
 
 result_1 = sorted(result_1)
 
+print("")
 print("# 이 프로젝트에서 다루고 있는 총 토시 목록")
 print("")
 print("이 글은 이 프로젝트가 다룰 수 있는 토시 목록을 항상 최근 것으로 갱신하는 문서입니다. ")
@@ -279,3 +280,16 @@ print("")
 # print(total_result)
 print(json.dumps(temp_result, ensure_ascii=False))
 print("")
+
+# 아래 코드는 `docs/total_tossi.json`이라는 이름으로 
+# 뽑아낸 목록을 저장하는 코드 입니다.
+
+total = {}
+
+total["전체_목록"] = temp_result
+total["괄호_포함_전체_목록"]= total_result
+total["변환할_필요가_없는_목록"] = not_need_to_be_converted_tossi_list
+total["변환할_필요가_있는_목록"] = parenthesis_is_not_exist_in_result
+
+with open("docs/total_tossi.json", "w") as outfile:
+    json.dump(total, outfile, ensure_ascii=False, indent=4)
