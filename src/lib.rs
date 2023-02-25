@@ -73,6 +73,7 @@ mod identifier;
 mod number;
 mod transfer;
 mod verifier;
+mod tossi;
 
 use error::{ParseError, ValueError};
 use identifier::{Tossi, TossiKind};
