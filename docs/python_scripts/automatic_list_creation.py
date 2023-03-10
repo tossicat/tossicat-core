@@ -213,7 +213,7 @@ not_need_to_be_converted_tossi_list = {
 # 현재 이 라이브러리가 처리할 수 있는지 없는지 판단하는 목록이
 # verifier.rs 에 `TOSSI_LIST`이라는 이름으로 들어 있습니다.
 # 이것을 봅아내면 현재 처리할 수 있는 전체 목록이 나오게 됩니다.
-file_name_transfer_rs = temp_dir + "/src/verifier.rs"
+file_name_transfer_rs = temp_dir + "/src/tossi.rs"
 
 if os.path.isfile(file_name_transfer_rs):
     with open(file_name_transfer_rs, encoding="utf-8") as f:
@@ -253,7 +253,7 @@ print("변환이 필요 없는 토시 목록 입니다. ")
 print("이것들도 모두 이 라이브러리로 처리할 수 있는 것입니다. ")
 print("왜냐하면 이 라이브러리가 변환할 필요가 없다는 것을 알려주기 때문입니다. ")
 print("변환이 필요 없는 토시 목록은 라이브러리에서")
-print("처리할 수 있는 토시 총 목록. `/src/verifier.rs`에서 뽑아 냈습니다. ")
+print("처리할 수 있는 토시 총 목록. `/src/tossi.rs`에서 뽑아 냈습니다. ")
 print("")
 print(f"갯수는: {len(not_need_to_be_converted_tossi_list)}")
 print("")
