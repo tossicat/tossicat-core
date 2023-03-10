@@ -13,7 +13,7 @@
 
     수정한 다음, `black`으로 정리합니다.
 
-    black  docs/python_scripts/automatic_list_creation.py
+    black docs/python_scripts/automatic_list_creation.py
 
 Usage:
     python docs/python_scripts/automatic_list_creation.py
@@ -101,15 +101,18 @@ result_1.remove(INJEUK_variations[1])
 result_1 = sorted(result_1)
 
 print("")
-print("# 이 프로젝트에서 다루고 있는 총 토시 목록")
+print("# 이 프로젝트가 다룰 수 있는 총 토시 목록")
 print("")
 print("이 글은 이 프로젝트가 다룰 수 있는 토시 목록을 항상 최근 것으로 갱신하는 문서입니다. ")
-print("이 프로젝트가 처리할 수 있는 토시에는 다음과 같이 2가지 종류가 있습니다.")
+print("이 프로젝트가 처리할 수 있는 토시에는 다음과 같이 2가지 종류가 있습니다. ")
 print("")
 print("- 붙일 단어에 따라 변환하는 토시들")
 print("- 붙일 단어에 따라 변환할 필요가 없는 토시들")
 print("")
-print("이 두 종류를 ")
+print("'붙일 단어에 따라 변환할 필요가 없는 토시'들에 속하는 토시는 앞에 어떤 단어가 와도 ")
+print(
+    "토시가 변하지 않는 토시를 말합니다. 반면에 붙일 단어에 따라 변환하는 토시들에 붙일 단어에 따라 변환할 필요가 없는 토시들에 속하는 토시는 앞에 어떤 단어가 "
+)
 print("")
 print("## 붙일 단어에 따라 변환하는 토시 목록")
 print("")
@@ -281,13 +284,13 @@ print("")
 print(json.dumps(temp_result, ensure_ascii=False))
 print("")
 
-# 아래 코드는 `docs/total_tossi.json`이라는 이름으로 
+# 아래 코드는 `docs/total_tossi.json`이라는 이름으로
 # 뽑아낸 목록을 저장하는 코드 입니다.
 
 total = {}
 
 total["전체_목록"] = temp_result
-total["괄호_포함_전체_목록"]= total_result
+total["괄호_포함_전체_목록"] = total_result
 total["변환할_필요가_없는_목록"] = not_need_to_be_converted_tossi_list
 total["변환할_필요가_있는_목록"] = parenthesis_is_not_exist_in_result
 
