@@ -237,7 +237,14 @@ print(f"- 갯수: {len(not_need_to_be_converted_tossi_list)}")
 print("")
 print("```json")
 # print(total_result)
-print(json.dumps(not_need_to_be_converted_tossi_list, ensure_ascii=False, sort_keys=True, indent=4))
+print(
+    json.dumps(
+        not_need_to_be_converted_tossi_list,
+        ensure_ascii=False,
+        sort_keys=True,
+        indent=4,
+    )
+)
 print("```")
 
 print("")
@@ -281,10 +288,29 @@ print("")
 
 total = {}
 
-total["전체_목록"] = temp_result
+total["처리_가능_전체_목록"] = temp_result
 total["괄호_포함_전체_목록"] = total_result
 total["변환할_필요가_없는_목록"] = not_need_to_be_converted_tossi_list
 total["변환할_필요가_있는_목록"] = parenthesis_is_not_exist_in_result
 
 with open("docs/total_tossi.json", "w") as outfile:
     json.dump(total, outfile, ensure_ascii=False, indent=4)
+
+print("## 참고")
+print("")
+print("여기서 소개한 목록들은 모두 `total_tossi.json`이라는 이름으로")
+print(" `json` 형식 파일로 현재 폴더 안에 있습니다. 이 파일로도 목록을 확인할 수 있습니다.")
+print(" 다음 링크에서 `total_tossi.json`을 확인하실 수 있습니다.")
+print("")
+print(
+    " -[https://github.com/tossicat/tossicat-core/blob/main/docs/available_tossi_list.md](available_tossi_list.md)"
+)
+print("")
+print(" 그리고 이 문서는 현재 `automatic_list_creation.py`라는 스크립트를 통해서")
+print(" 반자동적으로 생성되고 있습니다.")
+print(" 다음 링크에서 이 스크립트 코드를 확인하실 수 있습니다.")
+print("")
+print(
+    " -[https://github.com/tossicat/tossicat-core/blob/main/docs/total_tossi.json](total_tossi.json)"
+)
+print("")
