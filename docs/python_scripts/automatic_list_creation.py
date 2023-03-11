@@ -308,5 +308,5 @@ print(" 그리고 이 문서는 현재 `automatic_list_creation.py`라는 스크
 print(" 반자동적으로 생성되고 있습니다.")
 print(" 다음 링크에서 이 스크립트 코드를 확인하실 수 있습니다.")
 print("")
-print(" -[automatic_list_creation.py](automatic_list_creation.py)")
+print(" -[python_scripts/automatic_list_creation.py](automatic_list_creation.py)")
 print("")
