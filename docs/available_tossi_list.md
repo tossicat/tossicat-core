@@ -517,10 +517,10 @@
  `json` 형식 파일로 현재 폴더 안에 있습니다. 이 파일로도 목록을 확인할 수 있습니다.
  다음 링크에서 `total_tossi.json`을 확인하실 수 있습니다.
 
- -[available_tossi_list.md](available_tossi_list.md)
+ -[total_tossi.json](total_tossi.json)
 
  그리고 이 문서는 현재 `automatic_list_creation.py`라는 스크립트를 통해서
  반자동적으로 생성되고 있습니다.
  다음 링크에서 이 스크립트 코드를 확인하실 수 있습니다.
 
- -[total_tossi.json](total_tossi.json)
+ -[automatic_list_creation.py](automatic_list_creation.py)
