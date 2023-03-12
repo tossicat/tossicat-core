@@ -71,9 +71,9 @@ mod filter;
 mod hangeul;
 mod identifier;
 mod number;
+mod tossi;
 mod transfer;
 mod verifier;
-mod tossi;
 
 use error::{ParseError, ValueError};
 use identifier::{Tossi, TossiKind};
