@@ -13,10 +13,19 @@
 
     수정한 다음, `black`으로 정리합니다.
 
+    ```python
     black docs/python_scripts/automatic_list_creation.py
+    ```
+
+    만약 직접 파일로 저장하려면 맥이나 리눅스에서는 다음과 같이 하면 된다.
+    
+    ```python
+    python docs/python_scripts/automatic_list_creation.py >> /docs/available_tossi_list.md
+    ```
 
 Usage:
     python docs/python_scripts/automatic_list_creation.py
+
 """
 
 import os
