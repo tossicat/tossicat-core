@@ -244,7 +244,7 @@ fn only_ka<'a>(word: &'a str, tossi_variants: (&'a str, &'a str, &'a str)) -> St
 /// 예를 들면 다음과 같습니다.
 ///
 /// 얘기∼ 그게 옳다. - 얘긴즉 그게 옳다.
-/// 
+///
 /// ### ILLANG(인랑) 경우
 ///
 /// ILLANG 경우에는 외국어의 문자에 `ㄹ`을 추가할 수 없기 때문에
@@ -272,7 +272,10 @@ fn only_ka<'a>(word: &'a str, tossi_variants: (&'a str, &'a str, &'a str)) -> St
 /// 술일랑 제발 그만 마시세요.
 /// 그 여자에 대한 미련일랑 버려라.
 
-fn when_last_jamo_nieun_rieul<'a>(word: &'a str, tossi_variants: (&'a str, &'a str, &'a str)) -> String {
+fn when_last_jamo_nieun_rieul<'a>(
+    word: &'a str,
+    tossi_variants: (&'a str, &'a str, &'a str),
+) -> String {
     let filtered = guess_final_letter(word);
     // find_last_letter()은 한글이나 숫자가 없을 경우 ' '을 출력한다.
     // println!("마지막 글자 받침: {}", filtered);
@@ -532,6 +535,37 @@ mod tests {
         let temp = "비타500";
         let result = "비타500인들";
         assert_eq!(result, when_last_jamo_nieun_rieul(temp, INDEUL));
+        // ㄴ즉, 인즉 경우
+        // 밭침이 없는 경우
+        let temp = "철수";
+        let result = "철순즉";
+        assert_eq!(result, when_last_jamo_nieun_rieul(temp, INJEUK));
+        let temp = "아버지";
+        let result = "아버진즉";
+        assert_eq!(result, when_last_jamo_nieun_rieul(temp, INJEUK));
+        let temp = "나";
+        let result = "난즉";
+        assert_eq!(result, when_last_jamo_nieun_rieul(temp, INJEUK));
+        // 받침이 있는 경우
+        let temp = "법원";
+        let result = "법원인즉";
+        assert_eq!(result, when_last_jamo_nieun_rieul(temp, INJEUK));
+        // 마지막 글자가 영어가 나오는 경우
+        let temp = "google";
+        let result = "google인즉";
+        assert_eq!(result, when_last_jamo_nieun_rieul(temp, INJEUK));
+        // 마지막 글자가 영어가 나오는 경우
+        let temp = "naver";
+        let result = "naver인즉";
+        assert_eq!(result, when_last_jamo_nieun_rieul(temp, INJEUK));
+        // 괄호 안에 들어 있는 글자는 무시하고 바로 앞 글자가 마지막 글자가 됩니다.
+        let temp = "넥슨(코리아)";
+        let result = "넥슨(코리아)인즉";
+        assert_eq!(result, when_last_jamo_nieun_rieul(temp, INJEUK));
+        // 숫자는 그 숫자를 한글로 발음하는 것으로 변환합니다.
+        let temp = "비타500";
+        let result = "비타500인즉";
+        assert_eq!(result, when_last_jamo_nieun_rieul(temp, INJEUK));
     }
 
     #[test]
