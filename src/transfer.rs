@@ -49,10 +49,17 @@ use crate::modify_finall_jamo;
 
 use crate::identifier::{Tossi, TossiKind, TransTossiWhen};
 
-/// `Tossi` 구조체와 단어가 입력하면 `Tossi` 구조체의 `kind`을 가지고
-/// 토시 변형 후보를 선택하고, `Tossi` 구조체의 `when`을 가지고 있는
-/// 변형 방법에 맞는 변형 함수를 선택합니다. 선택한 함수에 토시를 붙일 단어와
-/// 토시 변형 후보들을 입력히면 적합한 토시를 반환합니다.
+/// ## 입력된 토시를 어떻게 변혈할지 방법을 설정하고 변형 목록을 제공하는 함수
+///
+/// `identifier` 모듈을 통헤서 입력된 토시가 어떤 토시인지 절정할 수 있습니다.
+///  `Tossi` 구조체와 단어가 입력하면 `Tossi` 구조체의 `kind`을 가지고
+///  토시 변형 후보를 선택하고, `Tossi` 구조체의 `when`을 가지고 있는
+///  변형 방법에 맞는 변형 함수를 선택합니다. 선택한 함수에 토시를 붙일 단어와
+///  토시 변형 후보들을 입력히면 적합한 토시를 반환합니다.
+///
+///  참고로 아래 목록 순서는 알파벳 순으로 바꿀 필요가 없습니다.
+///  왜냐하면 추가할 때 같은 처리 형식 묶음으로 엮어서 처리하고 있기 때문에
+///  현재 순서가 의미가 있기 때문입니다.
 pub fn tossi(word: &str, tossi: Tossi) -> String {
     let tossi_variants = match tossi.kind {
         TossiKind::Deun => DEUN,
