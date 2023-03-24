@@ -6,8 +6,8 @@
 
 // 0번째는 토시는 외국어인 경우에 사용하는 토시입니다.
 const DEUN: (&str, &str, &str) = ("(이)든", "든", "이든");
-const DEUNKA: (&str, &str, &str) = ("(이)든가", "든가", "이든가");
 const DEUNJI: (&str, &str, &str) = ("(이)든지", "든지", "이든지");
+const DEUNKA: (&str, &str, &str) = ("(이)든가", "든가", "이든가");
 const EUL: (&str, &str, &str) = ("(을)를", "를", "을");
 const IDA: (&str, &str, &str) = ("(이)다", "다", "이다");
 // INDEUL, INJEUK 경우에는 외국어의 문자에 `ㄴ`을 추가할 수 없기 때문에
@@ -28,13 +28,13 @@ const RAGO: (&str, &str, &str) = ("(이)라고", "라고", "이라고");
 const RAN: (&str, &str, &str) = ("(이)란", "란", "이란");
 const RANG: (&str, &str, &str) = ("(이)랑", "랑", "이랑");
 const RAYA: (&str, &str, &str) = ("(이)라야", "라야", "이라야");
-const YAMALRO: (&str, &str, &str) = ("(이)야말로", "야말로", "이야말로");
-const YEO: (&str, &str, &str) = ("(이)여", "여", "이여");
-const WA: (&str, &str, &str) = ("(와)과", "와", "과");
 const RO: (&str, &str, &str) = ("(으)로", "로", "으로");
 const ROBUTEO: (&str, &str, &str) = ("(으)로부터", "로부터", "으로부터");
 const ROSEO: (&str, &str, &str) = ("(으)로서", "로서", "으로서");
 const ROSSEO: (&str, &str, &str) = ("(으)로써", "로써", "으로써");
+const WA: (&str, &str, &str) = ("(와)과", "와", "과");
+const YAMALRO: (&str, &str, &str) = ("(이)야말로", "야말로", "이야말로");
+const YEO: (&str, &str, &str) = ("(이)여", "여", "이여");
 
 use crate::guess_final_letter;
 use crate::modify_finall_jamo;
