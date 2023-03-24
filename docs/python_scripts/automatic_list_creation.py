@@ -90,7 +90,7 @@ result_1 = sorted(set(result_1))
 # 따라서 0번과 1번은 토시 목록에는 들어갈 수 없는 부분입니다.
 # 그래서 위 목록에서 아래 목록에 들어 있는 0번째와 1번째 토시를 제외합니다.
 # 여기에 속한 토시 목록에 대한 설명은 `src/transfer.rs` 에서
-# `when_last_jamo_nieun()` 함수 설명을 참고하시면 됩니다.
+# `when_last_jamo_nieun_rieul()` 함수 설명을 참고하시면 됩니다.
 #
 # - INDEUL_variations
 # - INJEUK_variations
