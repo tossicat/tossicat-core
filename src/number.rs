@@ -21,7 +21,7 @@ const EXPS: [char; 12] = [
 /// ## 해당 문자가 숫자인지 아닌지 확인하는 함수
 /// 입력된 문자가 숫자이면 `true`, 아니면 `false`를 반환합니다.
 pub fn is_digits(num: char) -> bool {
-    ('0'..='9').contains(&num)
+    num.is_ascii_digit()
 }
 
 /// ## 숫자 한 글자를 한글 발음으로 변환해주는 함수
