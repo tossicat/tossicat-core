@@ -58,6 +58,7 @@ pub enum TossiKind {
     Wa,
     Yamalro,
     Yeo,
+    Illang,
     Others,
 }
 pub enum TransTossiWhen {
@@ -65,6 +66,7 @@ pub enum TransTossiWhen {
     RiEulAndBlank,
     OnlyKa,
     LastJamoNieun,
+    LastJamoRieul,
     Nothing,
 }
 
@@ -91,6 +93,7 @@ impl Tossi {
             TossiKind::Deunka => TransTossiWhen::Blank,
             TossiKind::Eul => TransTossiWhen::Blank,
             TossiKind::Ida => TransTossiWhen::Blank,
+            TossiKind::Illang => TransTossiWhen::LastJamoRieul,
             TossiKind::Indeul => TransTossiWhen::LastJamoNieun,
             TossiKind::Injeuk => TransTossiWhen::LastJamoNieun,
             TossiKind::Ka => TransTossiWhen::OnlyKa,
@@ -124,6 +127,8 @@ impl Tossi {
 
 /// ## 한 글자로 된 토시를 분류하는 함수
 /// 한 글자로 된 토시가 들어오면 이를 종류 별로 분류하는 함수
+/// 추가한 순서대로 아래에 추가하고 있습니다.
+/// 정렬할 필요 없습니다.
 fn one_letter(element: char) -> TossiKind {
     match element {
         '은' | '는' => TossiKind::Neun,
@@ -146,6 +151,8 @@ fn one_letter(element: char) -> TossiKind {
 
 /// ## 두 글자로 된 토시를 분류하는 함수
 /// 두 글자로 된 토시가 들어오면 이를 종류 별로 분류하는 함수
+/// 추가한 순서대로 아래에 추가하고 있습니다.
+/// 정렬할 필요 없습니다.
 fn two_letters(elements: &[char]) -> TossiKind {
     match (elements[0], elements[1]) {
         ('으', '로') => TossiKind::Ro,
@@ -168,12 +175,15 @@ fn two_letters(elements: &[char]) -> TossiKind {
         ('인', '들') => TossiKind::Indeul,
         ('인', '즉') => TossiKind::Injeuk,
         ('라', '고') => TossiKind::Rago,
+        ('일', '랑') => TossiKind::Illang,
         (_, _) => TossiKind::Others,
     }
 }
 
 /// ## 세 글자로 된 토시를 분류하는 함수
 /// 세 글자로 된 토시가 들어오면 이를 종류 별로 분류하는 함수
+/// 추가한 순서대로 아래에 추가하고 있습니다.
+/// 정렬할 필요 없습니다.
 fn three_letters(elements: &[char]) -> TossiKind {
     match (elements[0], elements[1], elements[2]) {
         ('으', '로', '서') => TossiKind::Roseo,
@@ -192,6 +202,8 @@ fn three_letters(elements: &[char]) -> TossiKind {
 
 /// ## 네 글자로 된 토시를 분류하는 함수
 /// 네 글자로 된 토시가 들어오면 이를 종류 별로 분류하는 함수
+/// 추가한 순서대로 아래에 추가하고 있습니다.
+/// 정렬할 필요 없습니다.
 fn four_letters(elements: &[char]) -> TossiKind {
     match (elements[0], elements[1], elements[2], elements[3]) {
         ('으', '로', '부', '터') => TossiKind::Robuteo,

@@ -14,7 +14,7 @@
 //!
 //! - INDEUL, INJEUK 경우에는 외국어의 문자에 `ㄴ`을 추가할 수 없기 때문에
 //! 이 토시 종류를 명확하게 하기 위해서 0번째에 `ㄴ`을 넣었습니다.
-//! 이와 관련된 내용은 `when_last_jamo_nieun_rieul()` 함수 설명 부분을
+//! 이와 관련된 내용은 `when_last_jamo_nieun()` 함수 설명 부분을
 //! 참고하세요.
 //!
 const DEUN: (&str, &str, &str) = ("(이)든", "든", "이든");
@@ -24,6 +24,7 @@ const EUL: (&str, &str, &str) = ("(을)를", "를", "을");
 const IDA: (&str, &str, &str) = ("(이)다", "다", "이다");
 const INDEUL: (&str, &str, &str) = ("ㄴ", "들", "인들");
 const INJEUK: (&str, &str, &str) = ("ㄴ", "즉", "인즉");
+const ILLANG: (&str, &str, &str) = ("ㄹ", "랑", "일랑");
 const KA: (&str, &str, &str) = ("(이)가", "가", "이");
 const KO: (&str, &str, &str) = ("(이)고", "고", "이고");
 const MYEO: (&str, &str, &str) = ("(이)며", "며", "이며");
@@ -88,6 +89,7 @@ pub fn tossi(word: &str, tossi: Tossi) -> String {
         TossiKind::Roseo => ROSEO,
         TossiKind::Rosseo => ROSSEO,
         TossiKind::Robuteo => ROBUTEO,
+        TossiKind::Illang => ILLANG,
         TossiKind::Others => (" ", " ", " "),
     };
 
@@ -95,7 +97,8 @@ pub fn tossi(word: &str, tossi: Tossi) -> String {
         TransTossiWhen::Blank => when_blank(word, tossi_variants).to_string(),
         TransTossiWhen::RiEulAndBlank => when_rieul_and_blank(word, tossi_variants).to_string(),
         TransTossiWhen::OnlyKa => only_ka(word, tossi_variants),
-        TransTossiWhen::LastJamoNieun => when_last_jamo_nieun_rieul(word, tossi_variants),
+        TransTossiWhen::LastJamoNieun => when_last_jamo_nieun(word, tossi_variants),
+        TransTossiWhen::LastJamoRieul => when_last_jamo_rieul(word, tossi_variants),
         TransTossiWhen::Nothing => " ".to_string(),
     }
 }
@@ -190,10 +193,10 @@ fn only_ka<'a>(word: &'a str, tossi_variants: (&'a str, &'a str, &'a str)) -> St
     }
 }
 
-/// ## 받침 없는 체언 뒤에 붙는 경우에 그 체언에 "ㄴ"이나 "ㄹ"을 추가하는 토시 변환
+/// ## 받침 없는 체언 뒤에 붙는 경우에 그 체언에 "ㄴ"을 추가하는 토시 변환
 ///
 /// 이 함수는 받침 있는 체언 뒤에는 그대로 토시가 붙지만,
-///  받침 없는 체언 뒤에 붙는 경우에는 그 체언에 "ㄴ"이나 "ㄹ"을 추가하고 해당 토시는
+///  받침 없는 체언 뒤에 붙는 경우에는 그 체언에 "ㄴ"을 추가하고 해당 토시는
 ///  그대로 붙는 토시들을 변환하는 함수입니다.
 ///
 /// 현재 아래 목록에 있는 토시를 입력된 특정 문자열(단어)에 따라 변환합니다.
@@ -245,37 +248,8 @@ fn only_ka<'a>(word: &'a str, tossi_variants: (&'a str, &'a str, &'a str)) -> St
 ///
 /// 얘기∼ 그게 옳다. - 얘긴즉 그게 옳다.
 ///
-/// ### ILLANG(인랑) 경우
-///
-/// ILLANG 경우에는 외국어의 문자에 `ㄹ`을 추가할 수 없기 때문에
-/// 이 토시 종류를 명확하게 하기 위해서 0번째에 `ㄹ`을 넣었습니다.
-/// 왜냐하면 이 토시 모음은 "ㄹ랑"과 "인랑"을 위한 것이지
-/// "랑"을 위한 것이 아니기 때문입니다. 물론 0번째가 아니라 1번쩨 칸에
-/// "ㄹ랑"을 넣으면 더 명확할 수 있지만, 그렇게 된다면 이 "ㄹ랑"에서 `str`을 분리해서
-/// "랑" 뽑아야 하는데 rust에서는 불필요한 코드를 많이 작성하게 됩니다.
-/// 그러나 아래와 같이 하면 깔끔하게 됩니다.
-///
-/// ```rust
-/// const ILLANG: (&str, &str, &str) = ("ㄹ", "랑", "인랑");
-/// ```
-///
-/// - '인랑'은 받침 있는 체언 뒤에 붙어, 어떤 대상을 특별히 지적하는 뜻을 나타내는 보조사.
-/// 는. 자네∼ 부디 착하게 살게 | 이사 갈 때 낡은 가구∼ 버립시다 | 위험하니까 길가에서∼ 놀지 말아라 | 여기서∼ 잠깐 기다리고 계세요. ▷ 일랑.
-/// - 외국어가 앞 단어로 오는 경우 '인랑'이 붙습니다.
-///
-/// 그러나 받침 없는 체언 뒤에서는 체언의 마지막 글자에 'ㄹ'를 붙이고 토시 '랑'을 붙입니다.
-///
-/// 예를 들면 다음과 같습니다.
-///
-/// 이사 갈 때 낡은 가굴랑 버립시다.
-/// 자네일랑 부디 착하게 살게
-/// 술일랑 제발 그만 마시세요.
-/// 그 여자에 대한 미련일랑 버려라.
 
-fn when_last_jamo_nieun_rieul<'a>(
-    word: &'a str,
-    tossi_variants: (&'a str, &'a str, &'a str),
-) -> String {
+fn when_last_jamo_nieun<'a>(word: &'a str, tossi_variants: (&'a str, &'a str, &'a str)) -> String {
     let filtered = guess_final_letter(word);
     // find_last_letter()은 한글이나 숫자가 없을 경우 ' '을 출력한다.
     // println!("마지막 글자 받침: {}", filtered);
@@ -298,6 +272,63 @@ fn when_last_jamo_nieun_rieul<'a>(
     }
 }
 
+/// ## 받침 없는 체언 뒤에 붙는 경우에 그 체언에 "ㄹ"을 추가하는 토시 변환
+///
+/// 이 함수는 받침 있는 체언 뒤에는 그대로 토시가 붙지만,
+///  받침 없는 체언 뒤에 붙는 경우에는 그 체언에 "ㄹ"을 추가하고 해당 토시는
+///  그대로 붙는 토시들을 변환하는 함수입니다.
+///
+/// 현재 아래 목록에 있는 토시를 입력된 특정 문자열(단어)에 따라 변환합니다.
+///
+/// ### ILLANG(일랑) 경우
+///
+/// ILLANG 경우에는 외국어의 문자에 `ㄹ`을 추가할 수 없기 때문에
+/// 이 토시 종류를 명확하게 하기 위해서 0번째에 `ㄹ`을 넣었습니다.
+/// 왜냐하면 이 토시 모음은 "ㄹ랑"과 "인랑"을 위한 것이지
+/// "랑"을 위한 것이 아니기 때문입니다. 물론 0번째가 아니라 1번쩨 칸에
+/// "ㄹ랑"을 넣으면 더 명확할 수 있지만, 그렇게 된다면 이 "ㄹ랑"에서 `str`을 분리해서
+/// "랑" 뽑아야 하는데 rust에서는 불필요한 코드를 많이 작성하게 됩니다.
+/// 그러나 아래와 같이 하면 깔끔하게 됩니다.
+///
+/// ```rust
+/// const ILLANG: (&str, &str, &str) = ("ㄹ", "랑", "일랑");
+/// ```
+///
+/// - '인랑'은 받침 있는 체언 뒤에 붙어, 어떤 대상을 특별히 지적하는 뜻을 나타내는 보조사.
+/// 는. 자네∼ 부디 착하게 살게 | 이사 갈 때 낡은 가구∼ 버립시다 | 위험하니까 길가에서∼ 놀지 말아라 | 여기서∼ 잠깐 기다리고 계세요. ▷ 일랑.
+/// - 외국어가 앞 단어로 오는 경우 '인랑'이 붙습니다.
+///
+/// 그러나 받침 없는 체언 뒤에서는 체언의 마지막 글자에 'ㄹ'를 붙이고 토시 '랑'을 붙입니다.
+///
+/// 예를 들면 다음과 같습니다.
+///
+/// 이사 갈 때 낡은 가굴랑 버립시다.
+/// 자네일랑 부디 착하게 살게
+/// 술일랑 제발 그만 마시세요.
+/// 그 여자에 대한 미련일랑 버려라.
+
+fn when_last_jamo_rieul<'a>(word: &'a str, tossi_variants: (&'a str, &'a str, &'a str)) -> String {
+    let filtered = guess_final_letter(word);
+    // find_last_letter()은 한글이나 숫자가 없을 경우 ' '을 출력한다.
+    // println!("마지막 글자 받침: {}", filtered);
+    if filtered == 'N' {
+        word.to_string() + tossi_variants.2
+    } else if filtered == ' ' {
+        let mut temp_word: String = word.to_string();
+        let last_char = temp_word.pop();
+        // 여기 조건문이 필요 없을 것 같은데 Some으로 들어오기 때문에
+        // 현재 현재 아는 바로는 이렇게 처리할 수 밖에 없다.
+        if let Some(temp) = last_char {
+            let temp_last_char = modify_finall_jamo(temp, 'ㄹ');
+            temp_word.push(temp_last_char);
+            return temp_word + tossi_variants.1;
+        } else {
+            word.to_string() + tossi_variants.1
+        }
+    } else {
+        word.to_string() + tossi_variants.2
+    }
+}
 /// ## 받침 없는 체언 뒤에 붙는 경우에 토시가 변화하는 함수
 ///
 /// 이 함수는 현재 아래 목록에 있는 토시를 입력된 특정 문자열(단어)에 따라 변환합니다.
@@ -504,68 +535,103 @@ mod tests {
     }
 
     #[test]
-    fn _when_when_last_jamo_nieun_rieul() {
+
+    fn _when_when_last_jamo_rieul() {
+        // 밭침이 없는 경우
+        let temp = "자네";
+        let result = "자넬랑";
+        assert_eq!(result, when_last_jamo_rieul(temp, ILLANG));
+        let temp = "여기서";
+        let result = "여기설랑";
+        assert_eq!(result, when_last_jamo_rieul(temp, ILLANG));
+        let temp = "나";
+        let result = "날랑";
+        assert_eq!(result, when_last_jamo_rieul(temp, ILLANG));
+        // 받침이 있는 경우
+        let temp = "술";
+        let result = "술일랑";
+        assert_eq!(result, when_last_jamo_rieul(temp, ILLANG));
+        // 마지막 글자가 영어가 나오는 경우
+        let temp = "google";
+        let result = "google일랑";
+        assert_eq!(result, when_last_jamo_rieul(temp, ILLANG));
+        // 마지막 글자가 영어가 나오는 경우
+        let temp = "naver";
+        let result = "naver일랑";
+        assert_eq!(result, when_last_jamo_rieul(temp, ILLANG));
+        // 괄호 안에 들어 있는 글자는 무시하고 바로 앞 글자가 마지막 글자가 됩니다.
+        let temp = "넥슨(코리아)";
+        let result = "넥슨(코리아)일랑";
+        assert_eq!(result, when_last_jamo_rieul(temp, ILLANG));
+        // 숫자는 그 숫자를 한글로 발음하는 것으로 변환합니다.
+        let temp = "비타500";
+        let result = "비타500일랑";
+        assert_eq!(result, when_last_jamo_rieul(temp, ILLANG));
+    }
+
+    #[test]
+    fn _when_when_last_jamo_nieun() {
         // 밭침이 없는 경우
         let temp = "철수";
         let result = "철순들";
-        assert_eq!(result, when_last_jamo_nieun_rieul(temp, INDEUL));
+        assert_eq!(result, when_last_jamo_nieun(temp, INDEUL));
         let temp = "아버지";
         let result = "아버진들";
-        assert_eq!(result, when_last_jamo_nieun_rieul(temp, INDEUL));
+        assert_eq!(result, when_last_jamo_nieun(temp, INDEUL));
         let temp = "나";
         let result = "난들";
-        assert_eq!(result, when_last_jamo_nieun_rieul(temp, INDEUL));
+        assert_eq!(result, when_last_jamo_nieun(temp, INDEUL));
         // 받침이 있는 경우
         let temp = "법원";
         let result = "법원인들";
-        assert_eq!(result, when_last_jamo_nieun_rieul(temp, INDEUL));
+        assert_eq!(result, when_last_jamo_nieun(temp, INDEUL));
         // 마지막 글자가 영어가 나오는 경우
         let temp = "google";
         let result = "google인들";
-        assert_eq!(result, when_last_jamo_nieun_rieul(temp, INDEUL));
+        assert_eq!(result, when_last_jamo_nieun(temp, INDEUL));
         // 마지막 글자가 영어가 나오는 경우
         let temp = "naver";
         let result = "naver인들";
-        assert_eq!(result, when_last_jamo_nieun_rieul(temp, INDEUL));
+        assert_eq!(result, when_last_jamo_nieun(temp, INDEUL));
         // 괄호 안에 들어 있는 글자는 무시하고 바로 앞 글자가 마지막 글자가 됩니다.
         let temp = "넥슨(코리아)";
         let result = "넥슨(코리아)인들";
-        assert_eq!(result, when_last_jamo_nieun_rieul(temp, INDEUL));
+        assert_eq!(result, when_last_jamo_nieun(temp, INDEUL));
         // 숫자는 그 숫자를 한글로 발음하는 것으로 변환합니다.
         let temp = "비타500";
         let result = "비타500인들";
-        assert_eq!(result, when_last_jamo_nieun_rieul(temp, INDEUL));
+        assert_eq!(result, when_last_jamo_nieun(temp, INDEUL));
         // ㄴ즉, 인즉 경우
         // 밭침이 없는 경우
         let temp = "철수";
         let result = "철순즉";
-        assert_eq!(result, when_last_jamo_nieun_rieul(temp, INJEUK));
+        assert_eq!(result, when_last_jamo_nieun(temp, INJEUK));
         let temp = "아버지";
         let result = "아버진즉";
-        assert_eq!(result, when_last_jamo_nieun_rieul(temp, INJEUK));
+        assert_eq!(result, when_last_jamo_nieun(temp, INJEUK));
         let temp = "나";
         let result = "난즉";
-        assert_eq!(result, when_last_jamo_nieun_rieul(temp, INJEUK));
+        assert_eq!(result, when_last_jamo_nieun(temp, INJEUK));
         // 받침이 있는 경우
         let temp = "법원";
         let result = "법원인즉";
-        assert_eq!(result, when_last_jamo_nieun_rieul(temp, INJEUK));
+        assert_eq!(result, when_last_jamo_nieun(temp, INJEUK));
         // 마지막 글자가 영어가 나오는 경우
         let temp = "google";
         let result = "google인즉";
-        assert_eq!(result, when_last_jamo_nieun_rieul(temp, INJEUK));
+        assert_eq!(result, when_last_jamo_nieun(temp, INJEUK));
         // 마지막 글자가 영어가 나오는 경우
         let temp = "naver";
         let result = "naver인즉";
-        assert_eq!(result, when_last_jamo_nieun_rieul(temp, INJEUK));
+        assert_eq!(result, when_last_jamo_nieun(temp, INJEUK));
         // 괄호 안에 들어 있는 글자는 무시하고 바로 앞 글자가 마지막 글자가 됩니다.
         let temp = "넥슨(코리아)";
         let result = "넥슨(코리아)인즉";
-        assert_eq!(result, when_last_jamo_nieun_rieul(temp, INJEUK));
+        assert_eq!(result, when_last_jamo_nieun(temp, INJEUK));
         // 숫자는 그 숫자를 한글로 발음하는 것으로 변환합니다.
         let temp = "비타500";
         let result = "비타500인즉";
-        assert_eq!(result, when_last_jamo_nieun_rieul(temp, INJEUK));
+        assert_eq!(result, when_last_jamo_nieun(temp, INJEUK));
     }
 
     #[test]

@@ -269,9 +269,13 @@ pub fn postfix(word: &str, tossi: &str) -> Result<String, ValueError> {
             let temp = Tossi::new(tossi);
             match temp.kind {
                 TossiKind::Others => Ok(word.to_string() + tossi),
+                // 아래에서 더하는 것이랑 안 더하는 것 차이는 만약 입력된 단어가 변하는
+                // 경우에는 단어 자체로 변해서 반환하기 때문에 또 단어를 더하면 중복이
+                // 발생하게 됩니다. 그래서 더하면 안 됩니다.
                 TossiKind::Ka => Ok(transfer::tossi(word, temp)),
                 TossiKind::Indeul => Ok(transfer::tossi(word, temp)),
                 TossiKind::Injeuk => Ok(transfer::tossi(word, temp)),
+                TossiKind::Illang => Ok(transfer::tossi(word, temp)),
                 _ => Ok(word.to_string() + &transfer::tossi(word, temp)),
             }
         }

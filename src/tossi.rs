@@ -21,7 +21,7 @@
 //!
 //! 따라서 코드를 사용할 때 이 두 개의 파일도 적절하게 변경되었는지 확인할 필요가 있습니다.
 
-pub const TOSSI_LIST: [&str; 119] = [
+pub const TOSSI_LIST: [&str; 120] = [
     "(가)이",
     "(과)와",
     "(는)은",
@@ -141,6 +141,7 @@ pub const TOSSI_LIST: [&str; 119] = [
     "한테",
     "한테로",
     "한테서",
+    "일랑",
 ];
 
 pub const _UNCHANGED_LIST: [&str; 33] = [

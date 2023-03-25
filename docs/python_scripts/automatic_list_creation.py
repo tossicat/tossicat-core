@@ -20,7 +20,7 @@
     만약 직접 파일로 저장하려면 맥이나 리눅스에서는 다음과 같이 하면 된다.
     
     ```python
-    python docs/python_scripts/automatic_list_creation.py >> /docs/available_tossi_list.md
+    python docs/python_scripts/automatic_list_creation.py >> docs/available_tossi_list.md 
     ```
 
 Usage:
@@ -90,7 +90,7 @@ result_1 = sorted(set(result_1))
 # 따라서 0번과 1번은 토시 목록에는 들어갈 수 없는 부분입니다.
 # 그래서 위 목록에서 아래 목록에 들어 있는 0번째와 1번째 토시를 제외합니다.
 # 여기에 속한 토시 목록에 대한 설명은 `src/transfer.rs` 에서
-# `when_last_jamo_nieun_rieul()` 함수 설명을 참고하시면 됩니다.
+# `when_last_jamo_nieun()` 함수 설명을 참고하시면 됩니다.
 #
 # - INDEUL_variations
 # - INJEUK_variations
@@ -108,6 +108,26 @@ INJEUK_variations = ["ㄴ", "즉", "인즉"]
 result_1.remove(INJEUK_variations[1])
 
 result_1 = sorted(result_1)
+
+# 원칙적으로 하면 1번째 항목이 원래 "ㄹ랑"과 같은 형식인데
+# 이런 형식의 토시들은 마지막 글자에 `ㄹ`을 추가하고 "랑"과 같은 것을
+# 추가하는 방식으로 토시가 붙는 단어가 변하는데
+# 외국어의 문자에 `ㄹ`을 추가할 수 없기 때문에
+# 이 토시 종류를 명확하게 하기 위해서 0번째에 `ㄹ`을 넣고
+# 그리고 1번째 항목에 "랑"과 같이 `ㄹ`을 뺀 나머지 부분을 넣었습니다.
+# 따라서 0번과 1번은 토시 목록에는 들어갈 수 없는 부분입니다.
+# 그래서 위 목록에서 아래 목록에 들어 있는 0번째와 1번째 토시를 제외합니다.
+# 여기에 속한 토시 목록에 대한 설명은 `src/transfer.rs` 에서
+# `when_last_jamo_rieul()` 함수 설명을 참고하시면 됩니다.
+#
+# - ILLANG_variations
+# 여기서는 1번째를 지우지 않는 이유는 이미 처리하는 조사에 "랑"이
+# 있기 때문에 여기서 지우면 우리가 변환할 필요가 없는 목록에
+# 들어가기 때문에 지우지 않습니다. 
+
+ILLANG_variations = ["ㄹ", "랑", "일랑"]
+
+result_1.remove(ILLANG_variations[0])
 
 print("")
 print("# 이 프로젝트가 다룰 수 있는 총 토시 목록")
