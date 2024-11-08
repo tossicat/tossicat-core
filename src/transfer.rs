@@ -102,6 +102,57 @@ pub fn tossi(word: &str, tossi: Tossi) -> String {
         TransTossiWhen::Nothing => " ".to_string(),
     }
 }
+
+/// ## 변형된 단어와 토씨를 분리하는 함수
+///
+/// `split_word_tossi` 함수는 변형된 단어와 토씨를 원래 단어와 토씨로 분리하여 반환합니다.
+/// `word`와 `Tossi'를 입력하면, 각 토씨와 일치하는지 확인한 뒤,
+/// 원래의 단어와 토씨로 나누어 반환합니다.
+/// ```
+pub fn split_word_tossi(word: &str, tossi: Tossi) -> (String, String) {
+    let tossi_variants = match tossi.kind {
+        TossiKind::Deun => DEUN,
+        TossiKind::Deunka => DEUNKA,
+        TossiKind::Deunji => DEUNJI,
+        TossiKind::Eul => EUL,
+        TossiKind::Ida => IDA,
+        TossiKind::Indeul => INDEUL,
+        TossiKind::Injeuk => INJEUK,
+        TossiKind::Ka => KA,
+        TossiKind::Ko => KO,
+        TossiKind::Myeo => MYEO,
+        TossiKind::Na => NA,
+        TossiKind::Nama => NAMA,
+        TossiKind::Neun => NEUN,
+        TossiKind::Ni => NI,
+        TossiKind::Rado => RADO,
+        TossiKind::Rago => RAGO,
+        TossiKind::Ran => RAN,
+        TossiKind::Rang => RANG,
+        TossiKind::Raya => RAYA,
+        TossiKind::Yamalro => YAMALRO,
+        TossiKind::Yeo => YEO,
+        TossiKind::Wa => WA,
+        TossiKind::Ro => RO,
+        TossiKind::Roseo => ROSEO,
+        TossiKind::Rosseo => ROSSEO,
+        TossiKind::Robuteo => ROBUTEO,
+        TossiKind::Illang => ILLANG,
+        TossiKind::Others => (" ", " ", " "),
+    };
+
+    // 세 가지 변형 후보인 `tossi_variants` 중에서 가장 긴 토씨부터 순서대로 확인합니다.
+    for tossi in [tossi_variants.2, tossi_variants.1, tossi_variants.0] {
+        if word.ends_with(tossi) {
+            let word_length = word.len() - tossi.len();
+            let word = &word[..word_length];
+            return (word.to_string(), tossi.to_string());
+        }
+    }
+    // 해당하는 토씨가 없을 경우, 원래 문자열을 반환합니다.
+    (word.to_string(), "".to_string())
+}
+
 /// ## 받침 없는 체언이나 ‘ㄹ’ 받침으로 끝나는 체언 뒤에 붙는 경우에 토시가 변환하는 함수
 ///
 /// 이 함수는 현재 아래 목록에 있는 토시를 입력된 특정 문자열(단어)에 따라 변환합니다.

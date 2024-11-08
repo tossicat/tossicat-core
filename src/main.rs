@@ -1,6 +1,7 @@
 use tossicat::join_phonemes;
 use tossicat::modify_sentence;
 use tossicat::postfix;
+use tossicat::transform;
 
 fn main() {
     // 테스트
@@ -17,4 +18,8 @@ fn main() {
     let test = "{철수, 은} {영희,   과} {밥,  를} {나물, 코코} 먹습니다.";
     println!("테스트 문장: {test:?}");
     println!("테스트 결과 문장: {:?}", modify_sentence(test));
+    println!("결과: {:?}", transform("사과", "을"));
+    println!("결과: {:?}", transform("구글", "으로부터"));
+    println!("결과: {:?}", transform("집", "(으)로"));
+    println!("결과: {:?}", transform("누구", "인들"));
 }

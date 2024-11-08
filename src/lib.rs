@@ -281,3 +281,27 @@ pub fn postfix(word: &str, tossi: &str) -> Result<String, ValueError> {
         }
     }
 }
+
+/// ## 입력된 토시를 같이 입력된 단어에 맞게 변환해, 입력된 단어와 따로 반환하는 함수
+///
+/// 아래와 같은 형식으로 입력된 것 중 두 번째로 입력된 토시를
+/// 첫 번째로 입력된 단어에 맞쳐 적절하게 변형해 입력된 단어와 합쳐서
+/// 반환하는 함수
+///
+/// ```rust
+/// use tossicat::transform;
+/// transform("집", "으로");
+/// transform("집", "로");
+/// transform("집", "(으)로");
+/// ```
+
+pub fn transform(word: &str, tossi: &str) -> Result<(String, String), ValueError> {
+    match verifier::verify_value(word, tossi) {
+        Err(e) => Err(ValueError::new(e)),
+        Ok(()) => {
+            let changed_word = postfix(word, tossi).unwrap();
+            let temp = Tossi::new(tossi);
+            Ok(transfer::split_word_tossi(&changed_word, temp))
+        }
+    }
+}
