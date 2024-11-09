@@ -141,8 +141,10 @@ pub fn split_word_tossi(word: &str, tossi: Tossi) -> (String, String) {
         TossiKind::Others => (" ", " ", " "),
     };
 
-    // 세 가지 변형 후보인 `tossi_variants` 중에서 가장 긴 토씨부터 순서대로 확인합니다.
-    for tossi in [tossi_variants.2, tossi_variants.1, tossi_variants.0] {
+    let mut variants = [tossi_variants.0, tossi_variants.1, tossi_variants.2];
+    variants.sort_by_key(|b| std::cmp::Reverse(b.len()));
+
+    for tossi in variants {
         if word.ends_with(tossi) {
             let word_length = word.len() - tossi.len();
             let word = &word[..word_length];

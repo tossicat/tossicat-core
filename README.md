@@ -16,12 +16,12 @@
 
 ## 사용법
 
-사용하는 방법은 다음과 같습니다. 현재 프로젝트 안에 있는 `Cargo.toml` 파일에서 `[dependencies]` 다음에 `tossicat = "0.6.0"`을 다음과 같이 추가해 주세요.
+사용하는 방법은 다음과 같습니다. 현재 프로젝트 안에 있는 `Cargo.toml` 파일에서 `[dependencies]` 다음에 `tossicat = "0.6.1"`을 다음과 같이 추가해 주세요.
 
 ```toml
 [dependencies]
 
-tossicat = "0.6.0"
+tossicat = "0.6.1"
 ```
 
 이제 여러분의 코드에서 다음과 같이 `tossicat`에 들어 있는 함수를 다음과 같이 사용할 수 있습니다.
@@ -29,10 +29,12 @@ tossicat = "0.6.0"
 ```rust
 use tossicat::postfix;
 use tossicat::modify_sentence;
+use tossicat::transform;
 
 fn main() {
     println!("결과: {}", postfix("사과", "을"));
     println!("결과: {}", modify_sentence("{철수, 은} {영희,   과} {사과,  을} 먹습니다."));
+    println!("결과: {}", transform("구글", "으로부터"));
 }
 ```
 
@@ -41,6 +43,7 @@ fn main() {
 ```cmd
 결과: Ok("사과를")
 결과: Ok("철수는 영희와 밥을 먹습니다.")
+결과: Ok(("구글", "로부터"))
 ```
 
 자세한 내용은 [https://crates.io/crates/tossicat](https://crates.io/crates/tossicat) 참고하세요.
@@ -62,6 +65,7 @@ fn main() {
 
 - `postfix(word: &str, tossi: &str)`: 입력된 것들을 참고해 `word`에 적절한 `tossi`를 덧붙여 반환합니다.
 - `modify_sentence()`: 입력된 문장에 포함된 1개 이상의 토시를 같이 입력된 단어에 맞게 전환해 입력된 문장을 바꿔 반환하는 함수
+- `transform(word: &str, tossi: &str)`: 입력된 것들을 참고해 `word`에 적절한 `tossi`를 변형하여 각각 반환합니다.
 
 ## 이 프로젝트에서 처리 가능한 토시(조사)에 대하여
 

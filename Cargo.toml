@@ -1,6 +1,6 @@
 [package]
 name = "tossicat"
-version = "0.6.0"
+version = "0.6.1"
 edition = "2021"
 authors = ["Jae-Hwan Chung <dialektike@gmail.com>","Jess <dev.bearabbit@gmail.com>"]
 description = "입력된 단어에 맞게 같이 입력된 토시(조사)를 적절하게 변환하는 라이브러리"

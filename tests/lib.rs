@@ -1,4 +1,4 @@
-use tossicat::{modify_sentence, postfix};
+use tossicat::{modify_sentence, postfix, transform};
 
 #[test]
 fn _modify_sentence() {
@@ -178,4 +178,148 @@ fn _postfix() {
     let tossi = "가";
     let result = Ok("법원이".to_string());
     assert_eq!(result, postfix(word, tossi));
+}
+
+#[test]
+fn _transform() {
+    // 'ㄴ즉', '인즉' 테스트
+    let word = "물건";
+    let tossi = "인즉";
+    let result = Ok(("물건".to_string(), "인즉".to_string()));
+    assert_eq!(result, transform(word, tossi));
+    let word = "얘기";
+    let tossi = "인즉";
+    let result = Ok(("얘긴".to_string(), "즉".to_string()));
+    assert_eq!(result, transform(word, tossi));
+
+    // 'ㄴ들', '인들' 테스트
+    let word = "아버지";
+    let tossi = "인들";
+    let result = Ok(("아버진".to_string(), "들".to_string()));
+    assert_eq!(result, transform(word, tossi));
+
+    // '으로', '로' 테스트
+    let word = "집";
+    let tossi = "으로";
+    let result = Ok(("집".to_string(), "으로".to_string()));
+    assert_eq!(result, transform(word, tossi));
+
+    let word = "집";
+    let tossi = "로";
+    let result = Ok(("집".to_string(), "으로".to_string()));
+    assert_eq!(result, transform(word, tossi));
+
+    let word = "집";
+    let tossi = "(으)로";
+    let result = Ok(("집".to_string(), "으로".to_string()));
+    assert_eq!(result, transform(word, tossi));
+
+    let word = "나무";
+    let tossi = "으로";
+    let result = Ok(("나무".to_string(), "로".to_string()));
+    assert_eq!(result, transform(word, tossi));
+
+    let word = "나무";
+    let tossi = "로";
+    let result = Ok(("나무".to_string(), "로".to_string()));
+    assert_eq!(result, transform(word, tossi));
+
+    let word = "나무";
+    let tossi = "(으)로";
+    let result = Ok(("나무".to_string(), "로".to_string()));
+    assert_eq!(result, transform(word, tossi));
+
+    let word = "칼";
+    let tossi = "으로";
+    let result = Ok(("칼".to_string(), "로".to_string()));
+    assert_eq!(result, transform(word, tossi));
+
+    let word = "칼";
+    let tossi = "로";
+    let result = Ok(("칼".to_string(), "로".to_string()));
+    assert_eq!(result, transform(word, tossi));
+
+    let word = "칼";
+    let tossi = "(으)로";
+    let result = Ok(("칼".to_string(), "로".to_string()));
+    assert_eq!(result, transform(word, tossi));
+
+    let word = "test";
+    let tossi = "으로";
+    let result = Ok(("test".to_string(), "(으)로".to_string()));
+    assert_eq!(result, transform(word, tossi));
+
+    let word = "test";
+    let tossi = "로";
+    let result = Ok(("test".to_string(), "(으)로".to_string()));
+    assert_eq!(result, transform(word, tossi));
+
+    let word = "test";
+    let tossi = "(으)로";
+    let result = Ok(("test".to_string(), "(으)로".to_string()));
+    assert_eq!(result, transform(word, tossi));
+
+    let word = "1000";
+    let tossi = "으로";
+    let result = Ok(("1000".to_string(), "으로".to_string()));
+    assert_eq!(result, transform(word, tossi));
+
+    let word = "4";
+    let tossi = "으로";
+    let result = Ok(("4".to_string(), "로".to_string()));
+    assert_eq!(result, transform(word, tossi));
+
+    // 한글과 숫자가 같이 들어있는 경우에는 뒷부분에 숫자가 들어 있는 경우
+    // 숫자만 뽑아서 처리합니다.
+    // 그 예를 추가합니다.
+    let word = "천사1004";
+    let tossi = "은";
+    let result = Ok(("천사1004".to_string(), "는".to_string()));
+    assert_eq!(result, transform(word, tossi));
+
+    // KA(가) 경우, 즉 "가"와 "이" 같은 경우에는 특정 단어가 오게 되면
+    // 토시도 변하지만, 특정 단어 또한 변하게 됩니다.
+    // 아래는 이런 경우를 테스트하는 것입니다.
+    let word = "누구";
+    let tossi = "가";
+    let result = Ok(("누".to_string(), "가".to_string()));
+    assert_eq!(result, transform(word, tossi));
+    let word = "누구";
+    let tossi = "이";
+    let result = Ok(("누".to_string(), "가".to_string()));
+    assert_eq!(result, transform(word, tossi));
+    let word = "나";
+    let tossi = "가";
+    let result = Ok(("내".to_string(), "가".to_string()));
+    assert_eq!(result, transform(word, tossi));
+    let word = "나";
+    let tossi = "이";
+    let result = Ok(("내".to_string(), "가".to_string()));
+    assert_eq!(result, transform(word, tossi));
+    let word = "저";
+    let tossi = "가";
+    let result = Ok(("제".to_string(), "가".to_string()));
+    assert_eq!(result, transform(word, tossi));
+    let word = "저";
+    let tossi = "이";
+    let result = Ok(("제".to_string(), "가".to_string()));
+    assert_eq!(result, transform(word, tossi));
+    let word = "너";
+    let tossi = "가";
+    let result = Ok(("네".to_string(), "가".to_string()));
+    assert_eq!(result, transform(word, tossi));
+    let word = "너";
+    let tossi = "이";
+    let result = Ok(("네".to_string(), "가".to_string()));
+    assert_eq!(result, transform(word, tossi));
+    // KA(가) 경우에서 일반적인 경우 테스트
+    // 이건 받침 유무로
+    let word = "철수";
+    let tossi = "이";
+    let result = Ok(("철수".to_string(), "가".to_string()));
+    assert_eq!(result, transform(word, tossi));
+    let word = "법원";
+    let tossi = "가";
+    let result = Ok(("법원".to_string(), "이".to_string()));
+    assert_eq!(result, transform(word, tossi));
 }

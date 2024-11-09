@@ -20,6 +20,6 @@ fn main() {
     println!("테스트 결과 문장: {:?}", modify_sentence(test));
     println!("결과: {:?}", transform("사과", "을"));
     println!("결과: {:?}", transform("구글", "으로부터"));
-    println!("결과: {:?}", transform("집", "(으)로"));
+    println!("결과: {:?}", transform("test", "(으)로"));
     println!("결과: {:?}", transform("누구", "인들"));
 }
