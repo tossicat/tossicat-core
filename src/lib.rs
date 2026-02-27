@@ -247,6 +247,9 @@ pub fn guess_final_letter(word: &str) -> char {
 /// ```
 
 pub fn change_num_to_hangeul(word: &str) -> String {
+    if word.is_empty() || !word.chars().all(|c| c.is_ascii_digit()) {
+        return String::new();
+    }
     number::change_num_to_hangeul(word)
 }
 
