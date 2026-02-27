@@ -56,12 +56,7 @@ fn is_medial(word: char) -> bool {
 /// 사용법: 이 모둘 아래 tests 모듈, _hangeul.rs 참고
 
 fn is_hangul_syllable(word: [char; 3]) -> bool {
-    if is_consonant(word[0]) && is_medial(word[1]) {
-        let res = FINAL.iter().position(|&s| s == word[2]);
-        res.is_some()
-    } else {
-        false
-    }
+    is_consonant(word[0]) && is_medial(word[1]) && FINAL.contains(&word[2])
 }
 
 /// ## 초,중,종성을 하나의 글자로 합쳐주는 함수
