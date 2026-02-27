@@ -44,11 +44,7 @@ pub fn guess_final_letter(word: &str) -> char {
 /// 'N'을 도출한 경우 영어 포함 외국어이다. -> 병기로 연결
 pub fn find_last_letter(word: &str) -> char {
     let filtered = filter_only_significant(word);
-    if !filtered.is_empty() {
-        filtered[filtered.len() - 1]
-    } else {
-        'N'
-    }
+    filtered.last().copied().unwrap_or('N')
 }
 
 /// ## 단어에서 불필요한 요소를 제거하는 함수

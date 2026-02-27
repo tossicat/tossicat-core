@@ -52,11 +52,7 @@ fn is_verifier_tossi(tossi: &str) -> bool {
 
 // 파라미터롤 받는 단어를 제한 기준 함수
 fn over_limit_word_len(word: &str) -> bool {
-    let limitation = 50;
-    if word.chars().count() >= limitation {
-        return true;
-    }
-    false
+    word.chars().count() >= 50
 }
 
 #[test]
