@@ -158,7 +158,7 @@ fn find_pairs_nums(temp_vec: Vec<(usize, i32, char)>) -> (bool, bool, Vec<Bracke
             // 아래 `if`문은 깊이가 1단계 인지 아닌지 확인하는 것입니다.
             // 코드를 진행하다가 1단계가 이상이 있으면 바로 정지합니다.
             if item.1 != 1 {
-                // println!("in No 1 deep");
+
                 return (false, true, brackets);
             // 앞에서 1단계
             } else if item.2 == '{' {
@@ -171,7 +171,7 @@ fn find_pairs_nums(temp_vec: Vec<(usize, i32, char)>) -> (bool, bool, Vec<Bracke
             }
         } else {
             // 즉 중괄호 아닌 괄호가 있는 경우에 여기로 옵니다.
-            // println!("in No WFF!");
+
             return (true, false, brackets);
         }
     }

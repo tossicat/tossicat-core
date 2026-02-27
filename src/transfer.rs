@@ -174,7 +174,7 @@ pub fn split_word_tossi(word: &str, tossi: Tossi) -> (String, String) {
 fn when_rieul_and_blank<'a>(word: &'a str, tossi_variants: (&'a str, &'a str, &'a str)) -> &'a str {
     let filtered = guess_final_letter(word);
     // find_last_letter()은 한글이나 숫자가 없을 경우 ' '을 출력한다.
-    // println!("마지막 글자 받침: {}", filtered);
+
     if filtered == 'N' {
         tossi_variants.0
     } else if filtered == ' ' || filtered == 'ㄹ' {
@@ -207,7 +207,7 @@ fn when_rieul_and_blank<'a>(word: &'a str, tossi_variants: (&'a str, &'a str, &'
 fn only_ka<'a>(word: &'a str, tossi_variants: (&'a str, &'a str, &'a str)) -> String {
     let filtered = guess_final_letter(word);
     // find_last_letter()은 한글이나 숫자가 없을 경우 ' '을 출력한다.
-    // println!("마지막 글자 받침: {}", filtered);
+
     if filtered == 'N' {
         word.to_string() + tossi_variants.0
     } else if filtered == ' ' {
@@ -286,7 +286,7 @@ fn only_ka<'a>(word: &'a str, tossi_variants: (&'a str, &'a str, &'a str)) -> St
 fn when_last_jamo_nieun<'a>(word: &'a str, tossi_variants: (&'a str, &'a str, &'a str)) -> String {
     let filtered = guess_final_letter(word);
     // find_last_letter()은 한글이나 숫자가 없을 경우 ' '을 출력한다.
-    // println!("마지막 글자 받침: {}", filtered);
+
     if filtered == 'N' {
         word.to_string() + tossi_variants.2
     } else if filtered == ' ' {
@@ -344,7 +344,7 @@ fn when_last_jamo_nieun<'a>(word: &'a str, tossi_variants: (&'a str, &'a str, &'
 fn when_last_jamo_rieul<'a>(word: &'a str, tossi_variants: (&'a str, &'a str, &'a str)) -> String {
     let filtered = guess_final_letter(word);
     // find_last_letter()은 한글이나 숫자가 없을 경우 ' '을 출력한다.
-    // println!("마지막 글자 받침: {}", filtered);
+
     if filtered == 'N' {
         word.to_string() + tossi_variants.2
     } else if filtered == ' ' {
@@ -491,7 +491,7 @@ fn when_last_jamo_rieul<'a>(word: &'a str, tossi_variants: (&'a str, &'a str, &'
 fn when_blank<'a>(word: &'a str, tossi_variants: (&'a str, &'a str, &'a str)) -> &'a str {
     let filtered = guess_final_letter(word);
     // find_last_letter()은 한글이나 숫자가 없을 경우 ' '을 출력한다.
-    // println!("마지막 글자 받침: {}", filtered);
+
     if filtered == 'N' {
         tossi_variants.0
     } else if filtered == ' ' {

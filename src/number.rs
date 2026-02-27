@@ -62,8 +62,6 @@ pub fn change_num_to_hangeul(num: &str) -> String {
         }
         // 맨 마지막에 추가되는 단위떄문에 글자가 들어가는 버그 때문에 들어간 것을 제거한다.
         temp_result.pop();
-        // 디버그용 println 삽입, 뒤집기 전에 확인하는 것이 디버그할 때 더 효과적이다.
-        // println!("{:?}", temp_result);
         // 뒤집어 입력된 숫자 문자열을 뒤집어 정상으로 되돌려 놓는다.
         temp_result.reverse();
 
@@ -74,12 +72,10 @@ pub fn change_num_to_hangeul(num: &str) -> String {
         temp_result = temp_result.replace('영', "");
         temp_result = temp_result.replace("  ", " ");
         temp_result = temp_result.replace(' ', "");
-        // println!("중간 집계: {:?}", temp_result);
 
         // 최종 결과물 만들기
         // 아래 for 문은 "억만"과 같은 문장을 제거하기 위한 것입니다.
         // 구현 방법은 억만 과 같인 만 단위 숫자 단위 글자가 같이 붙으면 제거하고 있습니다.
-        // println!("만 단위 {:?} 글자가 들어왔습니다!", i); 주석을 풀고 확인하면 알 수 있습니다.
 
         let mut last_temp: Vec<char> = Vec::new();
 
@@ -88,14 +84,12 @@ pub fn change_num_to_hangeul(num: &str) -> String {
                 let last_char = last_temp[last_temp.len() - 1];
                 if !EXPS.iter().any(|&x: &char| x == last_char) {
                     last_temp.push(i);
-                    // println!("만 단위 {:?} 글자가 바로 또 들어왔습니다!", i);
+
                 }
             } else {
                 last_temp.push(i);
             }
         }
-
-        // println!("최종 결과:{:?}", last_temp);
 
         let mut temp_result: String = last_temp.iter().collect();
 

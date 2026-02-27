@@ -102,17 +102,13 @@ use identifier::{Tossi, TossiKind};
 /// ```
 
 pub fn modify_sentence(string: &str) -> Result<String, ParseError> {
-    // let mut original_copy = string;
     let mut sentence = String::from(string);
-    // let temp = bracket::modify_pairs(string);
     let temp = match bracket::modify_pairs(string) {
         Ok(temp) => temp,
         Err(e) => return Err(ParseError::new(e)),
     };
-    let mut temp_tossi_num: Vec<bool> = vec![];
     for item in temp {
         let result = postfix(&item.1, &item.2);
-        temp_tossi_num.push(true);
         let original = "{".to_string() + &item.0 + "}";
         match result {
             Ok(n) => sentence = sentence.replace(&original, &n),
