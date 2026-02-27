@@ -302,7 +302,7 @@ pub fn transform(word: &str, tossi: &str) -> Result<(String, String), ValueError
     match verifier::verify_value(word, tossi) {
         Err(e) => Err(ValueError::new(e)),
         Ok(()) => {
-            let changed_word = postfix(word, tossi).unwrap();
+            let changed_word = postfix(word, tossi)?;
             let temp = Tossi::new(tossi);
             Ok(transfer::split_word_tossi(&changed_word, temp))
         }
