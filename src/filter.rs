@@ -87,6 +87,7 @@ pub fn filter_only_significant(word: &str) -> Vec<char> {
             let num = change_num_to_hangeul(&numbers);
             let mut arr_num = num.chars().collect();
             output.append(&mut arr_num);
+            numbers.clear();
         }
     }
     output
@@ -141,6 +142,10 @@ mod tests {
 
         let temp = "(이)가";
         let result = vec!['가'];
+        assert_eq!(result, filter_only_significant(temp));
+
+        let temp = "1a2";
+        let result = vec!['일', '이'];
         assert_eq!(result, filter_only_significant(temp));
     }
 
