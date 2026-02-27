@@ -15,6 +15,16 @@
 
 use crate::error::ParseErrorType;
 
+/// ## 중괄호 안에서 분리된 단어와 토시 결과를 담는 구조체
+struct SplitResult {
+    /// 중괄호 안의 원본 문자열
+    original: String,
+    /// 단어
+    word: String,
+    /// 토시
+    tossi: String,
+}
+
 /// ## 입력된 문장 안의 여러 개의 단어와 토시 쌍을 뽑아내서 적절한 토시로 변경하는 함수
 ///
 /// 이 `bracket` 모듈에서 최종 함수입니다. 이 함수 아래에 있는 다음 함수들을 사용하고 있습니다.
@@ -27,12 +37,11 @@ use crate::error::ParseErrorType;
 /// 다음과 같습니다. 참고로 이 함수들은 입력된 문장이 변환하기에 올바른 것인지 아닌지도
 /// 평가합니다. 부적합한 것이라면 3 함수 모두 `false` 값을 반환합니다.
 /// 우선 `are_balanced()` 함수로 괄호 쌍이 맞는지 확인하면서 괼호 쌍을 분석해서
-/// 어떤 위치에 있는 괄호가 어떤 괄호와 쌍인지 반환합니다. 이렇게 반환한 값을 토대로  
+/// 어떤 위치에 있는 괄호가 어떤 괄호와 쌍인지 반환합니다. 이렇게 반환한 값을 토대로
 /// `find_pairs_nums()` 함수는 중접되지 않는 중괄호를 순서대로 괄호가 열리는 위치와
 /// 닫히는 위치를 반환합니다. 이때 중괄호가 아니면, 중접된 괄호가 있으면 정지합니다.
 /// 마지막으로 `split_tossi_word()`은 중괄호 안에 있는 내용을 순서대로 뽑아내서
-/// 단어와 이 단어에 붙일 토시를 분리하고, `("철수, 은", "철수", "은")`과 같이
-/// 첫번째 값은 원본, 두 번째 값은 단어, 그리고 세 번째 값은 토시로 반환합니다.
+/// 단어와 이 단어에 붙일 토시를 분리하고, `SplitResult`로 반환합니다.
 ///
 /// 만약 입력된 중괄호에서 단어가 비어 있다면 Err 처리(`SentenceType::WordIsEmpty`)
 /// 단어가 비어 있다면 Err 처리(`SentenceType::TossiIsEmpty`)
@@ -41,7 +50,6 @@ use crate::error::ParseErrorType;
 pub fn modify_pairs(string: &str) -> Result<Vec<(String, String, String)>, ParseErrorType> {
     let mut temp_result: Vec<(String, String, String)> = vec![];
     let content = are_balanced(string);
-    // println!("are_balanced: {:?}: ", content);
     if !content.0 {
         Err(ParseErrorType::AreNotBalanced)
     } else {
@@ -51,25 +59,21 @@ pub fn modify_pairs(string: &str) -> Result<Vec<(String, String, String)>, Parse
         } else if !content.1 {
             Err(ParseErrorType::IsNotBrace)
         } else {
-            // println!("find_pairs_nums: {:?}, {:?}", content.1, content.1.len());
-            // println!("find_pairs_nums: {:?}", content);
             for item in 0..content.2.len() {
-                let temp = split_tossi_word(string, content.2[item].open, content.2[item].close);
-                // println!("temp: {:?}", temp);
-                // `split_tossi_word()`가 실패하면 `temp.0` 가 `false`가 됩니다.
-                if !temp.0 {
-                    return Err(ParseErrorType::SplitTossiWord);
-                // 단어가 비어 있다면 Err 처리
-                } else if temp.2 .0.is_empty() {
-                    return Err(ParseErrorType::WordIsEmpty);
-                // 토시가 비어 있다면 Err 처리
-                } else if temp.2 .1.is_empty() {
-                    return Err(ParseErrorType::TossiIsEmpty);
+                let result = split_tossi_word(string, content.2[item].open, content.2[item].close);
+                match result {
+                    Err(e) => return Err(e),
+                    Ok(split) => {
+                        // 단어가 비어 있다면 Err 처리
+                        if split.word.is_empty() {
+                            return Err(ParseErrorType::WordIsEmpty);
+                        // 토시가 비어 있다면 Err 처리
+                        } else if split.tossi.is_empty() {
+                            return Err(ParseErrorType::TossiIsEmpty);
+                        }
+                        temp_result.push((split.original, split.word, split.tossi));
+                    }
                 }
-                temp_result.push((temp.1, temp.2 .0, temp.2 .1));
-                // if !temp.0 {
-                //     return Err(SentenceType::SplitTossiWord);
-                // }
             }
             Ok(temp_result)
         }
@@ -82,38 +86,31 @@ pub fn modify_pairs(string: &str) -> Result<Vec<(String, String, String)>, Parse
 /// `[BracketPair { open: 0, close: 6 }]`과 같은 요소로 구성된`Vec`를 처리하는
 /// 함수입니다. 이것들 가지고 입력된 `string`에서 중괄호, 즉 `{, }`로 쌓여 있는 문자열을
 /// 뽑아낸 다음 그 문장이 쉼표, 즉 `,`로 하나로 되어 있는지 확인합니다. 만약 2개 이상이면
-/// `false`를 반환하면서 분석을 멈추게 됩니다.
+/// `Err`를 반환하면서 분석을 멈추게 됩니다.
 /// 만약 1개이면 앞뒤로 문자열을 쪼갠 다음, 이 2개의 문자열의 앞 뒤에 있는 공백을 제거한 다음
-/// 이 두 쌍의 문자열과 원본 문자열, 그리고 분석을 성공했기 때문에 `true`를 반환합니다.
+/// `SplitResult`로 반환합니다.
 
 fn split_tossi_word(
     string: &str,
     start_num: usize,
     end_num: usize,
-) -> (bool, String, (String, String)) {
+) -> Result<SplitResult, ParseErrorType> {
     let temp = string.chars().collect::<Vec<_>>();
     let temp_splited = temp[start_num + 1..end_num]
         .iter()
         .cloned()
         .collect::<String>();
     let temp: Vec<&str> = temp_splited.split(',').collect();
-    let mut results: (String, String) = (" ".to_owned(), " ".to_owned());
     if temp.len() != 2 {
-        return (false, temp_splited, results);
-    } else {
-        let mut i = 0;
-        for item in temp {
-            let temp = item.trim().replace(' ', "");
-            if i == 0 {
-                results.0 = temp;
-                i += 1;
-            } else {
-                results.1 = temp;
-                i -= 1;
-            }
-        }
+        return Err(ParseErrorType::SplitTossiWord);
     }
-    (true, temp_splited, results)
+    let word = temp[0].trim().replace(' ', "");
+    let tossi = temp[1].trim().replace(' ', "");
+    Ok(SplitResult {
+        original: temp_splited,
+        word,
+        tossi,
+    })
 }
 
 // 테스트 코드 작성을 위해 `PartialEq` 키워드 추가
