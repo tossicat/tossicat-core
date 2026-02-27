@@ -57,6 +57,7 @@ pub enum TossiKind {
     Rosseo,
     Wa,
     Yamalro,
+    Ya,
     Yeo,
     Illang,
     Others,
@@ -113,6 +114,7 @@ impl Tossi {
             TossiKind::Roseo => TransTossiWhen::RiEulAndBlank,
             TossiKind::Rosseo => TransTossiWhen::RiEulAndBlank,
             TossiKind::Wa => TransTossiWhen::Blank,
+            TossiKind::Ya => TransTossiWhen::Blank,
             TossiKind::Yamalro => TransTossiWhen::Blank,
             TossiKind::Yeo => TransTossiWhen::Blank,
             TossiKind::Others => TransTossiWhen::Nothing,
@@ -145,6 +147,7 @@ fn one_letter(element: char) -> TossiKind {
         '니' => TossiKind::Ni,
         '든' => TossiKind::Deun,
         '여' => TossiKind::Yeo,
+        '아' | '야' => TossiKind::Ya,
         _ => TossiKind::Others,
     }
 }
