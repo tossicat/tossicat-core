@@ -91,13 +91,13 @@ pub fn join_phonemes(word: [char; 3]) -> char {
 /// 입력된 글자 그대로를 반환한다.
 /// ```rust
 ///    let temp = '정';
-///    assert_eq!('점', tossicat::modify_finall_jamo(temp, 'ㅁ'));
+///    assert_eq!('점', tossicat::modify_final_jamo(temp, 'ㅁ'));
 ///    let temp = '감';
-///    assert_eq!('강', tossicat::modify_finall_jamo(temp, 'ㅇ'));
+///    assert_eq!('강', tossicat::modify_final_jamo(temp, 'ㅇ'));
 /// ```
-/// 사용법 tests 모듈, /tests/_is_modify_finall_jamo.rs 참고
+/// 사용법 tests 모듈, /tests/_is_modify_final_jamo.rs 참고
 
-pub fn modify_finall_jamo(letter: char, jamo: char) -> char {
+pub fn modify_final_jamo(letter: char, jamo: char) -> char {
     if !is_hangeul(letter) {
         return letter;
     }
