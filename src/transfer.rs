@@ -576,7 +576,7 @@ mod tests {
 
     #[test]
 
-    fn _when_when_last_jamo_rieul() {
+    fn _when_last_jamo_rieul() {
         // 밭침이 없는 경우
         let temp = "자네";
         let result = "자넬랑";
@@ -610,7 +610,7 @@ mod tests {
     }
 
     #[test]
-    fn _when_when_last_jamo_nieun() {
+    fn _when_last_jamo_nieun() {
         // 밭침이 없는 경우
         let temp = "철수";
         let result = "철순들";
