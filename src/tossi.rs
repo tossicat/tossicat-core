@@ -6,7 +6,7 @@
 //!
 //! 현재 이 프로젝트가 처리할 수 있는 총 토시 목록
 //!
-//! ### `_UNCHANGED_LIST`
+//! ### `UNCHANGED_LIST`
 //!
 //! 이 목록은 현재 이 프로젝트가 처리할 수 있는 총 토시 목록 중에서
 //! 붙일 단어에 따라 변환할 필요가 없는 토시 목록 입니다.
@@ -147,7 +147,8 @@ pub const TOSSI_LIST: [&str; 123] = [
     "일랑",
 ];
 
-pub const _UNCHANGED_LIST: [&str; 33] = [
+#[allow(dead_code)]
+pub const UNCHANGED_LIST: [&str; 33] = [
     "같이",
     "거나",
     "게",
