@@ -170,7 +170,6 @@ pub fn split_word_tossi(word: &str, tossi: Tossi) -> (String, String) {
 /// - '로부터'는 받침 없는 체언이나 ‘ㄹ’ 받침으로 끝나는 체언 뒤에 붙습니다.
 /// - '으로부터'는 ‘ㄹ’을 제외한 받침 있는 체언 뒤에 붙습니다.
 /// - 외국어가 앞 단어로 오는 경우 병기 '(으)로부터'가 출력됩니다.
-
 fn when_rieul_and_blank<'a>(word: &'a str, tossi_variants: (&'a str, &'a str, &'a str)) -> &'a str {
     let filtered = guess_final_letter(word);
     // find_last_letter()은 한글이나 숫자가 없을 경우 ' '을 출력한다.
@@ -203,7 +202,6 @@ fn when_rieul_and_blank<'a>(word: &'a str, tossi_variants: (&'a str, &'a str, &'
 /// - 나 + 가(이): 내가
 /// - 저 + 가(이): 제가
 /// - 너 + 가(이): 네가
-
 fn only_ka<'a>(word: &'a str, tossi_variants: (&'a str, &'a str, &'a str)) -> String {
     let filtered = guess_final_letter(word);
     // find_last_letter()은 한글이나 숫자가 없을 경우 ' '을 출력한다.
@@ -281,8 +279,6 @@ fn only_ka<'a>(word: &'a str, tossi_variants: (&'a str, &'a str, &'a str)) -> St
 /// 예를 들면 다음과 같습니다.
 ///
 /// 얘기∼ 그게 옳다. - 얘긴즉 그게 옳다.
-///
-
 fn when_last_jamo_nieun<'a>(word: &'a str, tossi_variants: (&'a str, &'a str, &'a str)) -> String {
     let filtered = guess_final_letter(word);
     // find_last_letter()은 한글이나 숫자가 없을 경우 ' '을 출력한다.
@@ -340,7 +336,6 @@ fn when_last_jamo_nieun<'a>(word: &'a str, tossi_variants: (&'a str, &'a str, &'
 /// 자네일랑 부디 착하게 살게
 /// 술일랑 제발 그만 마시세요.
 /// 그 여자에 대한 미련일랑 버려라.
-
 fn when_last_jamo_rieul<'a>(word: &'a str, tossi_variants: (&'a str, &'a str, &'a str)) -> String {
     let filtered = guess_final_letter(word);
     // find_last_letter()은 한글이나 숫자가 없을 경우 ' '을 출력한다.
@@ -487,7 +482,6 @@ fn when_last_jamo_rieul<'a>(word: &'a str, tossi_variants: (&'a str, &'a str, &'
 /// - '야'는 받침 없는 체언 뒤에 붙습니다.
 /// - '아'는 받침 있는 체언 뒤에 붙습니다.
 /// - 외국어가 앞 단어로 오는 경우 병기 '(아)야'가 출력됩니다.
-
 fn when_blank<'a>(word: &'a str, tossi_variants: (&'a str, &'a str, &'a str)) -> &'a str {
     let filtered = guess_final_letter(word);
     // find_last_letter()은 한글이나 숫자가 없을 경우 ' '을 출력한다.

@@ -46,7 +46,6 @@ struct SplitResult {
 /// 만약 입력된 중괄호에서 단어가 비어 있다면 Err 처리(`SentenceType::WordIsEmpty`)
 /// 단어가 비어 있다면 Err 처리(`SentenceType::TossiIsEmpty`)
 /// 합니다.
-
 pub fn modify_pairs(string: &str) -> Result<Vec<(String, String, String)>, ParseErrorType> {
     let mut temp_result: Vec<(String, String, String)> = vec![];
     let content = are_balanced(string);
@@ -89,7 +88,6 @@ pub fn modify_pairs(string: &str) -> Result<Vec<(String, String, String)>, Parse
 /// `Err`를 반환하면서 분석을 멈추게 됩니다.
 /// 만약 1개이면 앞뒤로 문자열을 쪼갠 다음, 이 2개의 문자열의 앞 뒤에 있는 공백을 제거한 다음
 /// `SplitResult`로 반환합니다.
-
 fn split_tossi_word(
     string: &str,
     start_num: usize,
@@ -148,7 +146,6 @@ struct BracketPair {
 /// 것입니다. 따라서 중첩된 괄호를 분석할 필요가 없습니다. 왜냐하면 중괄호에 들어 있는 2개의 요소를 가지고
 /// 분석하는 것이 이 라이브러리의 목표이기 때문입니다. 따라서 중첩된 괄호가 발견된다면,
 /// `(false, true,`를 반환하고 실행을 끝냅니다.
-
 fn find_pairs_nums(temp_vec: Vec<(usize, i32, char)>) -> (bool, bool, Vec<BracketPair>) {
     let mut brackets: Vec<BracketPair> = vec![];
     let mut temp_open = 0;
@@ -216,7 +213,6 @@ impl Bracket {
 /// - 첫 번째: 해당 괄호의 위치 숫자
 /// - 두 번째: 해당 괄호의 우선 순위?
 /// - 세 번째: 해당 괄호를 `char`로 저장
-
 fn are_balanced(string: &str) -> (bool, Vec<(usize, i32, char)>) {
     let mut brackets: Vec<Bracket> = vec![];
     let mut brackets_list: Vec<(usize, i32, char)> = vec![];

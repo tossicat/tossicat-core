@@ -100,7 +100,6 @@ use identifier::{Tossi, TossiKind};
 /// let result = Ok("철수는 영희처럼 밥을 먹습니다.".to_string());
 /// assert_eq!(result, modify_sentence(test));
 /// ```
-
 pub fn modify_sentence(string: &str) -> Result<String, ParseError> {
     let mut sentence = String::from(string);
     let temp = match bracket::modify_pairs(string) {
@@ -138,7 +137,6 @@ pub fn modify_sentence(string: &str) -> Result<String, ParseError> {
 /// assert_eq!('글', join_phonemes(['ㄱ','ㅡ','ㄹ']));
 /// assert_eq!('자', join_phonemes(['ㅈ','ㅏ',' ']));
 /// ```
-
 pub fn join_phonemes(word: [char; 3]) -> char {
     hangeul::join_phonemes(word)
 }
@@ -157,7 +155,6 @@ pub fn join_phonemes(word: [char; 3]) -> char {
 ///    let temp = '감';
 ///    assert_eq!('강', tossicat::modify_final_jamo(temp, 'ㅇ'));
 /// ```
-
 pub fn modify_final_jamo(letter: char, jamo: char) -> char {
     hangeul::modify_final_jamo(letter, jamo)
 }
@@ -177,7 +174,6 @@ pub fn modify_final_jamo(letter: char, jamo: char) -> char {
 /// assert_eq!(['ㄱ','ㅡ','ㄹ'], split_phonemes('글'));
 /// assert_eq!(['ㅈ','ㅏ',' '], split_phonemes('자'));
 /// ```
-
 pub fn split_phonemes(word: char) -> [char; 3] {
     hangeul::split_phonemes(word)
 }
@@ -199,7 +195,6 @@ pub fn split_phonemes(word: char) -> [char; 3] {
 /// assert_eq!('N', find_last_letter("apple"));
 /// assert_eq!('삼', find_last_letter("123"));
 /// ```
-
 pub fn find_last_letter(word: &str) -> char {
     filter::find_last_letter(word)
 }
@@ -223,7 +218,6 @@ pub fn find_last_letter(word: &str) -> char {
 /// assert_eq!('ㅇ', guess_final_letter("몸빵"));
 /// assert_eq!('N', guess_final_letter("apple"));
 /// ```
-
 pub fn guess_final_letter(word: &str) -> char {
     filter::guess_final_letter(word)
 }
@@ -241,7 +235,6 @@ pub fn guess_final_letter(word: &str) -> char {
 /// assert_eq!("만이천삼백사십오", change_num_to_hangeul("12345"));
 /// assert_eq!("십억", change_num_to_hangeul("1000000000"));
 /// ```
-
 pub fn change_num_to_hangeul(word: &str) -> String {
     if word.is_empty() || !word.chars().all(|c| c.is_ascii_digit()) {
         return String::new();
@@ -293,7 +286,6 @@ pub fn postfix(word: &str, tossi: &str) -> Result<String, ValueError> {
 /// transform("집", "로");
 /// transform("집", "(으)로");
 /// ```
-
 pub fn transform(word: &str, tossi: &str) -> Result<(String, String), ValueError> {
     match verifier::verify_value(word, tossi) {
         Err(e) => Err(ValueError::new(e)),

@@ -29,7 +29,6 @@ use crate::tossi::TOSSI_LIST;
 /// 이 2가지를 만족하면 본 작업인 글자에 맞게 토시를 변환하게 된다.
 /// 이 함수의 사용법은 `tests/lib.rs`에서 `verifiers()`를 테스트 하는
 /// `_verifiers()` 부분을 살펴보시면 됩니다.
-
 pub fn verify_value(word: &str, tossi: &str) -> Result<(), ValueErrorType> {
     if !is_verifier_tossi(tossi) {
         Err(ValueErrorType::InvalidTossi)

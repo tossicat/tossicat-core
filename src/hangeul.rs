@@ -54,7 +54,6 @@ fn is_medial(word: char) -> bool {
 /// ## 한글 음절인지 아닌지 체크하는 함수
 /// 초,중,종성으로 들어온 것이 합치면 적절하게 한글 음절이 될 수 없는지 있는지를 판단하는 함수
 /// 사용법: 이 모둘 아래 tests 모듈, _hangeul.rs 참고
-
 fn is_hangul_syllable(word: [char; 3]) -> bool {
     is_consonant(word[0]) && is_medial(word[1]) && FINAL.contains(&word[2])
 }
@@ -96,7 +95,6 @@ pub fn join_phonemes(word: [char; 3]) -> char {
 ///    assert_eq!('강', tossicat::modify_final_jamo(temp, 'ㅇ'));
 /// ```
 /// 사용법 tests 모듈, /tests/_is_modify_final_jamo.rs 참고
-
 pub fn modify_final_jamo(letter: char, jamo: char) -> char {
     if !is_hangeul(letter) {
         return letter;
