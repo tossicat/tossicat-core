@@ -10,6 +10,50 @@
 
 ## Version 0.7.0 (2026-02-27)
 
+### 현재 처리할 수 있는 토시 목록
+
+현재 `TOSSI_LIST`에 등록된 토시는 총 123개이며, 그 중 변환이 필요 없는 토시는 33개, 변환 처리 가능한 토시는 90개입니다. 실제 `TossiKind`로 매핑되어 변환을 처리하는 토시 종류는 총 28종류이며, 변환 방식에 따라 다음과 같이 분류됩니다.
+
+#### Blank: 받침 유무에 따라 형태가 달라지는 일반적인 경우
+
+- 은/는 (Neun)
+- 을/를 (Eul)
+- 과/와 (Wa)
+- 이다/다 (Ida)
+- 이/가 (Ka) — 특수 변환(OnlyKa)
+- 이나/나 (Na)
+- 이나마/나마 (Nama)
+- 이니/니 (Ni)
+- 이고/고 (Ko)
+- 이든/든 (Deun)
+- 이든가/든가 (Deunka)
+- 이든지/든지 (Deunji)
+- 이라고/라고 (Rago)
+- 이라도/라도 (Rado)
+- 이라야/라야 (Raya)
+- 이란/란 (Ran)
+- 이랑/랑 (Rang)
+- 이며/며 (Myeo)
+- 이야말로/야말로 (Yamalro)
+- 이여/여 (Yeo)
+- 아/야 (Ya)
+
+#### RiEulAndBlank: 받침이 'ㄹ'일 때 특수 처리하는 경우
+
+- 으로/로 (Ro) — 예: "서울로", "학교로"
+- 으로부터/로부터 (Robuteo)
+- 으로서/로서 (Roseo)
+- 으로써/로써 (Rosseo)
+
+#### LastJamoNieun: 받침 없는 체언에 'ㄴ' 받침을 추가하는 경우
+
+- 인들 (Indeul) — 예: "철수" → "철순들"
+- 인즉 (Injeuk)
+
+#### LastJamoRieul: 받침 없는 체언에 'ㄹ' 받침을 추가하는 경우
+
+- 일랑 (Illang) — 예: "가구" → "가굴랑"
+
 ### 변하는 토시 추가
 
 - "아/야" 호격 조사 추가
@@ -25,6 +69,20 @@
 - `is_hangul_syllable()`에서 `position().is_some()`을 `contains()`로 단순화
 - `bracket.rs`의 `split_tossi_word` 반환 타입을 `Result<SplitResult>`로 변경
 - `Tossi` 구조체에서 사용되지 않는 `modified` 필드 제거
+- `transform()` 함수에서 `unwrap()`을 `?` 연산자로 변경
+- 주석 처리된 디버그용 `println!` 및 미사용 코드 제거
+- `modify_finall_jamo` → `modify_final_jamo` 함수명 오타 수정
+- `_UNCHANGED_LIST` → `UNCHANGED_LIST` 상수명 변경
+- `over_limit_word_len()`, `find_last_letter()` 함수 단순화
+- `is_verifier_tossi()`를 `TOSSI_LIST.contains()`로 단순화
+- `TransTossiWhen` 매핑 패턴 그룹화 및 한국어 문법 주석 추가
+- 테스트 함수명 오타 수정 (`_when_when_` → `_when_`)
+- 주석 오타 수정 (bracket.rs, number.rs, transfer.rs)
+
+### 주의: 하위 호환성이 없는 변경 (Breaking Changes)
+
+- `modify_finall_jamo` → `modify_final_jamo` 함수명 변경
+- `_UNCHANGED_LIST` → `UNCHANGED_LIST` 상수명 변경
 
 ## Version 0.6.1 (2024-11-09)
 
