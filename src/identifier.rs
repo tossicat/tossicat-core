@@ -54,6 +54,17 @@ pub enum TossiKind {
     Illang,
     Others,
 }
+/// ## 토시 변환 방식을 분류하는 열거형
+///
+/// 한국어 조사(토시)는 앞 단어의 받침(종성) 유무에 따라 형태가 달라진다.
+/// 이 열거형은 그 변환 방식을 다음과 같이 분류한다.
+///
+/// - `Blank`: 받침 유무에 따라 형태가 달라지는 일반적인 경우 (예: 은/는, 을/를, 과/와)
+/// - `RiEulAndBlank`: 받침이 'ㄹ'일 때 특수 처리하는 경우 (예: "서울로", "학교로")
+/// - `OnlyKa`: '가/이' 조사의 특수 변환
+/// - `LastJamoNieun`: 받침 없는 체언에 'ㄴ' 받침을 추가하는 경우 (예: "철수" → "철순들")
+/// - `LastJamoRieul`: 받침 없는 체언에 'ㄹ' 받침을 추가하는 경우 (예: "가구" → "가굴랑")
+/// - `Nothing`: 변환하지 않는 경우
 pub enum TransTossiWhen {
     Blank,
     RiEulAndBlank,
@@ -79,36 +90,24 @@ impl Tossi {
             4 => four_letters(&temp_modified),
             _ => TossiKind::Others,
         };
+        // 토시 종류에 따라 변환 방식을 결정한다.
+        // 대부분의 조사는 받침 유무에 따라 형태가 달라지는 Blank 방식이고,
+        // 아래 나열된 것들만 특수한 변환 방식을 사용한다.
         let temp_trans_tossi_when = match temp_kind {
-            TossiKind::Deun => TransTossiWhen::Blank,
-            TossiKind::Deunji => TransTossiWhen::Blank,
-            TossiKind::Deunka => TransTossiWhen::Blank,
-            TossiKind::Eul => TransTossiWhen::Blank,
-            TossiKind::Ida => TransTossiWhen::Blank,
+            // 받침 없는 체언에 'ㄹ' 받침을 추가하는 토시 (예: "가구" → "가굴랑")
             TossiKind::Illang => TransTossiWhen::LastJamoRieul,
-            TossiKind::Indeul => TransTossiWhen::LastJamoNieun,
-            TossiKind::Injeuk => TransTossiWhen::LastJamoNieun,
+            // 받침 없는 체언에 'ㄴ' 받침을 추가하는 토시 (예: "철수" → "철순들")
+            TossiKind::Indeul | TossiKind::Injeuk => TransTossiWhen::LastJamoNieun,
+            // '가/이' 조사의 특수 변환
             TossiKind::Ka => TransTossiWhen::OnlyKa,
-            TossiKind::Ko => TransTossiWhen::Blank,
-            TossiKind::Myeo => TransTossiWhen::Blank,
-            TossiKind::Na => TransTossiWhen::Blank,
-            TossiKind::Nama => TransTossiWhen::Blank,
-            TossiKind::Neun => TransTossiWhen::Blank,
-            TossiKind::Ni => TransTossiWhen::Blank,
-            TossiKind::Rado => TransTossiWhen::Blank,
-            TossiKind::Rago => TransTossiWhen::Blank,
-            TossiKind::Ran => TransTossiWhen::Blank,
-            TossiKind::Rang => TransTossiWhen::Blank,
-            TossiKind::Raya => TransTossiWhen::Blank,
-            TossiKind::Ro => TransTossiWhen::RiEulAndBlank,
-            TossiKind::Robuteo => TransTossiWhen::RiEulAndBlank,
-            TossiKind::Roseo => TransTossiWhen::RiEulAndBlank,
-            TossiKind::Rosseo => TransTossiWhen::RiEulAndBlank,
-            TossiKind::Wa => TransTossiWhen::Blank,
-            TossiKind::Ya => TransTossiWhen::Blank,
-            TossiKind::Yamalro => TransTossiWhen::Blank,
-            TossiKind::Yeo => TransTossiWhen::Blank,
+            // 받침이 'ㄹ'일 때 '으'가 붙지 않는 토시 (예: "서울로", "학교로")
+            TossiKind::Ro | TossiKind::Robuteo | TossiKind::Roseo | TossiKind::Rosseo => {
+                TransTossiWhen::RiEulAndBlank
+            }
+            // 처리할 수 없는 토시
             TossiKind::Others => TransTossiWhen::Nothing,
+            // 그 외 받침 유무에 따라 형태가 달라지는 일반적인 조사
+            _ => TransTossiWhen::Blank,
         };
         Self {
             kind: temp_kind,
