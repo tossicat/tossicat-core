@@ -131,7 +131,7 @@ pub fn split_phonemes(word: char) -> [char; 3] {
     let idx_middle: usize = ((offset / 28) % 21) as usize;
     phonemes[1] = MEDIAL[idx_middle];
     //종성은 있는 경우에만 계산
-    if (((unicode - 0xAC00) % (21 * 28)) % 28) != 0 {
+    if !((unicode - 0xAC00) % (21 * 28)).is_multiple_of(28) {
         let idx_end: usize = (offset % 28) as usize;
         phonemes[2] = FINAL[idx_end];
     }

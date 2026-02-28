@@ -80,9 +80,9 @@ pub fn change_num_to_hangeul(num: &str) -> String {
         let mut last_temp: Vec<char> = Vec::new();
 
         for i in temp_result.chars() {
-            if EXPS.iter().any(|&x: &char| x == i) {
+            if EXPS.contains(&i) {
                 let last_char = last_temp[last_temp.len() - 1];
-                if !EXPS.iter().any(|&x: &char| x == last_char) {
+                if !EXPS.contains(&last_char) {
                     last_temp.push(i);
 
                 }

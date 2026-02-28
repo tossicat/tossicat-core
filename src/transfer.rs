@@ -293,7 +293,7 @@ fn when_last_jamo_nieun<'a>(word: &'a str, tossi_variants: (&'a str, &'a str, &'
         if let Some(temp) = last_char {
             let temp_last_char = modify_final_jamo(temp, 'ㄴ');
             temp_word.push(temp_last_char);
-            return temp_word + tossi_variants.1;
+            temp_word + tossi_variants.1
         } else {
             word.to_string() + tossi_variants.1
         }
@@ -350,7 +350,7 @@ fn when_last_jamo_rieul<'a>(word: &'a str, tossi_variants: (&'a str, &'a str, &'
         if let Some(temp) = last_char {
             let temp_last_char = modify_final_jamo(temp, 'ㄹ');
             temp_word.push(temp_last_char);
-            return temp_word + tossi_variants.1;
+            temp_word + tossi_variants.1
         } else {
             word.to_string() + tossi_variants.1
         }
