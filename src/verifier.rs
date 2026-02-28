@@ -42,12 +42,7 @@ pub fn verify_value(word: &str, tossi: &str) -> Result<(), ValueErrorType> {
 
 // 올바른 토씨를 입력했는지 확인해주는 함수
 fn is_verifier_tossi(tossi: &str) -> bool {
-    for check in TOSSI_LIST.iter() {
-        if check == &tossi {
-            return true;
-        }
-    }
-    false
+    TOSSI_LIST.contains(&tossi)
 }
 
 // 파라미터롤 받는 단어를 제한 기준 함수
