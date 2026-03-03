@@ -93,7 +93,11 @@ fn main() {
 cargo build --release
 ```
 
-빌드하고 나면 `tossicat-core/target/release`에 `tossicat`이라는 이름으로 실행 파일이 만들어 집니다. 현재 이 프로젝트는 실행 파일을 만들 필요는 없지만, 현재는 테스트를 하기 위해서 `main.rs`이 존재하기 때문에 실행 파일을 만들 수 있습니다.
+이 프로젝트는 라이브러리이므로 실행 파일은 생성되지 않습니다. 사용 예제를 실행하려면 다음 명령어를 사용하세요.
+
+```console
+cargo run --example basic
+```
 
 ## 코드 작성에서 유의할 점
 
