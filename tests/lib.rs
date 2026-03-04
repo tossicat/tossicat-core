@@ -323,3 +323,134 @@ fn _transform() {
     let result = Ok(("법원".to_string(), "이".to_string()));
     assert_eq!(result, transform(word, tossi));
 }
+
+#[test]
+fn _postfix_error_invalid_tossi() {
+    // 지원하지 않는 조사를 입력한 경우
+    let result = postfix("사과", "먹고싶다");
+    assert!(result.is_err());
+    assert_eq!(
+        result.unwrap_err().to_string(),
+        "This value is not correct tossi"
+    );
+}
+
+#[test]
+fn _postfix_error_limit_length() {
+    // 50자 이상의 단어를 입력한 경우
+    let long_word = "가".repeat(50);
+    let result = postfix(&long_word, "을");
+    assert!(result.is_err());
+    assert_eq!(
+        result.unwrap_err().to_string(),
+        "The length has been exceeded. Set the word length to less than 50"
+    );
+}
+
+#[test]
+fn _transform_error_invalid_tossi() {
+    let result = transform("사과", "먹고싶다");
+    assert!(result.is_err());
+    assert_eq!(
+        result.unwrap_err().to_string(),
+        "This value is not correct tossi"
+    );
+}
+
+#[test]
+fn _transform_error_limit_length() {
+    let long_word = "가".repeat(50);
+    let result = transform(&long_word, "을");
+    assert!(result.is_err());
+    assert_eq!(
+        result.unwrap_err().to_string(),
+        "The length has been exceeded. Set the word length to less than 50"
+    );
+}
+
+#[test]
+fn _modify_sentence_error_not_balanced() {
+    // 괄호 짝이 맞지 않는 경우
+    let result = modify_sentence("{철수, 은");
+    assert!(result.is_err());
+    assert!(result
+        .unwrap_err()
+        .to_string()
+        .contains("incorrect parentheses"));
+}
+
+#[test]
+fn _modify_sentence_error_is_not_brace() {
+    // 중괄호가 아닌 괄호를 사용한 경우
+    let result = modify_sentence("[철수, 은]");
+    assert!(result.is_err());
+    assert!(result.unwrap_err().to_string().contains("brace"));
+}
+
+#[test]
+fn _modify_sentence_error_nested_parentheses() {
+    // 중첩된 중괄호가 있는 경우
+    let result = modify_sentence("{{철수, 은}}");
+    assert!(result.is_err());
+    assert!(result
+        .unwrap_err()
+        .to_string()
+        .contains("Nested Parentheses"));
+}
+
+#[test]
+fn _modify_sentence_error_split_tossi_word() {
+    // 쉼표 없이 입력한 경우
+    let result = modify_sentence("{철수 은}");
+    assert!(result.is_err());
+    assert!(result
+        .unwrap_err()
+        .to_string()
+        .contains("separate words and tossi with a comma"));
+}
+
+#[test]
+fn _modify_sentence_error_tossi_is_empty() {
+    // 토시가 비어 있는 경우
+    let result = modify_sentence("{철수,}");
+    assert!(result.is_err());
+    assert!(result
+        .unwrap_err()
+        .to_string()
+        .contains("fill the tossi section"));
+}
+
+#[test]
+fn _modify_sentence_error_word_is_empty() {
+    // 단어가 비어 있는 경우
+    let result = modify_sentence("{,은}");
+    assert!(result.is_err());
+    assert!(result
+        .unwrap_err()
+        .to_string()
+        .contains("fill the word section"));
+}
+
+#[test]
+fn _modify_sentence_error_invalid_tossi() {
+    // 괄호 안에 잘못된 조사가 있는 경우
+    let result = modify_sentence("{철수, 먹고싶다}");
+    assert!(result.is_err());
+    assert!(result
+        .unwrap_err()
+        .to_string()
+        .contains("not correct tossi"));
+}
+
+#[test]
+fn _modify_sentence_error_limit_length() {
+    // 괄호 안에 50자 이상의 단어가 있는 경우
+    let long_word = "가".repeat(50);
+    let sentence = format!("{{{}, 을}}", long_word);
+    let result = modify_sentence(&sentence);
+    assert!(result.is_err());
+    assert!(result
+        .unwrap_err()
+        .to_string()
+        .contains("length has been exceeded"));
+}
