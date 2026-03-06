@@ -95,7 +95,7 @@ pub fn change_num_to_hangeul(num: &str) -> String {
 
         // 한글 구와 숫자 단위 수인 구가 충돌하여 한자로 바꾼 것을 되돌린다.
         temp_result = temp_result.replace('溝', "구");
-        // 관용적인 표현을 작용한다.
+        // 관용적인 표현을 적용한다.
         temp_result = temp_result.replace("일만", "만");
         temp_result = temp_result.replace("일천", "천");
         temp_result = temp_result.replace("일백", "백");
