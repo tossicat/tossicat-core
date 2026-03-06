@@ -1,5 +1,33 @@
+//! # 에러를 처리하는 모듈
+//!
+//! ## ValueErrorType
+//! 값 에러의 종류를 정의하는 enum.
+//! ```text
+//! ex) InvalidTossi: 올바른 토시가 아닙니다.
+//! ex) InvalidCharacter: 올바른 한글 문자가 아닙니다.
+//! ex) LimitLength: 단어 길이가 50을 초과합니다.
+//! ```
+//!
+//! ## ValueError
+//! ValueErrorType을 포함하는 에러 구조체.
+//!
+//! ## ParseErrorType
+//! 문장 파싱 에러의 종류를 정의하는 enum.
+//! ```text
+//! ex) AreNotBalanced: 괄호 짝이 안 맞습니다.
+//! ex) TossiIsEmpty: 토시가 비어 있습니다.
+//! ```
+//!
+//! ## ParseError
+//! ParseErrorType을 포함하는 에러 구조체.
+
 use std::fmt;
 
+/// ValueErrorType 의 종류
+///
+/// - InvalidTossi : 올바른 토시가 아닙니다.
+/// - InvalidCharacter : 올바른 한글 문자가 아닙니다.
+/// - LimitLength : 단어 길이가 50을 초과합니다.
 #[derive(Debug, PartialEq)]
 pub enum ValueErrorType {
     InvalidTossi,
