@@ -96,21 +96,25 @@ fn _join_phonemes() {
 fn _split_phonemes() {
     let temp = '쏚';
     let result = ['ㅆ', 'ㅗ', 'ㄲ'];
-    assert_eq!(result, split_phonemes(temp));
+    assert_eq!(result, split_phonemes(temp).unwrap());
 
     let temp = '섭';
     let result = ['ㅅ', 'ㅓ', 'ㅂ'];
-    assert_eq!(result, split_phonemes(temp));
+    assert_eq!(result, split_phonemes(temp).unwrap());
 
     let temp = '투';
     let result = ['ㅌ', 'ㅜ', ' '];
-    assert_eq!(result, split_phonemes(temp));
+    assert_eq!(result, split_phonemes(temp).unwrap());
 
     let temp = '똠';
     let result = ['ㄸ', 'ㅗ', 'ㅁ'];
-    assert_eq!(result, split_phonemes(temp));
+    assert_eq!(result, split_phonemes(temp).unwrap());
 
     let temp = '가';
     let result = ['ㄱ', 'ㅏ', ' '];
-    assert_eq!(result, split_phonemes(temp));
+    assert_eq!(result, split_phonemes(temp).unwrap());
+
+    // 비한글 입력 시 에러 반환 테스트
+    assert!(split_phonemes('a').is_err());
+    assert!(split_phonemes('😀').is_err());
 }

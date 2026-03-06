@@ -3,6 +3,7 @@ use std::fmt;
 #[derive(Debug, PartialEq)]
 pub enum ValueErrorType {
     InvalidTossi,
+    InvalidCharacter,
     LimitLength,
 }
 
@@ -10,6 +11,9 @@ impl fmt::Display for ValueErrorType {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match self {
             ValueErrorType::InvalidTossi => write!(f, "This value is not correct tossi"),
+            ValueErrorType::InvalidCharacter => {
+                write!(f, "This value is not a valid Hangul character")
+            }
             ValueErrorType::LimitLength => write!(
                 f,
                 "The length has been exceeded. Set the word length to less than 50"

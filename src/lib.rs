@@ -171,11 +171,12 @@ pub fn modify_final_jamo(letter: char, jamo: char) -> char {
 ///
 /// ```rust
 /// use tossicat::split_phonemes;
-/// assert_eq!(['ㄱ','ㅡ','ㄹ'], split_phonemes('글'));
-/// assert_eq!(['ㅈ','ㅏ',' '], split_phonemes('자'));
+/// assert_eq!(Ok(['ㄱ','ㅡ','ㄹ']), split_phonemes('글'));
+/// assert_eq!(Ok(['ㅈ','ㅏ',' ']), split_phonemes('자'));
+/// assert!(split_phonemes('a').is_err());
 /// ```
-pub fn split_phonemes(word: char) -> [char; 3] {
-    hangeul::split_phonemes(word)
+pub fn split_phonemes(word: char) -> Result<[char; 3], ValueError> {
+    hangeul::split_phonemes(word).map_err(ValueError::new)
 }
 
 // filter 모듈

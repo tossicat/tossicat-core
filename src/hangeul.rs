@@ -100,7 +100,7 @@ pub fn modify_final_jamo(letter: char, jamo: char) -> char {
         return letter;
     }
     if FINAL.contains(&jamo) {
-        let mut splited_letter = split_phonemes(letter);
+        let mut splited_letter = split_phonemes(letter).unwrap();
         splited_letter[2] = jamo;
         join_phonemes(splited_letter)
     } else {
@@ -111,13 +111,12 @@ pub fn modify_final_jamo(letter: char, jamo: char) -> char {
 /// ## 입력된 한 글자를 초, 중, 종성으로 구분해 반환하는 함수
 /// 이 함수는 기본적으로 입력된 것이 종성이 없는 경우에도 종성을 스페이스, 즉 `' '`으로 반환한다.
 /// 사용법은 tests 모듈, /tests/hangeul.rs 참고
-pub fn split_phonemes(word: char) -> [char; 3] {
+pub fn split_phonemes(word: char) -> Result<[char; 3], crate::error::ValueErrorType> {
     // 조,중,종성을 담을 배열 정의
     let mut phonemes: [char; 3] = [' '; 3];
-    // 받은 문자가 한글인지 확인, 한글이 아닐 경우 배열 첫번째 요소에 그대로 출력
+    // 받은 문자가 한글인지 확인, 한글이 아닐 경우 에러 반환
     if !is_hangeul(word) {
-        phonemes[0] = word;
-        return phonemes;
+        return Err(crate::error::ValueErrorType::InvalidCharacter);
     }
     //'가'와의 차이값 계산
     let unicode = word as u32;
@@ -136,7 +135,7 @@ pub fn split_phonemes(word: char) -> [char; 3] {
         phonemes[2] = FINAL[idx_end];
     }
     //초,중,종성이 배열로 묶여서 전달
-    phonemes
+    Ok(phonemes)
 }
 
 /// 비 공개 함수를 테스트합니다.
