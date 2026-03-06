@@ -169,6 +169,9 @@ pub fn modify_final_jamo(letter: char, jamo: char) -> char {
 /// 예를 들어 만약 종성이 없는 경우에는 ' '으로 치환됩니다.
 /// 아래 2번째 예를 참고하세요.
 ///
+/// 입력된 문자가 한글이 아닌 경우에는 `Err(ValueError)`를 반환합니다.
+/// 아래 3번째 예를 참고하세요.
+///
 /// ```rust
 /// use tossicat::split_phonemes;
 /// assert_eq!(Ok(['ㄱ','ㅡ','ㄹ']), split_phonemes('글'));
