@@ -45,6 +45,8 @@ const WA: (&str, &str, &str) = ("(와)과", "와", "과");
 const YA: (&str, &str, &str) = ("(아)야", "야", "아");
 const YAMALRO: (&str, &str, &str) = ("(이)야말로", "야말로", "이야말로");
 const YEO: (&str, &str, &str) = ("(이)여", "여", "이여");
+// JI 부터 RANEUN 까지는 받침 있으면 "이~" 붙이고, 없으면 "이"를 그냥 빼는 패턴입니다.
+// 기존의 "이고", "이나", "이니" 등과 동일합니다.
 const JI: (&str, &str, &str) = ("(이)지", "지", "이지");
 const JIMAN: (&str, &str, &str) = ("(이)지만", "지만", "이지만");
 const NIKKA: (&str, &str, &str) = ("(이)니까", "니까", "이니까");
@@ -52,6 +54,9 @@ const GEON: (&str, &str, &str) = ("(이)건", "건", "이건");
 const GEODEUN: (&str, &str, &str) = ("(이)거든", "거든", "이거든");
 const GEONA: (&str, &str, &str) = ("(이)거나", "거나", "이거나");
 const NYA: (&str, &str, &str) = ("(이)냐", "냐", "이냐");
+const RAMYEON: (&str, &str, &str) = ("(이)라면", "라면", "이라면");
+const RASEO: (&str, &str, &str) = ("(이)라서", "라서", "이라서");
+const RANEUN: (&str, &str, &str) = ("(이)라는", "라는", "이라는");
 
 use crate::guess_final_letter;
 use crate::modify_final_jamo;

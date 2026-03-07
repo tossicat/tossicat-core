@@ -181,6 +181,17 @@ cargo clippy
 - `docs/available_tossi_list.md` — 해당 섹션에 새 토시 추가
 - `docs/total_tossi.json` — JSON 목록에 새 토시 추가
 
+이 두 파일은 `docs/python_scripts/automatic_list_creation.py` 스크립트를 실행하면
+자동으로 생성할 수 있습니다. 이 스크립트는 `src/transfer.rs`에서 변환 상수를,
+`src/tossi.rs`에서 `TOSSI_LIST`를 읽어서 문서를 생성합니다.
+
+```bash
+# available_tossi_list.md 생성
+python docs/python_scripts/automatic_list_creation.py > docs/available_tossi_list.md
+
+# total_tossi.json은 스크립트 실행 시 자동으로 docs/total_tossi.json에 저장됩니다.
+```
+
 ---
 
 ## 수정 파일 체크리스트
