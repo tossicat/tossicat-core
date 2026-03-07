@@ -325,6 +325,44 @@ fn _transform() {
 }
 
 #[test]
+fn _postfix_new_tossi() {
+    // 지/이지
+    assert_eq!(Ok("사과지".to_string()), postfix("사과", "지"));
+    assert_eq!(Ok("사람이지".to_string()), postfix("사람", "지"));
+    assert_eq!(Ok("apple(이)지".to_string()), postfix("apple", "지"));
+
+    // 지만/이지만
+    assert_eq!(Ok("사과지만".to_string()), postfix("사과", "지만"));
+    assert_eq!(Ok("사람이지만".to_string()), postfix("사람", "지만"));
+    assert_eq!(Ok("apple(이)지만".to_string()), postfix("apple", "지만"));
+
+    // 니까/이니까
+    assert_eq!(Ok("사과니까".to_string()), postfix("사과", "니까"));
+    assert_eq!(Ok("사람이니까".to_string()), postfix("사람", "니까"));
+    assert_eq!(Ok("apple(이)니까".to_string()), postfix("apple", "니까"));
+
+    // 건/이건
+    assert_eq!(Ok("사과건".to_string()), postfix("사과", "건"));
+    assert_eq!(Ok("사람이건".to_string()), postfix("사람", "건"));
+    assert_eq!(Ok("apple(이)건".to_string()), postfix("apple", "건"));
+
+    // 거든/이거든
+    assert_eq!(Ok("사과거든".to_string()), postfix("사과", "거든"));
+    assert_eq!(Ok("사람이거든".to_string()), postfix("사람", "거든"));
+    assert_eq!(Ok("apple(이)거든".to_string()), postfix("apple", "거든"));
+
+    // 거나/이거나
+    assert_eq!(Ok("사과거나".to_string()), postfix("사과", "거나"));
+    assert_eq!(Ok("사람이거나".to_string()), postfix("사람", "거나"));
+    assert_eq!(Ok("apple(이)거나".to_string()), postfix("apple", "거나"));
+
+    // 냐/이냐
+    assert_eq!(Ok("사과냐".to_string()), postfix("사과", "냐"));
+    assert_eq!(Ok("사람이냐".to_string()), postfix("사람", "냐"));
+    assert_eq!(Ok("apple(이)냐".to_string()), postfix("apple", "냐"));
+}
+
+#[test]
 fn _postfix_error_invalid_tossi() {
     // 지원하지 않는 조사를 입력한 경우
     let result = postfix("사과", "먹고싶다");

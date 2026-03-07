@@ -52,6 +52,13 @@ pub enum TossiKind {
     Ya,
     Yeo,
     Illang,
+    Ji,
+    Jiman,
+    Nikka,
+    Geon,
+    Geodeun,
+    Geona,
+    Nya,
     Others,
 }
 /// ## 토시 변환 방식을 분류하는 열거형
@@ -137,6 +144,9 @@ fn one_letter(element: char) -> TossiKind {
         '든' => TossiKind::Deun,
         '여' => TossiKind::Yeo,
         '아' | '야' => TossiKind::Ya,
+        '지' => TossiKind::Ji,
+        '건' => TossiKind::Geon,
+        '냐' => TossiKind::Nya,
         _ => TossiKind::Others,
     }
 }
@@ -168,6 +178,13 @@ fn two_letters(elements: &[char]) -> TossiKind {
         ('인', '즉') => TossiKind::Injeuk,
         ('라', '고') => TossiKind::Rago,
         ('일', '랑') => TossiKind::Illang,
+        ('이', '지') => TossiKind::Ji,
+        ('지', '만') => TossiKind::Jiman,
+        ('니', '까') => TossiKind::Nikka,
+        ('이', '건') => TossiKind::Geon,
+        ('거', '든') => TossiKind::Geodeun,
+        ('거', '나') => TossiKind::Geona,
+        ('이', '냐') => TossiKind::Nya,
         (_, _) => TossiKind::Others,
     }
 }
@@ -188,6 +205,10 @@ fn three_letters(elements: &[char]) -> TossiKind {
         ('이', '라', '야') => TossiKind::Raya,
         ('이', '라', '도') => TossiKind::Rado,
         ('이', '라', '고') => TossiKind::Rago,
+        ('이', '지', '만') => TossiKind::Jiman,
+        ('이', '니', '까') => TossiKind::Nikka,
+        ('이', '거', '든') => TossiKind::Geodeun,
+        ('이', '거', '나') => TossiKind::Geona,
         (_, _, _) => TossiKind::Others,
     }
 }
