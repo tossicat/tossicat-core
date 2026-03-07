@@ -59,6 +59,9 @@ pub enum TossiKind {
     Geodeun,
     Geona,
     Nya,
+    Ramyeon,
+    Raseo,
+    Raneun,
     Others,
 }
 /// ## 토시 변환 방식을 분류하는 열거형
@@ -185,6 +188,9 @@ fn two_letters(elements: &[char]) -> TossiKind {
         ('거', '든') => TossiKind::Geodeun,
         ('거', '나') => TossiKind::Geona,
         ('이', '냐') => TossiKind::Nya,
+        ('라', '면') => TossiKind::Ramyeon,
+        ('라', '서') => TossiKind::Raseo,
+        ('라', '는') => TossiKind::Raneun,
         (_, _) => TossiKind::Others,
     }
 }
@@ -209,6 +215,9 @@ fn three_letters(elements: &[char]) -> TossiKind {
         ('이', '니', '까') => TossiKind::Nikka,
         ('이', '거', '든') => TossiKind::Geodeun,
         ('이', '거', '나') => TossiKind::Geona,
+        ('이', '라', '면') => TossiKind::Ramyeon,
+        ('이', '라', '서') => TossiKind::Raseo,
+        ('이', '라', '는') => TossiKind::Raneun,
         (_, _, _) => TossiKind::Others,
     }
 }

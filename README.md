@@ -32,9 +32,9 @@ use tossicat::modify_sentence;
 use tossicat::transform;
 
 fn main() {
-    println!("결과: {}", postfix("사과", "을"));
-    println!("결과: {}", modify_sentence("{철수, 은} {영희,   과} {사과,  을} 먹습니다."));
-    println!("결과: {}", transform("구글", "으로부터"));
+    println!("결과: {:?}", postfix("사과", "을"));
+    println!("결과: {:?}", modify_sentence("{철수, 은} {영희,   과} {사과,  을} 먹습니다."));
+    println!("결과: {:?}", transform("구글", "으로부터"));
 }
 ```
 
@@ -61,7 +61,7 @@ fn main() {
 
 ## 구현 함수
 
-이 프로젝트에서 중요한 기능을 하는 함수는 다음과 같은 2가지가 있습니다.
+이 프로젝트에서 중요한 기능을 하는 함수는 다음과 같은 3가지가 있습니다.
 
 - `postfix(word: &str, tossi: &str)`: 입력된 것들을 참고해 `word`에 적절한 `tossi`를 덧붙여 반환합니다.
 - `modify_sentence()`: 입력된 문장에 포함된 1개 이상의 토시를 같이 입력된 단어에 맞게 전환해 입력된 문장을 바꿔 반환하는 함수
@@ -80,10 +80,10 @@ fn main() {
 
 현재 이 프로젝트에서 토시(tossi)는 다음과 같습니다. 지속적으로 추가할 예정입니다.
 
-1. 변환을 고려해야 하는 토시들, 53개
-2. 변환할 필요가 없는 토시들, 33개
+1. 변환을 고려해야 하는 토시들, 73개
+2. 변환할 필요가 없는 토시들, 32개
 
-이 둘을 합쳐서 총 86개의 토시를 처리할 수 있습니다. 여기에 외국어 단어가 입력되었을 경우 그 단어의 발음을 정확하게 알 수 없기 때문에, "(을)를"과 같이 토시를 병기해 변환하는 경우가 일어날 수 있기 때문에 내부적으로 처리할 수 있는 토시 숫자는 훨씬 많습니다. 이 두 종류의 토시들의 총목록은 [available_tossi_list.md](https://github.com/tossicat/tossicat-core/blob/main/docs/available_tossi_list.md)를, 이와 관련된 자세한 내용은 [RELEASES.md](https://github.com/tossicat/tossicat-core/blob/main/RELEASES.md)를 참고하세요.
+이 둘을 합쳐서 총 105개의 토시를 처리할 수 있습니다. 여기에 외국어 단어가 입력되었을 경우 그 단어의 발음을 정확하게 알 수 없기 때문에, "(을)를"과 같이 토시를 병기해 변환하는 경우가 일어날 수 있기 때문에 내부적으로 처리할 수 있는 토시 숫자는 훨씬 많습니다. 이 두 종류의 토시들의 총목록은 [available_tossi_list.md](https://github.com/tossicat/tossicat-core/blob/main/docs/available_tossi_list.md)를, 이와 관련된 자세한 내용은 [RELEASES.md](https://github.com/tossicat/tossicat-core/blob/main/RELEASES.md)를 참고하세요.
 
 ## 이 프로젝트를 빌드하기
 
@@ -109,12 +109,12 @@ cargo fmt
 
 그런 다음 `cargo clippy` 명령어로 작성하신 코드의 문제점을 파악하고 이를 수정해 주세요.
 
-```cosole
+```console
 cargo clippy
 ```
 
 그리고 마지막으로 테스트를 실행한 다음 문제가 없다면 코드를 올려주세요.
 
-```cosole
+```console
 cargo test
 ```

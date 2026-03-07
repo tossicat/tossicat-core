@@ -104,6 +104,9 @@ fn get_variants(kind: &TossiKind) -> (&'static str, &'static str, &'static str) 
         TossiKind::Geodeun => GEODEUN,
         TossiKind::Geona => GEONA,
         TossiKind::Nya => NYA,
+        TossiKind::Ramyeon => RAMYEON,
+        TossiKind::Raseo => RASEO,
+        TossiKind::Raneun => RANEUN,
         TossiKind::Others => (" ", " ", " "),
     }
 }
