@@ -57,6 +57,12 @@ const NYA: (&str, &str, &str) = ("(이)냐", "냐", "이냐");
 const RAMYEON: (&str, &str, &str) = ("(이)라면", "라면", "이라면");
 const RASEO: (&str, &str, &str) = ("(이)라서", "라서", "이라서");
 const RANEUN: (&str, &str, &str) = ("(이)라는", "라는", "이라는");
+// EYO 부터 EOSEO 까지는 받침 있으면 "이~" 붙이고,
+// 없으면 단순히 "이"가 탈락하는 것이 아니라 "이어" → "여" 축약이 일어나는 패턴입니다.
+// 기존의 YEO("이여/여")와 동일합니다.
+const EYO: (&str, &str, &str) = ("(이)에요", "예요", "이에요");
+const EOTDA: (&str, &str, &str) = ("(이)었다", "였다", "이었다");
+const EOSEO: (&str, &str, &str) = ("(이)어서", "여서", "이어서");
 
 use crate::guess_final_letter;
 use crate::modify_final_jamo;
@@ -107,6 +113,9 @@ fn get_variants(kind: &TossiKind) -> (&'static str, &'static str, &'static str) 
         TossiKind::Ramyeon => RAMYEON,
         TossiKind::Raseo => RASEO,
         TossiKind::Raneun => RANEUN,
+        TossiKind::Eyo => EYO,
+        TossiKind::Eotda => EOTDA,
+        TossiKind::Eoseo => EOSEO,
         TossiKind::Others => (" ", " ", " "),
     }
 }

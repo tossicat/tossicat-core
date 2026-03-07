@@ -62,6 +62,9 @@ pub enum TossiKind {
     Ramyeon,
     Raseo,
     Raneun,
+    Eyo,
+    Eotda,
+    Eoseo,
     Others,
 }
 /// ## 토시 변환 방식을 분류하는 열거형
@@ -191,6 +194,12 @@ fn two_letters(elements: &[char]) -> TossiKind {
         ('라', '면') => TossiKind::Ramyeon,
         ('라', '서') => TossiKind::Raseo,
         ('라', '는') => TossiKind::Raneun,
+        ('예', '요') => TossiKind::Eyo,
+        ('에', '요') => TossiKind::Eyo,
+        ('였', '다') => TossiKind::Eotda,
+        ('었', '다') => TossiKind::Eotda,
+        ('여', '서') => TossiKind::Eoseo,
+        ('어', '서') => TossiKind::Eoseo,
         (_, _) => TossiKind::Others,
     }
 }
@@ -218,6 +227,9 @@ fn three_letters(elements: &[char]) -> TossiKind {
         ('이', '라', '면') => TossiKind::Ramyeon,
         ('이', '라', '서') => TossiKind::Raseo,
         ('이', '라', '는') => TossiKind::Raneun,
+        ('이', '에', '요') => TossiKind::Eyo,
+        ('이', '었', '다') => TossiKind::Eotda,
+        ('이', '어', '서') => TossiKind::Eoseo,
         (_, _, _) => TossiKind::Others,
     }
 }

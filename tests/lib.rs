@@ -375,6 +375,21 @@ fn _postfix_new_tossi() {
     assert_eq!(Ok("사과라는".to_string()), postfix("사과", "라는"));
     assert_eq!(Ok("사람이라는".to_string()), postfix("사람", "라는"));
     assert_eq!(Ok("apple(이)라는".to_string()), postfix("apple", "라는"));
+
+    // 에요/이에요
+    assert_eq!(Ok("사과예요".to_string()), postfix("사과", "에요"));
+    assert_eq!(Ok("사람이에요".to_string()), postfix("사람", "에요"));
+    assert_eq!(Ok("apple(이)에요".to_string()), postfix("apple", "에요"));
+
+    // 었다/이었다
+    assert_eq!(Ok("사과였다".to_string()), postfix("사과", "었다"));
+    assert_eq!(Ok("사람이었다".to_string()), postfix("사람", "었다"));
+    assert_eq!(Ok("apple(이)었다".to_string()), postfix("apple", "었다"));
+
+    // 어서/이어서
+    assert_eq!(Ok("사과여서".to_string()), postfix("사과", "어서"));
+    assert_eq!(Ok("사람이어서".to_string()), postfix("사람", "어서"));
+    assert_eq!(Ok("apple(이)어서".to_string()), postfix("apple", "어서"));
 }
 
 #[test]
