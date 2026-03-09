@@ -390,6 +390,24 @@ fn _postfix_new_tossi() {
     assert_eq!(Ok("사과여서".to_string()), postfix("사과", "어서"));
     assert_eq!(Ok("사람이어서".to_string()), postfix("사람", "어서"));
     assert_eq!(Ok("apple(이)어서".to_string()), postfix("apple", "어서"));
+
+    // 로도/으로도 (RiEulAndBlank 패턴)
+    assert_eq!(Ok("나라로도".to_string()), postfix("나라", "로도"));
+    assert_eq!(Ok("서울로도".to_string()), postfix("서울", "로도"));
+    assert_eq!(Ok("부산으로도".to_string()), postfix("부산", "로도"));
+    assert_eq!(Ok("apple(으)로도".to_string()), postfix("apple", "로도"));
+
+    // 로만/으로만 (RiEulAndBlank 패턴)
+    assert_eq!(Ok("나라로만".to_string()), postfix("나라", "로만"));
+    assert_eq!(Ok("서울로만".to_string()), postfix("서울", "로만"));
+    assert_eq!(Ok("부산으로만".to_string()), postfix("부산", "로만"));
+    assert_eq!(Ok("apple(으)로만".to_string()), postfix("apple", "로만"));
+
+    // 로는/으로는 (RiEulAndBlank 패턴)
+    assert_eq!(Ok("나라로는".to_string()), postfix("나라", "로는"));
+    assert_eq!(Ok("서울로는".to_string()), postfix("서울", "로는"));
+    assert_eq!(Ok("부산으로는".to_string()), postfix("부산", "로는"));
+    assert_eq!(Ok("apple(으)로는".to_string()), postfix("apple", "로는"));
 }
 
 #[test]

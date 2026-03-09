@@ -65,6 +65,9 @@ pub enum TossiKind {
     Eyo,
     Eotda,
     Eoseo,
+    Rodo,
+    Roman,
+    Roneun,
     Others,
 }
 /// ## 토시 변환 방식을 분류하는 열거형
@@ -114,7 +117,7 @@ impl Tossi {
             // '가/이' 조사의 특수 변환
             TossiKind::Ka => TransTossiWhen::OnlyKa,
             // 받침이 'ㄹ'일 때 '으'가 붙지 않는 토시 (예: "서울로", "학교로")
-            TossiKind::Ro | TossiKind::Robuteo | TossiKind::Roseo | TossiKind::Rosseo => {
+            TossiKind::Ro | TossiKind::Robuteo | TossiKind::Roseo | TossiKind::Rosseo | TossiKind::Rodo | TossiKind::Roman | TossiKind::Roneun => {
                 TransTossiWhen::RiEulAndBlank
             }
             // 처리할 수 없는 토시
@@ -200,6 +203,9 @@ fn two_letters(elements: &[char]) -> TossiKind {
         ('었', '다') => TossiKind::Eotda,
         ('여', '서') => TossiKind::Eoseo,
         ('어', '서') => TossiKind::Eoseo,
+        ('로', '도') => TossiKind::Rodo,
+        ('로', '만') => TossiKind::Roman,
+        ('로', '는') => TossiKind::Roneun,
         (_, _) => TossiKind::Others,
     }
 }
@@ -230,6 +236,9 @@ fn three_letters(elements: &[char]) -> TossiKind {
         ('이', '에', '요') => TossiKind::Eyo,
         ('이', '었', '다') => TossiKind::Eotda,
         ('이', '어', '서') => TossiKind::Eoseo,
+        ('으', '로', '도') => TossiKind::Rodo,
+        ('으', '로', '만') => TossiKind::Roman,
+        ('으', '로', '는') => TossiKind::Roneun,
         (_, _, _) => TossiKind::Others,
     }
 }
