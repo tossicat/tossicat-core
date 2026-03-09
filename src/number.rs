@@ -26,8 +26,8 @@ pub fn is_digits(num: char) -> bool {
 
 /// ## 숫자 한 글자를 한글 발음으로 변환해주는 함수
 fn change_int_char(num: char) -> char {
-    let idx: usize = num as usize;
-    DIGITS[idx - 48]
+    let idx = num as usize - '0' as usize;
+    DIGITS[idx]
 }
 
 /// ## 숫자를 한글 발음으로 바꿔주는 함수
