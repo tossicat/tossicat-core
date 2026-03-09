@@ -81,10 +81,10 @@ pub fn change_num_to_hangeul(num: &str) -> String {
 
         for i in temp_result.chars() {
             if EXPS.contains(&i) {
-                let last_char = last_temp[last_temp.len() - 1];
-                if !EXPS.contains(&last_char) {
-                    last_temp.push(i);
-
+                if let Some(&last_char) = last_temp.last() {
+                    if !EXPS.contains(&last_char) {
+                        last_temp.push(i);
+                    }
                 }
             } else {
                 last_temp.push(i);
