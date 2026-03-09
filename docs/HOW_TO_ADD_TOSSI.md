@@ -30,7 +30,17 @@
 
 아래 예시는 가상의 토시 `"(음)임"` / `"임"` / `"음"`을 추가하는 과정입니다.
 
-### 1단계: `src/tossi.rs` — 토시 목록에 추가
+### 1단계: `src/transfer.rs` — 변환 상수 추가
+
+사전 준비에서 파악한 세 가지 형태를 튜플로 정의합니다.
+순서: `(병기 형태, 받침 없을 때, 받침 있을 때)`
+
+```rust
+// 기존 상수들 아래에 추가
+const IM: (&str, &str, &str) = ("(음)임", "임", "음");
+```
+
+### 2단계: `src/tossi.rs` — 토시 목록에 추가
 
 `TOSSI_LIST` 배열에 새 토시의 모든 형태를 추가합니다.
 
@@ -53,7 +63,7 @@ pub const TOSSI_LIST: [&str; 126] = [
 
 변환이 필요 없는 토시라면 `UNCHANGED_LIST`에도 추가합니다.
 
-### 2단계: `src/identifier.rs` — `TossiKind` enum에 variant 추가
+### 3단계: `src/identifier.rs` — `TossiKind` enum에 variant 추가
 
 ```rust
 pub enum TossiKind {
@@ -64,7 +74,7 @@ pub enum TossiKind {
 }
 ```
 
-### 3단계: `src/identifier.rs` — 글자 수별 분류 함수에 매칭 추가
+### 4단계: `src/identifier.rs` — 글자 수별 분류 함수에 매칭 추가
 
 토시의 글자 수에 따라 해당하는 함수에 매칭 arm을 추가합니다.
 
@@ -87,7 +97,7 @@ fn one_letter(element: char) -> TossiKind {
 괄호가 포함된 형태 `"(음)임"`은 `Tossi::new()`에서 괄호 제거 후
 분류하므로 별도 처리가 필요 없습니다.
 
-### 4단계: `src/identifier.rs` — 변환 방식 매핑
+### 5단계: `src/identifier.rs` — 변환 방식 매핑
 
 `Tossi::new()` 함수 내 `temp_trans_tossi_when` 매칭에 추가합니다.
 대부분의 토시는 `Blank` 방식이므로 `_ => TransTossiWhen::Blank`에 해당하여
@@ -103,16 +113,6 @@ let temp_trans_tossi_when = match temp_kind {
     // TossiKind::Im => TransTossiWhen::RiEulAndBlank,
     _ => TransTossiWhen::Blank,
 };
-```
-
-### 5단계: `src/transfer.rs` — 변환 상수 추가
-
-세 가지 형태를 튜플로 정의합니다.
-순서: `(병기 형태, 받침 없을 때, 받침 있을 때)`
-
-```rust
-// 기존 상수들 아래에 추가
-const IM: (&str, &str, &str) = ("(음)임", "임", "음");
 ```
 
 ### 6단계: `src/transfer.rs` — `get_variants()` 함수에 매칭 추가
@@ -198,11 +198,11 @@ python docs/python_scripts/automatic_list_creation.py > docs/available_tossi_lis
 
 | 순서 | 파일 | 수정 내용 |
 |------|------|----------|
-| 1 | `src/tossi.rs` | `TOSSI_LIST`에 토시 형태 추가, 배열 크기 수정 |
-| 2 | `src/identifier.rs` | `TossiKind` enum에 variant 추가 |
-| 3 | `src/identifier.rs` | 글자 수별 분류 함수에 매칭 arm 추가 |
-| 4 | `src/identifier.rs` | `Tossi::new()`에서 변환 방식 매핑 (필요 시) |
-| 5 | `src/transfer.rs` | 변환 상수 (3-튜플) 추가 |
+| 1 | `src/transfer.rs` | 변환 상수 (3-튜플) 추가 |
+| 2 | `src/tossi.rs` | `TOSSI_LIST`에 토시 형태 추가, 배열 크기 수정 |
+| 3 | `src/identifier.rs` | `TossiKind` enum에 variant 추가 |
+| 4 | `src/identifier.rs` | 글자 수별 분류 함수에 매칭 arm 추가 |
+| 5 | `src/identifier.rs` | `Tossi::new()`에서 변환 방식 매핑 (필요 시) |
 | 6 | `src/transfer.rs` | `get_variants()` 함수에 매칭 arm 추가 |
 | 7 | `src/lib.rs` | `postfix()` 함수에 매칭 arm 추가 (필요 시) |
 | 8 | `tests/lib.rs` | 테스트 케이스 추가 |
