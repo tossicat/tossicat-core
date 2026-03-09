@@ -408,6 +408,138 @@ fn _postfix_new_tossi() {
     assert_eq!(Ok("서울로는".to_string()), postfix("서울", "로는"));
     assert_eq!(Ok("부산으로는".to_string()), postfix("부산", "로는"));
     assert_eq!(Ok("apple(으)로는".to_string()), postfix("apple", "로는"));
+
+    // 더러 (안 변하는 토시)
+    assert_eq!(Ok("친구더러".to_string()), postfix("친구", "더러"));
+    assert_eq!(Ok("사람더러".to_string()), postfix("사람", "더러"));
+    assert_eq!(Ok("apple더러".to_string()), postfix("apple", "더러"));
+}
+
+#[test]
+fn _postfix_blank_pattern() {
+    // 을/를 (Eul)
+    assert_eq!(Ok("사과를".to_string()), postfix("사과", "을"));
+    assert_eq!(Ok("사람을".to_string()), postfix("사람", "을"));
+    assert_eq!(Ok("apple(을)를".to_string()), postfix("apple", "을"));
+
+    // 이다/다 (Ida)
+    assert_eq!(Ok("사과다".to_string()), postfix("사과", "다"));
+    assert_eq!(Ok("사람이다".to_string()), postfix("사람", "다"));
+    assert_eq!(Ok("apple(이)다".to_string()), postfix("apple", "다"));
+
+    // 이나/나 (Na)
+    assert_eq!(Ok("사과나".to_string()), postfix("사과", "나"));
+    assert_eq!(Ok("사람이나".to_string()), postfix("사람", "나"));
+    assert_eq!(Ok("apple(이)나".to_string()), postfix("apple", "나"));
+
+    // 이나마/나마 (Nama)
+    assert_eq!(Ok("사과나마".to_string()), postfix("사과", "나마"));
+    assert_eq!(Ok("사람이나마".to_string()), postfix("사람", "나마"));
+    assert_eq!(Ok("apple(이)나마".to_string()), postfix("apple", "나마"));
+
+    // 이니/니 (Ni)
+    assert_eq!(Ok("사과니".to_string()), postfix("사과", "니"));
+    assert_eq!(Ok("사람이니".to_string()), postfix("사람", "니"));
+    assert_eq!(Ok("apple(이)니".to_string()), postfix("apple", "니"));
+
+    // 이고/고 (Ko)
+    assert_eq!(Ok("사과고".to_string()), postfix("사과", "고"));
+    assert_eq!(Ok("사람이고".to_string()), postfix("사람", "고"));
+    assert_eq!(Ok("apple(이)고".to_string()), postfix("apple", "고"));
+
+    // 이며/며 (Myeo)
+    assert_eq!(Ok("사과며".to_string()), postfix("사과", "며"));
+    assert_eq!(Ok("사람이며".to_string()), postfix("사람", "며"));
+    assert_eq!(Ok("apple(이)며".to_string()), postfix("apple", "며"));
+
+    // 이든/든 (Deun)
+    assert_eq!(Ok("사과든".to_string()), postfix("사과", "든"));
+    assert_eq!(Ok("사람이든".to_string()), postfix("사람", "든"));
+    assert_eq!(Ok("apple(이)든".to_string()), postfix("apple", "든"));
+
+    // 이든지/든지 (Deunji)
+    assert_eq!(Ok("사과든지".to_string()), postfix("사과", "든지"));
+    assert_eq!(Ok("사람이든지".to_string()), postfix("사람", "든지"));
+    assert_eq!(Ok("apple(이)든지".to_string()), postfix("apple", "든지"));
+
+    // 이든가/든가 (Deunka)
+    assert_eq!(Ok("사과든가".to_string()), postfix("사과", "든가"));
+    assert_eq!(Ok("사람이든가".to_string()), postfix("사람", "든가"));
+    assert_eq!(Ok("apple(이)든가".to_string()), postfix("apple", "든가"));
+
+    // 이라고/라고 (Rago)
+    assert_eq!(Ok("사과라고".to_string()), postfix("사과", "라고"));
+    assert_eq!(Ok("사람이라고".to_string()), postfix("사람", "라고"));
+    assert_eq!(Ok("apple(이)라고".to_string()), postfix("apple", "라고"));
+
+    // 이라도/라도 (Rado)
+    assert_eq!(Ok("사과라도".to_string()), postfix("사과", "라도"));
+    assert_eq!(Ok("사람이라도".to_string()), postfix("사람", "라도"));
+    assert_eq!(Ok("apple(이)라도".to_string()), postfix("apple", "라도"));
+
+    // 이라야/라야 (Raya)
+    assert_eq!(Ok("사과라야".to_string()), postfix("사과", "라야"));
+    assert_eq!(Ok("사람이라야".to_string()), postfix("사람", "라야"));
+    assert_eq!(Ok("apple(이)라야".to_string()), postfix("apple", "라야"));
+
+    // 이란/란 (Ran)
+    assert_eq!(Ok("사과란".to_string()), postfix("사과", "란"));
+    assert_eq!(Ok("사람이란".to_string()), postfix("사람", "란"));
+    assert_eq!(Ok("apple(이)란".to_string()), postfix("apple", "란"));
+
+    // 이랑/랑 (Rang)
+    assert_eq!(Ok("사과랑".to_string()), postfix("사과", "랑"));
+    assert_eq!(Ok("사람이랑".to_string()), postfix("사람", "랑"));
+    assert_eq!(Ok("apple(이)랑".to_string()), postfix("apple", "랑"));
+
+    // 이야말로/야말로 (Yamalro)
+    assert_eq!(Ok("사과야말로".to_string()), postfix("사과", "야말로"));
+    assert_eq!(Ok("사람이야말로".to_string()), postfix("사람", "야말로"));
+    assert_eq!(Ok("apple(이)야말로".to_string()), postfix("apple", "야말로"));
+
+    // 이여/여 (Yeo)
+    assert_eq!(Ok("사과여".to_string()), postfix("사과", "여"));
+    assert_eq!(Ok("사람이여".to_string()), postfix("사람", "여"));
+    assert_eq!(Ok("apple(이)여".to_string()), postfix("apple", "여"));
+
+    // 아/야 (Ya)
+    assert_eq!(Ok("사과야".to_string()), postfix("사과", "야"));
+    assert_eq!(Ok("사람아".to_string()), postfix("사람", "야"));
+    assert_eq!(Ok("apple(아)야".to_string()), postfix("apple", "야"));
+
+    // 와/과 (Wa)
+    assert_eq!(Ok("사과와".to_string()), postfix("사과", "와"));
+    assert_eq!(Ok("사람과".to_string()), postfix("사람", "와"));
+    assert_eq!(Ok("apple(와)과".to_string()), postfix("apple", "와"));
+}
+
+#[test]
+fn _postfix_rieul_and_blank_pattern() {
+    // 으로부터/로부터 (Robuteo)
+    assert_eq!(Ok("나라로부터".to_string()), postfix("나라", "로부터"));
+    assert_eq!(Ok("서울로부터".to_string()), postfix("서울", "로부터"));
+    assert_eq!(Ok("부산으로부터".to_string()), postfix("부산", "로부터"));
+    assert_eq!(Ok("apple(으)로부터".to_string()), postfix("apple", "로부터"));
+
+    // 으로서/로서 (Roseo)
+    assert_eq!(Ok("나라로서".to_string()), postfix("나라", "로서"));
+    assert_eq!(Ok("서울로서".to_string()), postfix("서울", "로서"));
+    assert_eq!(Ok("부산으로서".to_string()), postfix("부산", "로서"));
+    assert_eq!(Ok("apple(으)로서".to_string()), postfix("apple", "로서"));
+
+    // 으로써/로써 (Rosseo)
+    assert_eq!(Ok("나라로써".to_string()), postfix("나라", "로써"));
+    assert_eq!(Ok("서울로써".to_string()), postfix("서울", "로써"));
+    assert_eq!(Ok("부산으로써".to_string()), postfix("부산", "로써"));
+    assert_eq!(Ok("apple(으)로써".to_string()), postfix("apple", "로써"));
+}
+
+#[test]
+fn _postfix_last_jamo_rieul_pattern() {
+    // 일랑/ㄹ랑 (Illang)
+    assert_eq!(Ok("자넬랑".to_string()), postfix("자네", "일랑"));
+    assert_eq!(Ok("술일랑".to_string()), postfix("술", "일랑"));
+    assert_eq!(Ok("apple일랑".to_string()), postfix("apple", "일랑"));
 }
 
 #[test]

@@ -3,7 +3,7 @@
 ## 1. 프로젝트 개요
 
 - **프로젝트명**: TossiCat Core
-- **버전**: 0.7.0
+- **버전**: 0.7.0 (Cargo.toml 기준, RELEASES.md에 0.8.0 작업 내역 존재)
 - **목적**: 입력된 한글 단어에 맞춰 조사(토시)를 자동으로 변환하는 Rust 라이브러리
 - **라이센스**: MIT
 
@@ -14,7 +14,7 @@
 - 변형된 토시 추출 (`transform()`)
 - 한글 음절 처리 (초성·중성·종성 분리/결합)
 - 숫자를 한글로 변환
-- 총 164개의 토시 처리 가능 (변환 필요 토시 132개 + 불변 토시 32개)
+- 총 174개의 토시 처리 가능 (변환 필요 토시 141개 + 불변 토시 33개)
 
 ---
 
@@ -30,26 +30,26 @@
 | filter.rs | 185 | 단어 필터링 (마지막 글자 추출, 종성 판단) |
 | bracket.rs | 322 | 중괄호 파싱 및 단어-토시 추출 |
 | number.rs | 165 | 숫자를 한글 발음으로 변환 |
-| identifier.rs | 250 | 토시 종류 판별 및 변환 방식 결정 |
-| tossi.rs | 230 | 처리 가능한 토시 목록 정의 (164개) |
-| transfer.rs | 1186 | 토시 변환 로직 (가장 큰 모듈) |
+| identifier.rs | 256 | 토시 종류 판별 및 변환 방식 결정 |
+| tossi.rs | 241 | 처리 가능한 토시 목록 정의 (174개) |
+| transfer.rs | 1226 | 토시 변환 로직 (가장 큰 모듈) |
 | verifier.rs | 97 | 입력값 검증 (토시 유효성, 단어 길이) |
 
-**총 소스코드**: 약 2945 라인
+**총 소스코드**: 약 3092 라인
 
 ### 테스트 파일
 
 | 파일 | 테스트 수 | 내용 |
 |------|-----------|------|
 | tests/lib.rs | 16 | `modify_sentence`, `postfix`, `transform` 통합 테스트 |
-| tests/bracket.rs | 8 | 괄호 파싱 및 에러 케이스 테스트 |
+| tests/bracket.rs | 7 | 괄호 파싱 및 에러 케이스 테스트 |
 | tests/hangeul.rs | 3 | 한글 음절 처리 테스트 |
 | tests/filter.rs | 1 | 문자 필터링 테스트 |
 | tests/number.rs | 1 | 숫자 변환 테스트 |
 | src 내부 테스트 | 34 | 내부 모듈별 유닛 테스트 |
-| Doc 테스트 | 21 | 문서에 포함된 예제 테스트 |
+| Doc 테스트 | 21 | 문서에 포함된 예제 테스트 (2개 무시) |
 
-**총 테스트 수**: 83개 (모두 통과)
+**총 테스트 수**: 83개 (모두 통과, 2개 무시)
 
 ### 문서 파일
 
@@ -58,8 +58,10 @@
 | docs/terms.md | 한글/영어 용어 정의, 토시 영어명 |
 | docs/errors.md | 에러 타입 및 에러 코드 정의 |
 | docs/available_tossi_list.md | 처리 가능한 모든 토시 목록 |
-| docs/unavailable_tossi_list.md | 처리 불가능한 토시 목록 |
+| docs/unavailable_tossi_list.md | 미지원 토시 목록 및 완료 이력 |
 | docs/total_tossi.json | JSON 형식의 전체 토시 목록 |
+| docs/HOW_TO_ADD_TOSSI.md | 새로운 토시 추가 가이드 (10단계) |
+| docs/REVIEW.md | 프로젝트 리뷰 (이 문서) |
 
 ---
 
@@ -106,13 +108,13 @@
 
 ### transfer (토시 변환 로직)
 
-- 1186 라인으로 전체 코드의 약 40% 차지
-- 41개 토시별 변환 상수 정의 (3-튜플: 병기, 무받침, 유받침)
+- 1226 라인으로 전체 코드의 약 40% 차지
+- 44개 토시별 변환 상수 정의 (3-튜플: 병기, 무받침, 유받침)
 - 6가지 변환 방식: Blank, RiEulAndBlank, OnlyKa, LastJamoNieun, LastJamoRieul, Nothing
 
 ### identifier (토시 분류)
 
-- `TossiKind` enum: 41개 토시 종류
+- `TossiKind` enum: 44개 토시 종류 + Others
 - `TransTossiWhen` enum: 6가지 변환 방식
 - 1~4글자 토시를 길이별로 분류
 
@@ -179,9 +181,9 @@ modify_sentence()
 ### Clippy 결과
 
 - 프로덕션 코드: 경고 없음
-- 테스트 코드: `assert_eq!` with literal bool 경고 (기능상 문제 없음)
+- 테스트 코드: 경고 없음
 
-### Unwrap 사용 현황 (7개)
+### Unwrap 사용 현황 (5개)
 
 모든 `unwrap()` 호출이 사전 검증된 조건에서 사용되므로 안전합니다.
 
@@ -190,8 +192,6 @@ modify_sentence()
 | hangeul.rs (라인 77-79) | `is_hangul_syllable()` 사전 검증 |
 | hangeul.rs (라인 83) | 유효한 유니코드 범위 내 계산 |
 | hangeul.rs (라인 103) | `is_hangeul()` 사전 검증 |
-| filter.rs (라인 39) | `'N'` 체크 후 호출, 한글 보장 |
-| filter.rs (라인 47) | `unwrap_or('N')`으로 안전 처리 |
 
 ### 의존성
 
@@ -205,6 +205,7 @@ modify_sentence()
 
 - **총 테스트**: 83개
 - **통과**: 83개 (100%)
+- **무시**: 2개 (doc-test)
 
 ### 커버리지 영역
 
@@ -214,6 +215,7 @@ modify_sentence()
 - 괄호 파싱: 정상 케이스 + 6가지 에러 케이스
 - 에러 처리: 유효성 검사, 길이 제한, 잘못된 토시
 - 특수 케이스: 외국어 병기, 대명사 변환 (누구→누가)
+- RiEulAndBlank 패턴: 로도/로만/로는 (ㄹ 받침 특수 처리)
 
 ---
 
@@ -225,7 +227,7 @@ lib.rs
   ├─ error
   ├─ filter → hangeul, number
   ├─ hangeul → error
-  ├─ identifier → tossi
+  ├─ identifier → filter
   ├─ transfer → identifier, hangeul, filter
   └─ verifier → tossi
 ```
@@ -237,10 +239,10 @@ lib.rs
 | 항목 | 평가 |
 |------|------|
 | 코드 품질 | 우수 (clippy 경고 없음, 안전한 unwrap 사용) |
-| 테스트 | 우수 (82개 테스트, 100% 통과) |
-| 문서화 | 우수 (모듈/함수 독스트링, 용어집, 에러 문서) |
+| 테스트 | 우수 (83개 테스트, 100% 통과) |
+| 문서화 | 우수 (모듈/함수 독스트링, 용어집, 에러 문서, 토시 추가 가이드) |
 | 의존성 | 최소 (외부 의존 없음) |
-| 기능 범위 | 포괄적 (164개 토시, 특수 케이스 처리) |
+| 기능 범위 | 포괄적 (174개 토시, 44종 변환, 특수 케이스 처리) |
 | 에러 처리 | 체계적 (에러 코드 기반, Result 반환) |
 
 프로덕션 사용에 적합한 상태입니다.
