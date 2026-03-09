@@ -36,7 +36,7 @@ pub fn guess_final_letter(word: &str) -> char {
     if filtered == 'N' {
         'N'
     } else {
-        split_phonemes(filtered).unwrap()[2]
+        split_phonemes(filtered).map(|p| p[2]).unwrap_or('N')
     }
 }
 
