@@ -438,6 +438,11 @@ fn _postfix_new_tossi() {
     assert_eq!(Ok("사과라든지".to_string()), postfix("사과", "라든지"));
     assert_eq!(Ok("사람이라든지".to_string()), postfix("사람", "라든지"));
     assert_eq!(Ok("apple(이)라든지".to_string()), postfix("apple", "라든지"));
+
+    // 요/이요
+    assert_eq!(Ok("사과요".to_string()), postfix("사과", "요"));
+    assert_eq!(Ok("사람이요".to_string()), postfix("사람", "요"));
+    assert_eq!(Ok("apple(이)요".to_string()), postfix("apple", "요"));
 }
 
 #[test]

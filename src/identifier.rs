@@ -74,6 +74,7 @@ pub enum TossiKind {
     Ramyeonseo,
     Radeunka,
     Radeunji,
+    Yo,
     Others,
 }
 /// ## 토시 변환 방식을 분류하는 열거형
@@ -162,6 +163,7 @@ fn one_letter(element: char) -> TossiKind {
         '지' => TossiKind::Ji,
         '건' => TossiKind::Geon,
         '냐' => TossiKind::Nya,
+        '요' => TossiKind::Yo,
         _ => TossiKind::Others,
     }
 }
@@ -215,6 +217,7 @@ fn two_letters(elements: &[char]) -> TossiKind {
         ('로', '의') => TossiKind::Roui,
         ('라', '니') => TossiKind::Rani,
         ('란', '다') => TossiKind::Randa,
+        ('이', '요') => TossiKind::Yo,
         (_, _) => TossiKind::Others,
     }
 }

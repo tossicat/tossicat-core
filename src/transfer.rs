@@ -78,6 +78,10 @@ const RANDA: (&str, &str, &str) = ("(이)란다", "란다", "이란다");
 const RAMYEONSEO: (&str, &str, &str) = ("(이)라면서", "라면서", "이라면서");
 const RADEUNKA: (&str, &str, &str) = ("(이)라든가", "라든가", "이라든가");
 const RADEUNJI: (&str, &str, &str) = ("(이)라든지", "라든지", "이라든지");
+// JI 부터 YO 까지는 받침 있으면 "이~"를 붙이고,
+// 없으면 "이"를 그냥 빼는 패턴입니다.
+// 기존의 KO("이고/고"), NA("이나/나") 등과 동일합니다.
+const YO: (&str, &str, &str) = ("(이)요", "요", "이요");
 
 use crate::guess_final_letter;
 use crate::modify_final_jamo;
@@ -140,6 +144,7 @@ fn get_variants(kind: &TossiKind) -> (&'static str, &'static str, &'static str) 
         TossiKind::Ramyeonseo => RAMYEONSEO,
         TossiKind::Radeunka => RADEUNKA,
         TossiKind::Radeunji => RADEUNJI,
+        TossiKind::Yo => YO,
         TossiKind::Others => (" ", " ", " "),
     }
 }
