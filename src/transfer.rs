@@ -70,6 +70,14 @@ const RODO: (&str, &str, &str) = ("(으)로도", "로도", "으로도");
 const ROMAN: (&str, &str, &str) = ("(으)로만", "로만", "으로만");
 const RONEUN: (&str, &str, &str) = ("(으)로는", "로는", "으로는");
 const ROUI: (&str, &str, &str) = ("(으)로의", "로의", "으로의");
+// RANI 부터 RADEUNJI 까지는 받침 있으면 "이라~"를 붙이고,
+// 없으면 "이"를 그냥 빼는 패턴입니다.
+// 기존의 RAGO("이라고/라고"), RADO("이라도/라도") 등과 동일합니다.
+const RANI: (&str, &str, &str) = ("(이)라니", "라니", "이라니");
+const RANDA: (&str, &str, &str) = ("(이)란다", "란다", "이란다");
+const RAMYEONSEO: (&str, &str, &str) = ("(이)라면서", "라면서", "이라면서");
+const RADEUNKA: (&str, &str, &str) = ("(이)라든가", "라든가", "이라든가");
+const RADEUNJI: (&str, &str, &str) = ("(이)라든지", "라든지", "이라든지");
 
 use crate::guess_final_letter;
 use crate::modify_final_jamo;
@@ -127,6 +135,11 @@ fn get_variants(kind: &TossiKind) -> (&'static str, &'static str, &'static str) 
         TossiKind::Roman => ROMAN,
         TossiKind::Roneun => RONEUN,
         TossiKind::Roui => ROUI,
+        TossiKind::Rani => RANI,
+        TossiKind::Randa => RANDA,
+        TossiKind::Ramyeonseo => RAMYEONSEO,
+        TossiKind::Radeunka => RADEUNKA,
+        TossiKind::Radeunji => RADEUNJI,
         TossiKind::Others => (" ", " ", " "),
     }
 }

@@ -413,6 +413,31 @@ fn _postfix_new_tossi() {
     assert_eq!(Ok("친구더러".to_string()), postfix("친구", "더러"));
     assert_eq!(Ok("사람더러".to_string()), postfix("사람", "더러"));
     assert_eq!(Ok("apple더러".to_string()), postfix("apple", "더러"));
+
+    // 라니/이라니
+    assert_eq!(Ok("사과라니".to_string()), postfix("사과", "라니"));
+    assert_eq!(Ok("사람이라니".to_string()), postfix("사람", "라니"));
+    assert_eq!(Ok("apple(이)라니".to_string()), postfix("apple", "라니"));
+
+    // 란다/이란다
+    assert_eq!(Ok("사과란다".to_string()), postfix("사과", "란다"));
+    assert_eq!(Ok("사람이란다".to_string()), postfix("사람", "란다"));
+    assert_eq!(Ok("apple(이)란다".to_string()), postfix("apple", "란다"));
+
+    // 라면서/이라면서
+    assert_eq!(Ok("사과라면서".to_string()), postfix("사과", "라면서"));
+    assert_eq!(Ok("사람이라면서".to_string()), postfix("사람", "라면서"));
+    assert_eq!(Ok("apple(이)라면서".to_string()), postfix("apple", "라면서"));
+
+    // 라든가/이라든가
+    assert_eq!(Ok("사과라든가".to_string()), postfix("사과", "라든가"));
+    assert_eq!(Ok("사람이라든가".to_string()), postfix("사람", "라든가"));
+    assert_eq!(Ok("apple(이)라든가".to_string()), postfix("apple", "라든가"));
+
+    // 라든지/이라든지
+    assert_eq!(Ok("사과라든지".to_string()), postfix("사과", "라든지"));
+    assert_eq!(Ok("사람이라든지".to_string()), postfix("사람", "라든지"));
+    assert_eq!(Ok("apple(이)라든지".to_string()), postfix("apple", "라든지"));
 }
 
 #[test]

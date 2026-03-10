@@ -69,6 +69,11 @@ pub enum TossiKind {
     Roman,
     Roneun,
     Roui,
+    Rani,
+    Randa,
+    Ramyeonseo,
+    Radeunka,
+    Radeunji,
     Others,
 }
 /// ## 토시 변환 방식을 분류하는 열거형
@@ -208,6 +213,8 @@ fn two_letters(elements: &[char]) -> TossiKind {
         ('로', '만') => TossiKind::Roman,
         ('로', '는') => TossiKind::Roneun,
         ('로', '의') => TossiKind::Roui,
+        ('라', '니') => TossiKind::Rani,
+        ('란', '다') => TossiKind::Randa,
         (_, _) => TossiKind::Others,
     }
 }
@@ -242,6 +249,11 @@ fn three_letters(elements: &[char]) -> TossiKind {
         ('으', '로', '만') => TossiKind::Roman,
         ('으', '로', '는') => TossiKind::Roneun,
         ('으', '로', '의') => TossiKind::Roui,
+        ('이', '라', '니') => TossiKind::Rani,
+        ('이', '란', '다') => TossiKind::Randa,
+        ('라', '면', '서') => TossiKind::Ramyeonseo,
+        ('라', '든', '가') => TossiKind::Radeunka,
+        ('라', '든', '지') => TossiKind::Radeunji,
         (_, _, _) => TossiKind::Others,
     }
 }
@@ -254,6 +266,9 @@ fn four_letters(elements: &[char]) -> TossiKind {
     match (elements[0], elements[1], elements[2], elements[3]) {
         ('으', '로', '부', '터') => TossiKind::Robuteo,
         ('이', '야', '말', '로') => TossiKind::Yamalro,
+        ('이', '라', '면', '서') => TossiKind::Ramyeonseo,
+        ('이', '라', '든', '가') => TossiKind::Radeunka,
+        ('이', '라', '든', '지') => TossiKind::Radeunji,
         (_, _, _, _) => TossiKind::Others,
     }
 }
