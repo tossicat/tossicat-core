@@ -63,12 +63,13 @@ const RANEUN: (&str, &str, &str) = ("(이)라는", "라는", "이라는");
 const EYO: (&str, &str, &str) = ("(이)에요", "예요", "이에요");
 const EOTDA: (&str, &str, &str) = ("(이)었다", "였다", "이었다");
 const EOSEO: (&str, &str, &str) = ("(이)어서", "여서", "이어서");
-// RODO 부터 RONEUN 까지는 받침이 'ㄹ'이거나 없으면 "로~"를 붙이고,
+// RODO 부터 ROUI 까지는 받침이 'ㄹ'이거나 없으면 "로~"를 붙이고,
 // 'ㄹ'을 제외한 받침이 있으면 "으로~"를 붙이는 패턴입니다.
 // 기존의 RO("으로/로"), ROBUTEO("으로부터/로부터") 등과 동일합니다.
 const RODO: (&str, &str, &str) = ("(으)로도", "로도", "으로도");
 const ROMAN: (&str, &str, &str) = ("(으)로만", "로만", "으로만");
 const RONEUN: (&str, &str, &str) = ("(으)로는", "로는", "으로는");
+const ROUI: (&str, &str, &str) = ("(으)로의", "로의", "으로의");
 
 use crate::guess_final_letter;
 use crate::modify_final_jamo;
@@ -125,6 +126,7 @@ fn get_variants(kind: &TossiKind) -> (&'static str, &'static str, &'static str) 
         TossiKind::Rodo => RODO,
         TossiKind::Roman => ROMAN,
         TossiKind::Roneun => RONEUN,
+        TossiKind::Roui => ROUI,
         TossiKind::Others => (" ", " ", " "),
     }
 }

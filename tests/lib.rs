@@ -532,6 +532,12 @@ fn _postfix_rieul_and_blank_pattern() {
     assert_eq!(Ok("서울로써".to_string()), postfix("서울", "로써"));
     assert_eq!(Ok("부산으로써".to_string()), postfix("부산", "로써"));
     assert_eq!(Ok("apple(으)로써".to_string()), postfix("apple", "로써"));
+
+    // 으로의/로의 (Roui)
+    assert_eq!(Ok("나라로의".to_string()), postfix("나라", "로의"));
+    assert_eq!(Ok("서울로의".to_string()), postfix("서울", "로의"));
+    assert_eq!(Ok("부산으로의".to_string()), postfix("부산", "로의"));
+    assert_eq!(Ok("apple(으)로의".to_string()), postfix("apple", "로의"));
 }
 
 #[test]
